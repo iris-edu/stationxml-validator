@@ -163,7 +163,7 @@ public class ValidatorServiceImp implements ValidatorService {
 												station.getEndDate(), channel.getLocationCode(), channel.getCode(),
 												channel.getStartDate(), channel.getEndDate(),
 												map(violation.getPropertyPath()), violation.getInvalidValue(),
-												"(stage:" + stage.getNumber() + ")" + violation.getMessage());
+												violation.getMessage() + "[stage:" + stage.getNumber() + "]");
 									}
 
 									if (stage.getFilters() != null) {

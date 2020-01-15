@@ -1,0 +1,14 @@
+===============================================================
+|                  FDSN StationXml validator                   |
+|                  Version ${project.version}                  |
+================================================================
+Usage:
+java -jar stationxml-validator <FILE> [OPTIONS]
+OPTIONS
+   --output      	: where to output result, default is System.out
+   --ignore-warnings: don't show warnings
+   --rules 			: print a list of validation rules
+   --units 			: print a list of units used to validate
+   --debug       	:
+   --help        	: print this message
+===============================================================

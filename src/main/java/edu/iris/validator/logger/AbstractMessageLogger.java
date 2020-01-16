@@ -11,6 +11,10 @@ public abstract class AbstractMessageLogger implements MessageLogger {
 		this.writer = new OutputStreamWriter(outputstream);
 	}
 
+	public void header(String header) throws IOException {
+		log(header);
+	}
+	
 	@Override
 	public void close() throws IOException {
 		writer.close();

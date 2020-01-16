@@ -12,6 +12,7 @@ public class CsvMessageLogger extends AbstractMessageLogger {
 		super(outputstream);
 	}
 
+	
 	@Override
 	public void log(Message message) throws IOException {
 		StringBuilder b = new StringBuilder();

@@ -8,6 +8,8 @@ import edu.iris.validator.rules.Message;
 
 public interface MessageLogger extends Closeable, Flushable, AutoCloseable {
 
+	public void header(String header) throws IOException;
+	
 	public void log(Message message)throws IOException;
 
 	public void log(String message)throws IOException;

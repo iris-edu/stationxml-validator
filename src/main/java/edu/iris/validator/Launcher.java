@@ -48,7 +48,6 @@ public class Launcher {
 			}
 
 			if (p.toFile().isDirectory()) {
-
 				process(list(p), ruleEngineService, messageLogger, continueOnError);
 			}
 
@@ -57,6 +56,7 @@ public class Launcher {
 				logger.info("Processing {}", fileName);
 			}
 
+			messageLogger.header(fileName);
 			FDSNStationXML document = null;
 			try {
 				if (fileName.toLowerCase().endsWith(".xml")) {

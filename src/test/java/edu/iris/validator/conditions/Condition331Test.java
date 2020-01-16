@@ -13,8 +13,8 @@ import edu.iris.station.io.StationIOUtils;
 import edu.iris.station.model.FDSNStationXML;
 import edu.iris.station.model.Network;
 import edu.iris.station.model.Station;
+import edu.iris.validator.StationxmlException;
 import edu.iris.validator.conditions.EpochRangeCondition;
-import edu.iris.validator.exceptions.StationxmlException;
 import edu.iris.validator.rules.Message;
 import edu.iris.validator.rules.RuleEngineServiceTest;
 

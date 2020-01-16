@@ -17,7 +17,7 @@ import org.xml.sax.SAXException;
 import edu.iris.station.io.StationIOUtils;
 import edu.iris.station.model.FDSNStationXML;
 import edu.iris.station.model.Network;
-import edu.iris.validator.exceptions.StationxmlException;
+import edu.iris.validator.StationxmlException;
 import edu.iris.validator.rules.Message;
 import edu.iris.validator.rules.NestedMessage;
 import edu.iris.validator.rules.RuleEngineService;

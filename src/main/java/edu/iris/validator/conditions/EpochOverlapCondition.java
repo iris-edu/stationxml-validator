@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import edu.iris.dmc.common.utils.TimeUtil;
 import edu.iris.station.model.BaseNodeType;
 import edu.iris.station.model.Channel;
 import edu.iris.station.model.FDSNStationXML;
@@ -99,9 +98,9 @@ public class EpochOverlapCondition extends AbstractCondition {
 		if (!map.isEmpty()) {
 			int mapsize = map.size();
 			int i2 = 1;
-			String description ="";
-            map.keySet();
-			for(String key : map.keySet()) {
+			String description = "";
+			map.keySet();
+			for (String key : map.keySet()) {
 				List<Tuple> tuples = map.get(key);
 				List<Tuple[]> invalidRanges = checkRanges(tuples);
 				StringBuilder builder = new StringBuilder();
@@ -111,13 +110,13 @@ public class EpochOverlapCondition extends AbstractCondition {
 							.append("|").append(XmlUtil.toText(tuple[1].start)).append("|")
 							.append(XmlUtil.toText(tuple[1].end)).append(")]");
 				}
-			    description = description + builder.toString();
-				
+				description = description + builder.toString();
+
 				if (mapsize == i2 && invalidRanges != null && !invalidRanges.isEmpty()) {
 
 					return Result.error(description);
 				}
-				i2 ++;
+				i2++;
 			}
 		}
 		return Result.success();
@@ -129,7 +128,7 @@ public class EpochOverlapCondition extends AbstractCondition {
 		for (int i = 1; i < tuples.size(); i++) {
 			Tuple tuple1 = tuples.get(i - 1);
 			Tuple tuple2 = tuples.get(i);
-			if (tuple1.end == null || tuple2.start == null || TimeUtil.isAfter(tuple1.end, tuple2.start)) {
+			if (tuple1.end == null || tuple2.start == null || tuple1.end.isAfter(tuple2.start)) {
 				overlappingDatePairs.add(new Tuple[] { tuple1, tuple2 });
 			}
 		}
@@ -152,7 +151,7 @@ public class EpochOverlapCondition extends AbstractCondition {
 		}
 
 		public int compareTo(Tuple other) {
-			return TimeUtil.compare(start, other.start);
+			return compare(start, other.start);
 		}
 
 		@Override
@@ -163,4 +162,12 @@ public class EpochOverlapCondition extends AbstractCondition {
 
 	}
 
+	public int compare(ZonedDateTime one, ZonedDateTime two) {
+		if (two == null) {
+			return 1;
+		}
+		int result = one.compareTo(two);
+		return result;
+
+	}
 }

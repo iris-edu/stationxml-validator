@@ -1,4 +1,4 @@
-package edu.iris.validator.exceptions;
+package edu.iris.validator.conditions;
 
 public class IrisRuntimeException extends RuntimeException {
 

@@ -24,7 +24,6 @@ import edu.iris.seed.io.SeedFileUtils;
 import edu.iris.station.io.StationFileUtils;
 import edu.iris.station.model.FDSNStationXML;
 import edu.iris.station.model.Network;
-import edu.iris.validator.exceptions.StationxmlException;
 import edu.iris.validator.logger.MessageLogger;
 import edu.iris.validator.logger.MessageLoggerFactory;
 import edu.iris.validator.rules.Message;

@@ -1,6 +1,5 @@
 package edu.iris.validator.conditions;
 
-import edu.iris.dmc.common.utils.TimeUtil;
 import edu.iris.station.model.Channel;
 import edu.iris.station.model.Network;
 import edu.iris.station.model.Station;
@@ -26,16 +25,17 @@ public class EpochRangeCondition extends AbstractCondition {
 
 		if (network.getStations() != null) {
 			for (Station s : network.getStations()) {
-				if (s.getStartDate() != null && TimeUtil.isBefore(s.getStartDate(), network.getStartDate())) {
+				if (s.getStartDate() != null && network.getStartDate() != null
+						&& s.getStartDate().isBefore(network.getStartDate())) {
 
 					return Result.error("Network Start Time " + XmlUtil.toText(network.getStartDate())
 							+ " should be greater than Station Start Time " + XmlUtil.toText(s.getStartDate()));
 				}
 				if (network.getEndDate() != null && s.getEndDate() != null) {
-					if (TimeUtil.isAfter(s.getEndDate(), network.getEndDate())) {
-						
+					if (s.getEndDate().isAfter(network.getEndDate())) {
+
 						return Result.error("Network End Time " + XmlUtil.toText(network.getEndDate())
-						+ " should be greater than Station End Time " + XmlUtil.toText(s.getEndDate()));
+								+ " should be greater than Station End Time " + XmlUtil.toText(s.getEndDate()));
 					}
 				}
 			}
@@ -55,12 +55,13 @@ public class EpochRangeCondition extends AbstractCondition {
 
 		if (station.getChannels() != null) {
 			for (Channel c : station.getChannels()) {
-				if (c.getStartDate() != null && TimeUtil.isBefore(c.getStartDate(), station.getStartDate())) {
+				if (c.getStartDate() != null && station.getStartDate() != null
+						&& c.getStartDate().isBefore(station.getStartDate())) {
 					return Result.error("Channel startDate " + XmlUtil.toText(c.getStartDate())
 							+ " cannot occur before Station startDate " + XmlUtil.toText(station.getStartDate()));
 				}
 				if (station.getEndDate() != null && c.getEndDate() != null) {
-					if (TimeUtil.isAfter(c.getEndDate(), station.getEndDate())) {
+					if (c.getEndDate().isAfter(station.getEndDate())) {
 						return Result.error("Channel endDate " + XmlUtil.toText(c.getEndDate())
 								+ " cannot occur after Station endDate " + XmlUtil.toText(station.getEndDate()));
 					}

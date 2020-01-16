@@ -1,4 +1,4 @@
-package edu.iris.validator.exceptions;
+package edu.iris.validator;
 
 public class StationxmlException extends Exception {
 	/**

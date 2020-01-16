@@ -1,6 +1,5 @@
 package edu.iris.validator.conditions;
 
-import edu.iris.dmc.common.utils.TimeUtil;
 import edu.iris.station.model.BaseNodeType;
 import edu.iris.station.model.Channel;
 import edu.iris.station.model.Network;
@@ -46,8 +45,8 @@ public class StartTimeCondition extends AbstractCondition {
 			}
 		}
 
-		if (node.getEndDate() != null) {
-			if (!TimeUtil.isBefore(node.getStartDate(), node.getEndDate())) {
+		if (node.getEndDate() != null && node.getStartDate() != null) {
+			if (!node.getStartDate().isBefore(node.getEndDate())) {
 				return Result.error(
 						"End Time " + node.getEndDate() + " should be greater than Start Time " + node.getStartDate());
 			}

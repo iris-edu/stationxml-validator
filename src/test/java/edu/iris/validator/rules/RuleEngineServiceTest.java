@@ -335,13 +335,7 @@ public class RuleEngineServiceTest {
 
 	}
 
-	@Test
-	public void xmlxsd_ExpectedUnmarshalException() throws Exception {
-		Assertions.assertThrows(StationxmlException.class, () -> {
-			theDocument = unmarshal("xmlVSxsd.xml");
-		});
 
-	}
 
 	private FDSNStationXML unmarshal(String file) throws StationxmlException, Exception {
 		try (InputStream is = RuleEngineServiceTest.class.getClassLoader().getResourceAsStream(file)) {

@@ -1,6 +1,7 @@
 package edu.iris.validator;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -8,8 +9,8 @@ import org.junit.contrib.java.lang.system.Assertion;
 import org.junit.contrib.java.lang.system.ExpectedSystemExit;
 import org.junit.contrib.java.lang.system.SystemErrRule;
 import org.junit.contrib.java.lang.system.SystemOutRule;
+import org.junit.jupiter.api.Assertions;
 
-import edu.iris.validator.Application;
 import edu.iris.validator.ResourceUtil;
 import edu.iris.validator.rules.UnitTable;
 
@@ -24,23 +25,6 @@ public class ValidatorAppTest {
 	@Rule
 	public final SystemOutRule systemOutRule = new SystemOutRule().enableLog();
 
-	String usage="Usage:  [-cVv] [?] [--ignore-warnings] [-f=<format>] [-o=<outputFile>]\n" + 
-			"        [--ignore-rules=<ignoreRules>]... [<inputFiles>...] [COMMAND]\n" + 
-			"      [<inputFiles>...]   Any number of input files SEED|XML\n" + 
-			"      ?, -h, --help       display this help message\n" + 
-			"  -c                      Continue execution when a target file fails to parse.\n" + 
-			"  -f, --format=<format>   format of the generated report CSV|XML\n" + 
-			"      --ignore-rules=<ignoreRules>\n" + 
-			"                          list of rules to ignore by the validator\n" + 
-			"      --ignore-warnings   do not show warnings, default false\n" + 
-			"  -o, --output=<outputFile>\n" + 
-			"                          where to output result, default is System.out\n" + 
-			"  -v, --verbose           Specify multiple -v options to increase verbosity.\n" + 
-			"                          For example, `-v -v -v` or `-vvv`\n" + 
-			"  -V, --version           display version info\n" + 
-			"Commands:\n" + 
-			"  show-rules  Show rules used to validate.\n" + 
-			"  show-units  Show units used to validate.";
 	@Test
 	public void noArgs() throws Exception {
 		String[] args = new String[] {};
@@ -48,7 +32,8 @@ public class ValidatorAppTest {
 
 		exit.checkAssertionAfterwards(new Assertion() {
 			public void checkAssertion() {
-				assertEquals("Missing required [parameter: <inputFiles>\n" + usage, systemErrRule.getLog().trim());
+				System.out.println(systemErrRule.getLog());
+				assertTrue(systemErrRule.getLog().trim().contains("Missing required command"));
 			}
 		});
 
@@ -62,25 +47,7 @@ public class ValidatorAppTest {
 
 		exit.checkAssertionAfterwards(new Assertion() {
 			public void checkAssertion() {
-				assertEquals("ERROR: File name cannot be empty!\n" + 
-						"\n" + 
-						"Usage:  [-cVv] [?] [--ignore-warnings] [-f=<format>] [-o=<outputFile>]\n" + 
-						"        [--ignore-rules=<ignoreRules>]... [<inputFiles>...] [COMMAND]\n" + 
-						"      [<inputFiles>...]   Any number of input files SEED|XML\n" + 
-						"      ?, -h, --help       display this help message\n" + 
-						"  -c                      Continue execution when a target file fails to parse.\n" + 
-						"  -f, --format=<format>   format of the generated report CSV|XML\n" + 
-						"      --ignore-rules=<ignoreRules>\n" + 
-						"                          list of rules to ignore by the validator\n" + 
-						"      --ignore-warnings   do not show warnings, default false\n" + 
-						"  -o, --output=<outputFile>\n" + 
-						"                          where to output result, default is System.out\n" + 
-						"  -v, --verbose           Specify multiple -v options to increase verbosity.\n" + 
-						"                          For example, `-v -v -v` or `-vvv`\n" + 
-						"  -V, --version           display version info\n" + 
-						"Commands:\n" + 
-						"  show-rules  Show rules used to validate.\n" + 
-						"  show-units  Show units used to validate.", systemErrRule.getLog().trim());
+				assertTrue(systemErrRule.getLog().trim().contains("Unmatched argument"));
 			}
 		});
 
@@ -93,7 +60,7 @@ public class ValidatorAppTest {
 
 		exit.checkAssertionAfterwards(new Assertion() {
 			public void checkAssertion() {
-				assertEquals(usage, systemOutRule.getLog().trim());
+				assertTrue(systemOutRule.getLog().trim().contains("Usage"));
 			}
 		});
 
@@ -107,12 +74,14 @@ public class ValidatorAppTest {
 
 		exit.checkAssertionAfterwards(new Assertion() {
 			public void checkAssertion() {
-				assertEquals(usage, systemOutRule.getLog().trim());
+				assertTrue(systemOutRule.getLog().trim().contains("Usage"));
 			}
 		});
 
 		Application.main(args);
 	}
+
+
 
 	@Test
 	public void mainHelp() throws Exception {
@@ -121,7 +90,8 @@ public class ValidatorAppTest {
 
 		exit.checkAssertionAfterwards(new Assertion() {
 			public void checkAssertion() {
-				assertEquals(usage, systemOutRule.getLog().trim());
+				System.out.println(systemErrRule.getLog());
+				assertTrue(systemOutRule.getLog().trim().contains("Usage"));
 			}
 		});
 
@@ -156,7 +126,5 @@ public class ValidatorAppTest {
 
 		Application.main(args);
 	}
-	
 
-	
 }

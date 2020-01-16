@@ -89,7 +89,6 @@ public class Validate implements Runnable {
 			ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger) LoggerFactory
 					.getLogger(org.slf4j.Logger.ROOT_LOGGER_NAME);
 			root.setLevel(l);
-			System.out.println(l+"   "+verbose);
 			if (logger.isInfoEnabled()) {
 				logger.info("Launching validaterX...");
 			}

@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.InputStream;
 
+import javax.xml.bind.UnmarshalException;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,7 +32,7 @@ public class Condition330Test {
 	@Test
 	public void throwsExceptionWithSpecificType() throws Exception {
 		try (InputStream is = RuleEngineServiceTest.class.getClassLoader().getResourceAsStream("F1_330.xml")) {
-			Assertions.assertThrows(StationxmlException.class,() -> StationIOUtils.stationXmlDocument(is));
+			Assertions.assertThrows(UnmarshalException.class,() -> StationIOUtils.stationXmlDocument(is));
 		}
 		
 

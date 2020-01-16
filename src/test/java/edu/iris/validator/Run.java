@@ -1,7 +1,5 @@
 package edu.iris.validator;
 
-import edu.iris.validator.Application;
-
 public class Run {
 
 	public static void main(String[] args) throws Exception {

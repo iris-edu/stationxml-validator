@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import edu.iris.validator.picocli.Convert;
+import edu.iris.converter.picocli.Convert;
 import edu.iris.validator.picocli.HelpOption;
 import edu.iris.validator.picocli.Rules;
 import edu.iris.validator.picocli.Units;
@@ -20,17 +20,11 @@ import picocli.CommandLine.ParseResult;
 import picocli.CommandLine.Spec;
 
 @Command(name = "", versionProvider = Application.ManifestVersionProvider.class, subcommands = {
-				Rules.class, Units.class, Validate.class, Convert.class })
+				Rules.class, Units.class, Validate.class})
 public class Application implements Runnable {
 
 	private static String[] banner = new String[] {
-			"@|green  _____ _____   _____  _____   _____  __  __  _____    |@",
-			"@|green |_   _|  __ \\|_   _|/ ____| |  __ \\|  \\/  |/ ____| |@",
-			"@|green   | | | |__) | | | | (___   | |  | | \\  / | |        |@",
-			"@|green   | | |  _  /  | |  \\___ \\  | |  | | |\\/| | |      |@",
-			"@|green  _| |_| | \\ \\ _| |_ ____) | | |__| | |  | | |____   |@",
-			"@|green |_____|_|  \\_\\_____|_____/  |_____/|_|  |_|\\_____| |@",
-			"@|green xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx |@"};
+			"@|green  IRIS DMC   |@"};
 	@Spec
 	private CommandSpec spec; // injected by picocli
 
@@ -56,9 +50,9 @@ public class Application implements Runnable {
 	    // or: String[] banner = this.spec.header();
 
 	    for (String line : banner) {
-	      System.out.println(CommandLine.Help.Ansi.AUTO.string(line));
+	      //System.out.println(CommandLine.Help.Ansi.AUTO.string(line));
 	    }
-	    System.out.println();
+	    //System.out.println();
 		System.exit(new CommandLine(new Application()).setExecutionExceptionHandler(errorHandler).execute(args));
 	}
 

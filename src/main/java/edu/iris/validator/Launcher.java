@@ -82,6 +82,7 @@ public class Launcher {
 							messageLogger.log(m);
 						}
 					} else {
+						messageLogger.log("Success...");
 						logger.info("Success...");
 					}
 				}

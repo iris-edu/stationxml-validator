@@ -1,18 +1,17 @@
 package edu.iris.validator;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,25 +32,23 @@ public class Launcher {
 
 	private static final Logger logger = LoggerFactory.getLogger(Launcher.class);
 
-	private static List<Path> list(Path p) throws IOException {
-		try (Stream<Path> paths = Files.walk(p)) {
-			return paths.filter(Files::isRegularFile).collect(Collectors.toList());
-		}
+	private static List<File> list(File f) throws IOException {
+		return Arrays.asList(f.listFiles());
 	}
 
-	public static void process(List<Path> input, RuleEngineService ruleEngineService, MessageLogger messageLogger,
+	public static void process(List<File> input, RuleEngineService ruleEngineService, MessageLogger messageLogger,
 			boolean continueOnError) throws IOException, Exception {
-
-		for (Path p : input) {
-			if (!p.toFile().exists()) {
-				throw new IOException(String.format("File %s does not exist.  File is required!", p.toString()));
+		for (File f : input) {
+			if (!f.exists()) {
+				throw new IOException(String.format("File %s does not exist.  File is required!", f.getName()));
 			}
 
-			if (p.toFile().isDirectory()) {
-				process(list(p), ruleEngineService, messageLogger, continueOnError);
+			if (f.isDirectory()) {
+				process(list(f), ruleEngineService, messageLogger, continueOnError);
+				return;
 			}
 
-			String fileName = p.getFileName().toString();
+			String fileName = f.getName();
 			if (logger.isInfoEnabled()) {
 				logger.info("Processing {}", fileName);
 			}
@@ -60,9 +57,9 @@ public class Launcher {
 			FDSNStationXML document = null;
 			try {
 				if (fileName.toLowerCase().endsWith(".xml")) {
-					StationFileUtils.stationXmlDocument(p.toFile());
+					document = StationFileUtils.stationXmlDocument(f);
 				} else {
-					SeedVolume volume = SeedFileUtils.toSeedVolume(p);
+					SeedVolume volume = SeedFileUtils.toSeedVolume(f);
 					document = SeedToXmlDocumentConverter.newInstance().convert(volume);
 				}
 
@@ -71,7 +68,7 @@ public class Launcher {
 				}
 
 				for (Network n : document.getNetwork()) {
-					if (logger.isTraceEnabled()) {
+					if (logger.isDebugEnabled()) {
 						logger.trace("Validating Network {}", n.getCode());
 					}
 					Map<Integer, Set<Message>> messages = ruleEngineService.executeAllRules(n);
@@ -82,7 +79,7 @@ public class Launcher {
 							messageLogger.log(m);
 						}
 					} else {
-						messageLogger.log("Success...");
+						//messageLogger.log("Success...");
 						logger.info("Success...");
 					}
 				}
@@ -106,7 +103,7 @@ public class Launcher {
 		}
 	}
 
-	public static void process(List<Path> input, OutputStream outputStream, RuleEngineService ruleEngineService,
+	public static void process(List<File> input, OutputStream outputStream, RuleEngineService ruleEngineService,
 			String format, boolean continueOnError) throws IOException, Exception {
 
 		try (Writer out = new BufferedWriter(new OutputStreamWriter(outputStream));) {

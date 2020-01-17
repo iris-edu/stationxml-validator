@@ -47,9 +47,4 @@ public class CsvMessageLogger extends AbstractMessageLogger {
 
 	}
 
-	@Override
-	public void log(String message) throws IOException {
-		writer.write(message);
-	}
-
 }

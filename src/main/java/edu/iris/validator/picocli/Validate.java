@@ -24,7 +24,7 @@ import picocli.CommandLine.Parameters;
 import picocli.CommandLine.ParentCommand;
 import picocli.CommandLine.Spec;
 
-@Command(name = "validate", header = "%n@|Validate station metadata files|@", description = "Station metadata validation.")
+@Command(name = "validate", description = "Station metadata validation.")
 public class Validate implements Runnable {
 
 	private static final Logger logger = (Logger) LoggerFactory.getLogger(Validate.class);

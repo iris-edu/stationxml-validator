@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import edu.iris.converter.picocli.Convert;
 import edu.iris.validator.picocli.HelpOption;
 import edu.iris.validator.picocli.Rules;
 import edu.iris.validator.picocli.Units;

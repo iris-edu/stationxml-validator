@@ -27,7 +27,12 @@ public class StartTimeCondition extends AbstractCondition {
 	public Message evaluate(Channel channel) {
 		return check(channel);
 	}
-
+	
+	@Override
+	public String result() {
+		return "Error";
+	}
+	
 	public Message check(BaseNodeType node) {
 		if (node == null) {
 			throw new IllegalArgumentException("Node cannot be null");

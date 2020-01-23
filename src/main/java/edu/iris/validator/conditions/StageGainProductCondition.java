@@ -19,6 +19,11 @@ public class StageGainProductCondition extends ChannelRestrictedCondition {
 	}
 
 	@Override
+	public String result() {
+		return "Error";
+	}
+
+	@Override
 	public Message evaluate(Network network) {
 		throw new IllegalArgumentException("method not supported!");
 	}

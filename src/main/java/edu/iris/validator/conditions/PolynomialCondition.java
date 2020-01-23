@@ -14,6 +14,11 @@ public class PolynomialCondition extends ChannelRestrictedCondition {
 	public PolynomialCondition(boolean required, String description, Restriction... restrictions) {
 		super(required, description, restrictions);
 	}
+	
+	@Override
+	public String result() {
+		return "Error";
+	}
 
 	@Override
 	public Message evaluate(Network network) {

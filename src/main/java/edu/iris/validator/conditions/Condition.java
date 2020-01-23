@@ -21,4 +21,6 @@ public interface Condition {
 	public Message evaluate(Channel channel);
 	
 	public Message evaluate(Channel channel,Response response);
+	
+	public String result();
 }

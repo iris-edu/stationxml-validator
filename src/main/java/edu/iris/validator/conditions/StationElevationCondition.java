@@ -37,7 +37,7 @@ public class StationElevationCondition extends AbstractCondition {
 		for (Channel channel : station.getChannels()) {
 			if (channel.getElevation() != null) {
 				if (Math.abs(channel.getElevation().getValue() - station.getElevation().getValue()) > 1000) {
-					return Result.error("expected " + station.getCode() + " elevation "
+					return Result.warning("expected " + station.getCode() + " elevation "
 							+ station.getElevation().getValue() + " to be equal to or above " + channel.getCode() + ":"
 							+ channel.getLocationCode() + " elevation " + channel.getElevation().getValue());
 				}
@@ -45,6 +45,12 @@ public class StationElevationCondition extends AbstractCondition {
 		}
 		return Result.success();
 	}
+	
+	@Override
+	public String result() {
+		return "Warning";
+	}
+
 
 	@Override
 	public Message evaluate(Channel channel) {

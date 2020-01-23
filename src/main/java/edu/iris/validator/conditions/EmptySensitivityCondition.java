@@ -13,6 +13,11 @@ public class EmptySensitivityCondition extends ChannelRestrictedCondition {
 	public EmptySensitivityCondition(boolean required, String description, Restriction... restrictions) {
 		super(required, description, restrictions);
 	}
+	
+	@Override
+	public String result() {
+		return "Error";
+	}
 
 	@Override
 	public Message evaluate(Network network) {

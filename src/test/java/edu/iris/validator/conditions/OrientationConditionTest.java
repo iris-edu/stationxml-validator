@@ -13,6 +13,8 @@ import edu.iris.station.model.FDSNStationXML;
 import edu.iris.station.model.Network;
 import edu.iris.station.model.Station;
 import edu.iris.validator.conditions.OrientationCondition;
+import edu.iris.validator.conditions.OrientationConditionE;
+import edu.iris.validator.conditions.OrientationConditionZ;
 import edu.iris.validator.restrictions.ChannelCodeRestriction;
 import edu.iris.validator.restrictions.ChannelTypeRestriction;
 import edu.iris.validator.restrictions.Restriction;
@@ -40,12 +42,12 @@ public class OrientationConditionTest {
 	@Test
 	public void e() throws Exception {
 
-		try (InputStream is = OrientationConditionTest.class.getClassLoader().getResourceAsStream("F2_332.xml")) {
+		try (InputStream is = OrientationConditionTest.class.getClassLoader().getResourceAsStream("F1_333.xml")) {
 			theDocument = StationIOUtils.stationXmlDocument(is);
 			Restriction[] restrictions = new Restriction[] { new ChannelCodeRestriction(), new ChannelTypeRestriction() };
 			Network iu = theDocument.getNetwork().get(0);
 			Station anmo = iu.getStations().get(0);
-			OrientationCondition condition = new OrientationCondition(true, "", restrictions);
+			OrientationConditionE condition = new OrientationConditionE(true, "", restrictions);
 			Channel channel = anmo.getChannels().get(0);
 			Message result = condition.evaluate(channel);
 			assertTrue(result instanceof edu.iris.validator.rules.Warning);
@@ -55,12 +57,12 @@ public class OrientationConditionTest {
 	@Test
 	public void z() throws Exception {
 
-		try (InputStream is = OrientationConditionTest.class.getClassLoader().getResourceAsStream("F3_332.xml")) {
+		try (InputStream is = OrientationConditionTest.class.getClassLoader().getResourceAsStream("F1_334.xml")) {
 			theDocument = StationIOUtils.stationXmlDocument(is);
 			Restriction[] restrictions = new Restriction[] { new ChannelCodeRestriction(), new ChannelTypeRestriction() };
 			Network iu = theDocument.getNetwork().get(0);
 			Station anmo = iu.getStations().get(0);
-			OrientationCondition condition = new OrientationCondition(true, "", restrictions);
+			OrientationConditionZ condition = new OrientationConditionZ(true, "", restrictions);
 			Channel channel = anmo.getChannels().get(0);
 			Message result = condition.evaluate(channel);
 			assertTrue(result instanceof edu.iris.validator.rules.Warning);

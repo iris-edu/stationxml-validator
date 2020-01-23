@@ -22,6 +22,11 @@ public class LocationCodeCondition extends AbstractCondition {
 	public Message evaluate(Network network) {
 		throw new IllegalArgumentException("Not supported!");
 	}
+	
+	@Override
+	public String result() {
+		return "Error";
+	}
 
 	@Override
 	public Message evaluate(Station station) {

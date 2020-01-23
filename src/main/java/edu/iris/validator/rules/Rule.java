@@ -51,6 +51,10 @@ public class Rule {
 	public Condition getConditionExpression() {
 		return condition;
 	}
+	
+	public String getresult() {
+		return condition.result();
+	}
 
 	public void setCondition(Condition condition) {
 		this.condition = condition;

@@ -17,6 +17,11 @@ public class AzimuthCondition extends AbstractCondition {
 		this.min = min;
 		this.max = max;
 	}
+	
+	@Override
+	public String result() {
+		return "Error";
+	}
 
 	@Override
 	public Message evaluate(Network network) {

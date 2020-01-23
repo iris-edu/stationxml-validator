@@ -9,11 +9,11 @@ import edu.iris.validator.restrictions.Restriction;
 import edu.iris.validator.rules.Message;
 import edu.iris.validator.rules.Result;
 
-public class OrientationCondition extends AbstractCondition {
+public class OrientationConditionZ extends AbstractCondition {
 
 	private Restriction[] restrictions;
 
-	public OrientationCondition(boolean required, String description, Restriction[] restrictions) {
+	public OrientationConditionZ(boolean required, String description, Restriction[] restrictions) {
 		super(required, description);
 		this.restrictions = restrictions;
 	}
@@ -22,7 +22,6 @@ public class OrientationCondition extends AbstractCondition {
 	public String result() {
 		return "Warning";
 	}
-
 
 	@Override
 	public Message evaluate(Network network) {
@@ -70,15 +69,12 @@ public class OrientationCondition extends AbstractCondition {
 		if (array.length < 3) {
 			return Result.success();
 		}
-		if ('N' == array[2]) {
-			if (azimuth <= 5 && azimuth >= 0 || azimuth >= 355 && azimuth <= 360
-					|| (azimuth <= 185 && azimuth >= 175)) {
-
-			} else {
+        if ('Z' == array[2]) {
+			if (azimuth >= 5 && azimuth <= 355) {
 				valid = false;
 				messageBuilder.append("azimuth: ").append(azimuth).append(" ");
 			}
-			if (dip < 5 || dip > -5) {
+			if ((dip > -95 && dip < -85) || (dip > 85 && dip < 95)) {
 
 			} else {
 				valid = false;
@@ -93,5 +89,4 @@ public class OrientationCondition extends AbstractCondition {
 				.warning("Invalid channel orientation: " + messageBuilder.toString() + " for " + channel.getCode());
 
 	}
-  }
-
+}

@@ -13,6 +13,12 @@ public class CalibrationUnitCondition extends AbstractCondition {
 	public CalibrationUnitCondition(boolean required, String description) {
 		super(required, description);
 	}
+	
+	@Override
+	public String result() {
+		return "Error/Warning";
+	}
+
 
 	@Override
 	public Message evaluate(Network network) {

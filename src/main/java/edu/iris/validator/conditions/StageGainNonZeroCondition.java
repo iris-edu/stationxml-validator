@@ -15,6 +15,11 @@ public class StageGainNonZeroCondition extends ChannelRestrictedCondition {
 	public StageGainNonZeroCondition(boolean required, String description, Restriction... restrictions) {
 		super(required, description, restrictions);
 	}
+	
+	@Override
+	public String result() {
+		return "Error";
+	}
 
 	@Override
 	public Message evaluate(Network network) {

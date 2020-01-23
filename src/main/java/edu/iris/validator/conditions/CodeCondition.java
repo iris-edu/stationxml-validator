@@ -59,5 +59,10 @@ public class CodeCondition extends AbstractCondition {
 	public Message evaluate(Channel channel) {
 		return run(channel);
 	}
+	
+	@Override
+	public String result() {
+		return "Error";
+	}
 
 }

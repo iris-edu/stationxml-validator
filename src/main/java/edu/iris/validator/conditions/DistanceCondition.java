@@ -52,5 +52,11 @@ public class DistanceCondition extends AbstractCondition {
 	public Message evaluate(Channel channel) {
 		throw new IllegalArgumentException("method not supported for channel.");
 	}
+	
+	@Override
+	public String result() {
+		return "Error";
+	}
+
 
 }

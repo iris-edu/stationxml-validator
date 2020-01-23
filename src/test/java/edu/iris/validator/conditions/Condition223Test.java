@@ -36,7 +36,7 @@ public class Condition223Test {
 			StationElevationCondition condition = new StationElevationCondition(true, "");
 
 			Message result = condition.evaluate(s);
-			assertTrue(result instanceof edu.iris.validator.rules.Error);
+			assertTrue(result instanceof edu.iris.validator.rules.Warning);
 		}
 
 	}

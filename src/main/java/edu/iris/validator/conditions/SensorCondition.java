@@ -12,6 +12,11 @@ public class SensorCondition extends AbstractCondition {
 	public SensorCondition(boolean required, String description) {
 		super(required, description);
 	}
+	
+	@Override
+	public String result() {
+		return "Error";
+	}
 
 	@Override
 	public Message evaluate(Network network) {

@@ -16,6 +16,12 @@ public class MissingDecimationCondition extends ChannelRestrictedCondition {
 	public MissingDecimationCondition(boolean required, String description, Restriction... restrictions) {
 		super(required, description, restrictions);
 	}
+	
+	@Override
+	public String result() {
+		return "Warning";
+	}
+
 
 	@Override
 	public Message evaluate(Network network) {

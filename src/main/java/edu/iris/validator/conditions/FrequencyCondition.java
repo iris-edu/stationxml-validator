@@ -15,6 +15,12 @@ public class FrequencyCondition extends ChannelRestrictedCondition {
 	public FrequencyCondition(boolean required, String description, Restriction... restrictions) {
 		super(required, description, restrictions);
 	}
+	
+	@Override
+	public String result() {
+		return "Warning";
+	}
+
 
 	@Override
 	public Message evaluate(Network network) {

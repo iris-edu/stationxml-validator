@@ -35,6 +35,11 @@ public class EpochOverlapCondition extends AbstractCondition {
 		Message result = run(document.getNetwork());
 		return result;
 	}
+	
+	@Override
+	public String result() {
+		return "Error";
+	}
 
 	@Override
 	public Message evaluate(Network network) {

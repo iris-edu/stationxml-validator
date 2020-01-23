@@ -22,6 +22,11 @@ public class UnitCondition extends ChannelRestrictedCondition {
 	}
 
 	@Override
+	public String result() {
+		return "Error/Warning";
+	}
+
+	@Override
 	public Message evaluate(Network network) {
 		throw new IllegalArgumentException("Not supported!");
 	}

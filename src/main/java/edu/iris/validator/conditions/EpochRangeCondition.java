@@ -75,5 +75,10 @@ public class EpochRangeCondition extends AbstractCondition {
 	public Message evaluate(Channel channel) {
 		return null;
 	}
+	
+	@Override
+	public String result() {
+		return "Error";
+	}
 
 }

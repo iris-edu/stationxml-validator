@@ -7,7 +7,6 @@ The IRIS stationxml-validator is a Java library and related command-line tool fo
 * [Unit name overview for IRIS stationxml-validator](units.md)
 * [Rule restrictions](orientation.md)
 * [Channel:Code orthogonal orientation guidelines](orientation.md)
-* [Collapsible Table Test](testtable.md)
 
 ### Downloading releases
 

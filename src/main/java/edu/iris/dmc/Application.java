@@ -23,7 +23,9 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -170,13 +172,26 @@ public class Application {
 
 	private FDSNStationXML read(Path path) throws Exception {
 		File file = path.toFile();
+		String xmlstring = "<FDSNStationXML";
 		if (!file.exists()) {
 			LOGGER.severe("File does not exist.  File is required!");
 			throw new IOException(String.format("File %s does not exist.  File is required!", file.getAbsoluteFile()));
 		}
-		try (InputStream is = new FileInputStream(file)) {
+		try (InputStream ts = new FileInputStream(file)) {
+			 Reader r = new InputStreamReader(ts, "US-ASCII");
+			  int i = 0;
+			  String extentionString = "";
+              int data = r.read();
+              while(i < 100){
+              char inputChar = (char) data;
+              extentionString +=inputChar;
+              data = r.read();
+              i = i+1;
+           } 
+		    InputStream is = new FileInputStream(file);
+
 			// This is where stationxml vs seed is decided. 
-			if (file.getName().toLowerCase().endsWith(".xml")) {
+			if (extentionString.toLowerCase().contains(xmlstring.toLowerCase())) {
 				return DocumentMarshaller.unmarshal(is);
 			} else {
 				Volume volume = IrisUtil.readSeed(file);

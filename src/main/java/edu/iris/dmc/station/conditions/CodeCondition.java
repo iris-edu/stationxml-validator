@@ -28,14 +28,14 @@ public class CodeCondition extends AbstractCondition {
 			if (!required) {
 				return Result.success();
 			}
-			return Result.error( "Expected a value like" + this.regex + " but was null.");
+			return Result.error( "Expected a value like " + this.regex + " but was null.");
 		}
 
 		Pattern p = Pattern.compile(this.regex);
 		Matcher m = p.matcher(code);
 
 		if (!m.matches()) {
-			return Result.error( "Expected a value like" + this.regex + " but was " + t.getCode());
+			return Result.error( "Expected a value like " + this.regex + " but was " + t.getCode());
 		}
 		return Result.success();
 	}

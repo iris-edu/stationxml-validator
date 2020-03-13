@@ -62,36 +62,50 @@ public class CommandLine {
 	public Level getLogLevel() {
 		return logLevel;
 	}
-
 	public static CommandLine parse(String[] args) throws CommandLineParseException {
+		CommandLine commandLine = new CommandLine();
+
 		if (args == null || args.length == 0) {
 			throw new CommandLineParseException("Application arguments cannot be empty or null!");
+			
 		}
-		CommandLine commandLine = new CommandLine();
 		// look for showHelp or showVersion flags
 		if (args.length == 1) {
 			if ("--help".equalsIgnoreCase(args[0]) || "--showhelp".equalsIgnoreCase(args[0])
 					|| "-h".equalsIgnoreCase(args[0])) {
 				commandLine.showHelp = true;
+				return commandLine;
 			} else if ("--version".equalsIgnoreCase(args[0]) || "-v".equalsIgnoreCase(args[0])) {
 				commandLine.showVersion = true;
+				return commandLine;
+			} else if ("--units".equalsIgnoreCase(args[0]) || "-u".equalsIgnoreCase(args[0])) {
+				commandLine.showUnits = true;
+				return commandLine;
+			} else if ("--rules".equalsIgnoreCase(args[0]) || "-r".equalsIgnoreCase(args[0])) {
+				commandLine.showRules = true;
+				return commandLine;
+			} else {
+				String path = args[0];
+				commandLine.file = Paths.get(path);
+				if (!commandLine.file.toFile().exists()) {
+					commandLine.showHelp = true;
+					System.out.println(String.format("File %s does not exist!", path));
+					return commandLine;
+
+				}
 			}
-			return commandLine;
+			
 		}
 		if (args.length < 1) {
 			throw new CommandLineParseException(
-					"Invalid number of arguments, expected at least 1 but was " + args.length + "!");
+					"Invalid number of arguments, expected 1 but was " + args.length + "!");
 		}
-		String path = args[0];
-		commandLine.file = Paths.get(path);
 
-		if (!commandLine.file.toFile().exists()) {
-			throw new CommandLineParseException(String.format("File %s does not exist!", path));
-		}
+
 
 		// look for logLevel
-		if (args.length > 2) {
-			for (int i = 1; i < args.length; i++) {
+		if (args.length >= 2) {
+			for (int i = 0; i < args.length; i++) {
 				String arg = args[i];
 				if ("--help".equalsIgnoreCase(arg) || "--showhelp".equalsIgnoreCase(arg)
 						|| "-h".equalsIgnoreCase(arg)) {
@@ -105,17 +119,42 @@ public class CommandLine {
 				} else if ("--ignore-warnings".equalsIgnoreCase(arg)) {
 					commandLine.ignoreWarnings = true;
 				} else if ("--ignore-rules".equalsIgnoreCase(arg)) {
-					String rules = args[i + 1];
-					commandLine.ignoreRules = Stream.of(rules.split("\\s*,\\s*")).map(String::trim)
-							.map(Integer::parseInt).mapToInt(item -> item).toArray();
-					i = i + 1;
+					if(args.length < (i+2)) {
+						throw new CommandLineParseException(String.format("Please provide rules to ignore."));	
+					}else {
+					    String rules = args[i + 1];
+					    commandLine.ignoreRules = Stream.of(rules.split("\\s*,\\s*")).map(String::trim)
+							    .map(Integer::parseInt).mapToInt(item -> item).toArray();
+					    i = i + 1;
+				    }
 				} else if ("--show-rules".equalsIgnoreCase(arg)) {
 					commandLine.showRules = true;
 				} else if ("--show-units".equalsIgnoreCase(arg)) {
 					commandLine.showUnits = true;
 				} else if ("--output".equalsIgnoreCase(arg) || "-o".equalsIgnoreCase(arg)) {
-					commandLine.output = Paths.get(args[i + 1]);
+					if(args.length < (i+2)) {
+						throw new CommandLineParseException(String.format("Please provide an argument for --output."));	
+					}else {
+					    commandLine.output = Paths.get(args[i + 1]);
 					i = i + 1;
+					}
+				}else if ("--file".equalsIgnoreCase(arg) || "-f".equalsIgnoreCase(arg)) {
+					if(args.length < (i+2)) {
+						throw new CommandLineParseException(String.format("Please provide an argument for --file."));	
+					}else {
+					    String path = args[i+1];
+					    commandLine.file = Paths.get(path);
+					    i = i + 1;
+					    if (!commandLine.file.toFile().exists()) {
+						throw new CommandLineParseException(String.format("File %s does not exist!", path));
+					   }
+					}
+				}else {
+					String path = args[i];
+					commandLine.file = Paths.get(path);
+					if (!commandLine.file.toFile().exists()) {
+						throw new CommandLineParseException(String.format("File %s does not exist!", path));
+					}
 				}
 
 			}

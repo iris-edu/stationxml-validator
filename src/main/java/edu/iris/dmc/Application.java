@@ -27,6 +27,8 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -77,7 +79,8 @@ public class Application {
 		try {
 			commandLine = CommandLine.parse(args);
 		} catch (CommandLineParseException e) {
-			System.err.println(e.getMessage());
+			System.err.println(e.getMessage()+ "\n");
+			help();
 			System.exit(1);
 		}
 		Logger rootLogger = LogManager.getLogManager().getLogger("");
@@ -132,14 +135,22 @@ public class Application {
 		if (commandLine.output() != null) {
 			outputFile = commandLine.output().toFile();
 			if (!outputFile.exists()) {
-				throw new IOException(String.format("File %s is not found!", commandLine.output().toString()));
+				outputFile.createNewFile();
+				//throw new IOException(String.format("File %s is not found!", commandLine.output().toString()));
 			}
+		
+		    try (OutputStream outputStream =  new FileOutputStream(outputFile)) {
+			    run(input, "csv", outputStream, commandLine.ignoreRules(), commandLine.ignoreWarnings());
 		}
-		try (OutputStream outputStream = (outputFile != null) ? new FileOutputStream(outputFile) : System.out;) {
-			run(input, "csv", outputStream, commandLine.ignoreRules(), commandLine.ignoreWarnings());
+		}else {
+			try (OutputStream outputStream = System.out;) {
+				run(input, "csv", outputStream, commandLine.ignoreRules(), commandLine.ignoreWarnings());
+			}
+			
 		}
+		
 	}
-
+	
 	private void run(List<Path> input, String format, OutputStream outputStream, int[] ignoreRules,
 			boolean ignoreWarnings) throws Exception {
 		RuleEngineService ruleEngineService = new RuleEngineService(ignoreWarnings, ignoreRules);
@@ -164,6 +175,7 @@ public class Application {
 			throw new IOException(String.format("File %s does not exist.  File is required!", file.getAbsoluteFile()));
 		}
 		try (InputStream is = new FileInputStream(file)) {
+			// This is where stationxml vs seed is decided. 
 			if (file.getName().toLowerCase().endsWith(".xml")) {
 				return DocumentMarshaller.unmarshal(is);
 			} else {
@@ -211,9 +223,11 @@ public class Application {
 
 	private RuleResultPrintStream getOutputStream(String format, OutputStream outputStream) throws IOException {
 		if (format == null || format.isEmpty() || "html".equalsIgnoreCase(format)) {
-			return new HtmlPrintStream(outputStream);
+			return new CsvPrintStream(outputStream);
 		} else if ("csv".equalsIgnoreCase(format)) {
 			return new CsvPrintStream(outputStream);
+		} else if ("html".equalsIgnoreCase(format)) {
+			return new HtmlPrintStream(outputStream);
 		} else if ("xml".equalsIgnoreCase(format)) {
 			return new XmlPrintStream(outputStream);
 		} else if ("report".equalsIgnoreCase(format)) {
@@ -248,19 +262,47 @@ public class Application {
 	private static void printRules() {
 
 		RuleEngineService ruleEngineService = new RuleEngineService(false, null);
-		for (Rule rule : ruleEngineService.getRules()) {
+		List<Rule> ruleslist = ruleEngineService.getRules();
+		Collections.sort(ruleslist, comparator);
+		System.out.println("Validator Rule Set:\n");
+		System.out.println("--------------------------------------------------------------------------");
+		for (Rule rule : ruleslist) {
 			System.out.printf("%-8s %s%n", rule.getId(), rule.getDescription());
 		}
+		System.out.println("--------------------------------------------------------------------------");
+
 	}
+	
+	private static Comparator<Rule> comparator = new Comparator<Rule>() {
+		public int compare(Rule c1, Rule c2) {
+
+			int r = Integer.compare(c1.getId(), c2.getId());
+			
+			return r;
+		}
+	};
 
 	private static void printUnits() {
-		System.out.println("UNIT TABLE:");
-		System.out.println("-------------------------------------");
-		for (String unit : UnitTable.units) {
-			System.out.println(unit);
+		System.out.println("Table of Acceptable Units:\n");
+		
+		System.out.println("--------------------------------------------------------------------------");
+		
+		List<String> unitlist = UnitTable.units;
+		int stride = (unitlist.size()/4);
+		for (int row = 0; row < unitlist.size()/4; row++) {
+		    System.out.println(String.format("%15s %15s %15s %15s", 
+		    		unitlist.get(row), unitlist.get(row + stride), 
+		    		unitlist.get(row + stride * 2), unitlist.get(row + stride * 3)));
 		}
+		
+		
+		//for (String unit : UnitTable.units)  {
+		//	 System.out.println();
 
-	}
+	//}
+	System.out.println("--------------------------------------------------------------------------");
+
+}
 
 	private static void help() throws IOException {
 		String version = "Version " + getVersion();
@@ -273,12 +315,13 @@ public class Application {
 		System.out.println("Usage:");
 		System.out.println("java -jar stationxml-validator <FILE> [OPTIONS]");
 		System.out.println("OPTIONS");
-		System.out.println("   --output      	: where to output result, default is System.out");
-		System.out.println("   --ignore-warnings: don't show warnings");
-		System.out.println("   --rules 			: print a list of validation rules");
-		System.out.println("   --units 			: print a list of units used to validate");
-		System.out.println("   --debug       	:");
-		System.out.println("   --help        	: print this message");
+		System.out.println("   --file               : Full input file path");
+		System.out.println("   --output             : where to output result, default is System.out");
+		System.out.println("   --ignore-warnings    : don't show warnings");
+		System.out.println("   --rules              : print a list of validation rules");
+		System.out.println("   --units              : print a list of units used to validate");
+		System.out.println("   --debug              : Change the verobsity level to debug");
+		System.out.println("   --help               : print this message");
 		System.out.println("===============================================================");
 		System.exit(0);
 	}

@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 import edu.iris.dmc.fdsn.station.model.Channel;
 import edu.iris.dmc.fdsn.station.model.FDSNStationXML;
@@ -80,7 +81,7 @@ public class RuleEngineService {
 	}
 
 	public Map<Integer, Set<Message>> executeAllRules(Network network) {
-		Map<Integer, Set<Message>> map = new HashMap<>();
+		Map<Integer, Set<Message>> map = new TreeMap<>();
 		if (network == null) {
 			return map;
 		}

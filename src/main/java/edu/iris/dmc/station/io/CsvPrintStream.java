@@ -16,6 +16,8 @@ import edu.iris.dmc.station.rules.Result;
 import edu.iris.dmc.station.rules.Warning;
 
 public class CsvPrintStream extends PrintStream implements RuleResultPrintStream {
+	// This class is not used to print out messages. Look at CSVMessageLogger 
+	// to alter the validator output messages. 
 
 	private static final Object[] FILE_HEADER = { "Source", "RuleId", "Type", "Network", "Station", "Channel",
 			"Location", "StartDate", "EndDate", "Message" };
@@ -23,8 +25,9 @@ public class CsvPrintStream extends PrintStream implements RuleResultPrintStream
 
 	public CsvPrintStream(OutputStream out) throws IOException {
 		super(out);
-		CSVFormat csvFileFormat = CSVFormat.DEFAULT.withRecordSeparator(System.lineSeparator());
+		CSVFormat csvFileFormat = CSVFormat.EXCEL.withRecordSeparator(System.lineSeparator());
 		this.csvFilePrinter = new CSVPrinter(this, csvFileFormat);
+		//this.csvFilePrinter = new CSVPrinter(this, CSVFormat.EXCEL);
 	}
 
 	public void printHeader() throws IOException {
@@ -80,7 +83,6 @@ public class CsvPrintStream extends PrintStream implements RuleResultPrintStream
 			csvFilePrinter.printRecord(record);
 			csvFilePrinter.flush();
 		}
-
 	}
 
 	@Override

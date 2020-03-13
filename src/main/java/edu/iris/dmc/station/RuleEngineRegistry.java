@@ -26,6 +26,8 @@ import edu.iris.dmc.station.conditions.FrequencyCondition;
 import edu.iris.dmc.station.conditions.LocationCodeCondition;
 import edu.iris.dmc.station.conditions.MissingDecimationCondition;
 import edu.iris.dmc.station.conditions.OrientationCondition;
+import edu.iris.dmc.station.conditions.OrientationConditionE;
+import edu.iris.dmc.station.conditions.OrientationConditionZ;
 import edu.iris.dmc.station.conditions.PolesZerosCondition;
 import edu.iris.dmc.station.conditions.PolynomialCondition;
 import edu.iris.dmc.station.conditions.ResponseListCondition;
@@ -68,16 +70,17 @@ public class RuleEngineRegistry {
 		defaultResponseRules(s);
 	}
 
+
 	private void defaultNetworkRules(Set<Integer> set) {
 		String codeRegex = "[A-Z0-9_\\*\\?]{1,2}";
 		if (!set.contains(101)) {
 			add(101, new CodeCondition(true, codeRegex,
-					"Network:Code must be assigned a string consisting of 1-2 uppercase characters A-Z and or numeric characters 0-9."),
+					"Network:Code must be assigned a string consisting of 1-2 uppercase A-Z and numeric 0-9 characters."),
 					Network.class);
 		}
 		if (!set.contains(110)) {
 			add(110, new StartTimeCondition(true,
-					"Network:startDate must occur before Network:endDate if Network:endDate is available."),
+					"If Network:startDate is included then it must occur before Network:endDate if included."),
 					Network.class);
 		}
 		if (!set.contains(111)) {
@@ -87,7 +90,7 @@ public class RuleEngineRegistry {
 		}
 		if (!set.contains(112)) {
 			add(112, new EpochRangeCondition(true,
-					"Network:Epoch must encompass all subordinate Station:Epoch [Epoch=startDate-endDate]"),
+					"Network:Epoch must encompass all subordinate Station:Epoch"),
 					Network.class);
 		}
 	}
@@ -96,13 +99,13 @@ public class RuleEngineRegistry {
 		String codeRegex = "[A-Z0-9_\\*\\?]{1,5}";
 		if (!set.contains(201)) {
 			add(201, new CodeCondition(true, codeRegex,
-					"Station:Code must be assigned a string consisting of 1-5 uppercase characters A-Z and or numeric characters 0-9."),
+					"Station:Code must be assigned a string consisting of 1-5 uppercase A-Z and numeric 0-9 characters."),
 					Station.class);
 		}
 
 		if (!set.contains(210)) {
 			add(210, new StartTimeCondition(true,
-					"Station:startDate is required and must occur before Station:endDate if Station:endDate is available."),
+					"Station:startDate must be included and must occur before Station:endDate if included."),
 					Station.class);
 		}
 		if (!set.contains(211)) {
@@ -112,7 +115,7 @@ public class RuleEngineRegistry {
 		}
 		if (!set.contains(221)) {
 			add(212, new EpochRangeCondition(true,
-					"Station:Epoch must encompass all subordinate Channel:Epoch [Epoch=startDate-endDate]"),
+					"Station:Epoch must encompass all subordinate Channel:Epoch"),
 					Station.class);
 		}
 
@@ -132,34 +135,46 @@ public class RuleEngineRegistry {
 		Restriction[] restrictions = new Restriction[] { new ChannelCodeRestriction(), new ChannelTypeRestriction() };
 		if (!set.contains(301)) {
 			add(301, new CodeCondition(true, codeRegex,
-					"Channel:Code must be assigned a string consisting of 3 uppercase characters A-Z and or numeric characters 0-9."),
+					"Channel:Code must be assigned a string consisting of 3 uppercase A-Z and numeric 0-9 characters."),
 					Channel.class);
 		}
 		if (!set.contains(302)) {
 			add(302, new LocationCodeCondition(true, "([A-Z0-9\\*\\ ]{0,2})?",
-					"Channel:locationCode must be unassigned or be assigned a string consisting of 0-2 uppercase characters A-Z and or numeric characters 0-9."),
+					"Channel:locationCode must be assigned a string consisting of 0-2 uppercase A-Z and numeric 0-9 characters OR 2 whitespace characters OR --."),
 					Channel.class);
 		}
 		if (!set.contains(303)) {
-			add(303, new CalibrationUnitCondition(false, "Invalid Calibration unit is invalid"), Channel.class);
+			add(303, new CalibrationUnitCondition(false, "If CalibrationUnits are included then CalibrationUnits:Name must be assigned a value from the IRIS StationXML Unit dictionary, case inconsistencies trigger warnings."), Channel.class);
 		}
 		if (!set.contains(304)) {
-			add(304, new SensorCondition(true, "Channel:Sensor:Description cannot be null."), Channel.class);
+			add(304, new SensorCondition(true, "Channel:Sensor:Description must be included and assigned a string consisting of 1 <= case insensitive A-Z and numeric 0-9 characters."), Channel.class);
 		}
 		if (!set.contains(305)) {
 			add(305, new SampleRateCondition(false,
-					"If Channel:SampleRate is NULL or 0 then Response information should not be included.",
+					"If Channel:SampleRate equals 0 or is not included then Response must not be included.",
 					restrictions), Channel.class);
 		}
 		if (!set.contains(310)) {
 			add(310, new StartTimeCondition(true,
-					"Channel:startDate is required and must occur before Channel:endDate if Channel:endDate is available."),
+					"Channel:startDate must be included and must occur before Channel:endDate if included."),
 					Channel.class);
 		}
 		
 		if (!set.contains(332)) {
 			add(332, new OrientationCondition(true,
-					"Channel:Azimuth and or Channel:Dip do not correspond within 5 degrees of tolerance to last digit of orthogonal Channel:Code.",
+					"If Channel:Code[LAST]==N then Channel:Azimuth must be assigned (>=355.0 or <=5.0) or (>=175.0 and <=185.0) and Channel:Dip must be assigned (>=-5 AND <=5.0).",
+					new Restriction[] { new ChannelCodeRestriction(), new ChannelTypeRestriction() }), Channel.class);
+		}
+		
+		if (!set.contains(333)) {
+			add(333, new OrientationConditionE(true,
+					"If Channel:Code[LAST]==E then Channel:Azimuth must be assigned (>=85.0 and <=95.0) or (>=265.0 and <=275.0) and Channel:Dip must be assigned (>=-5 and <=5.0).",
+					new Restriction[] { new ChannelCodeRestriction(), new ChannelTypeRestriction() }), Channel.class);
+		}
+		
+		if (!set.contains(334)) {
+			add(334, new OrientationConditionZ(true,
+					"If Channel:Code[LAST]==Z then Channel:Azimuth must be assigned (>=355.0 or <=5.0) and Channel:Dip must be assigned (>=-85.0 and <=-90.0) or (>=85.0 and <=90.0).",
 					new Restriction[] { new ChannelCodeRestriction(), new ChannelTypeRestriction() }), Channel.class);
 		}
 	}
@@ -170,59 +185,59 @@ public class RuleEngineRegistry {
 
 		if (!s.contains(401)) {
 			add(401, new StageSequenceCondition(true,
-					"The 'number' attribute of Response::Stage element must start at 1 and be sequential",
+					"Stage:number must start at 1 and be sequential.",
 					restrictions), Response.class);
 		}
 		if (!s.contains(402)) {
 			add(402, new UnitCondition(true,
-					"Stage[N]:InputUnits:Name and/or Stage[N]:OutputUnits:Name are not defined in Unit name overview for IRIS StationXML validator.",
+					"Stage[N]:InputUnits:Name and Stage[N]:OutputUnits:Name must be assigned a value from the IRIS StationXML Unit dictionary, case inconsistencies trigger warnings.",
 					restrictions), Response.class);
 		}
 		if (!s.contains(403)) {
-			add(403, new StageUnitCondition(true, "Stage[N]:InputUnits:Name must equal Stage[N-1]:OutputUnits:Name.",
+			add(403, new StageUnitCondition(true, "If length(Stage) > 1 then Stage[N]:InputUnits:Name must equal the previously assigned Stage[M]:OutputUnits:Name.",
 					restrictions), Response.class);
 		}
 		if (!s.contains(404)) {
 			add(404, new DigitalFilterCondition(true,
-					"Stage types FIR|Coefficient|PolesZeros with transfer function type Digital must include Decimation and StageGain elements.",
+					"If Stage[N]:PolesZeros:PzTransferFunctionType:Digital or Stage[N]:FIR or Stage[N]:Coefficients:CfTransferFunctionType:DIGITAL are included then Stage[N] must include Stage[N]:Decimation and Stage[N]:StageGain elements.",
 					restrictions), Response.class);
 		}
 		if (!s.contains(405)) {
 			add(405, new ResponseListCondition(true,
-					"Stage of type ResponseList cannot be the only stage available in a response.",
+					"Stage:ResponseList cannot be the only stage included in a response.",
 					new ChannelCodeRestriction(), new ChannelTypeRestriction()), Response.class);
 		}
 		if (!s.contains(410)) {
-			add(410, new EmptySensitivityCondition(true, "InstrumentSensitivity:Value cannot be assigned 0 or Null.",
+			add(410, new EmptySensitivityCondition(true, "If InstrumentSensitivity is included then InstrumentSensitivity:Value must be assigned a double > 0.0 ",
 					new ChannelCodeRestriction(), new ChannelTypeRestriction(), new ResponsePolynomialRestriction()),
 					Response.class);
 		}
 		if (!s.contains(411)) {
 			add(411, new FrequencyCondition(true,
-					"InstrumentSensitivity:Frequency must be less than Channel:SampleRate/2 [Nyquist Frequency].",
+					"If InstrumentSensitivity is included then InstrumentSensitivity:Frequency must be less than Channel:SampleRate/2 [Nyquist Frequency]. ",
 					new ChannelCodeRestriction(), new ChannelTypeRestriction(), new ResponsePolynomialRestriction()),
 					Response.class);
 		}
 		if (!s.contains(412)) {
 			add(412, new StageGainProductCondition(true,
-					"InstrumentSensitivity:Value must equal the product of all StageGain:Value if all StageGain:Frequency are equal to InstrumentSensitivity:Frequency [Normalization Frequency].	",
+					"InstrumentSensitivity:Value must equal the product of all StageGain:Value if all StageGain:Frequency are equal to InstrumentSensitivity:Frequency [Normalization Frequency].",
 					new ChannelCodeRestriction(), new ChannelTypeRestriction(), new ResponsePolynomialRestriction()),
 					Response.class);
 		}
 		if (!s.contains(413)) {
-			add(413, new StageGainNonZeroCondition(true, "StageGain:Value cannot be assigned 0 or Null.",
+			add(413, new StageGainNonZeroCondition(true, "Stage[1:N]:StageGain must be included and Stage[1:N]:StageGain:Value must be assigned a double > 0.0 and Stage[1:N]:StageGain:Frequency must be assigned a double.",
 					new ChannelCodeRestriction(), new ResponsePolynomialRestriction(), new ChannelTypeRestriction()),
 					Response.class);
 		}
 		if (!s.contains(414)) {
 			add(414, new PolesZerosCondition(false,
-					"If Stage[N] of type PolesZeros contains a Zero where both Real and Imaginary components equal 0 then InstrumentSensitivity:Frequency cannot equal 0 and Stage[N]:StageGain:Frequency cannot equal 0.",
+					"If Stage[N]:PolesZeros contains Zero:Real==0 and Zero:Imaginary==0 then InstrumentSensitivity:Frequency cannot equal 0 and Stage[N]:StageGain:Frequency cannot equal 0.",
 					new ChannelCodeRestriction(), new ChannelTypeRestriction(), new ResponsePolynomialRestriction()),
 					Response.class);
 		}
 		if (!s.contains(415)) {
 			add(415, new PolynomialCondition(false,
-					"Response must be defined as Response:InstrumentPolynomial if it contains any Stages defined as ResponseStage:Polynomial",
+					"Response must be of type Response:InstrumentPolynomial if a Polynomial stage exist.",
 					new ChannelCodeRestriction(), new ChannelTypeRestriction()), Response.class);
 		}
 		if (!s.contains(420)) {
@@ -233,18 +248,18 @@ public class RuleEngineRegistry {
 		}
 		if (!s.contains(421)) {
 			add(421, new DecimationSampleRateCondition(true,
-					"Stage[Final]:Decimation:InputSampleRate divided by Stage[Final]:Decimation:Factor must equal Channel:SampleRate.",
+					"Stage[LAST]:Decimation:InputSampleRate divided by Stage[LAST]:Decimation:Factor must equal Channel:SampleRate.",
 					new ChannelCodeRestriction(), new ChannelTypeRestriction(), new ResponsePolynomialRestriction()),
 					Response.class);
 		}
 		if (!s.contains(422)) {
 			add(422, new DecimationCondition(true,
-					"Stage[N]:Decimation:InputSampleRate must equal Stage[N-1]:Decimation:InputSampleRate divided by Stage[N-1]:Decimation:Factor.",
+					"Stage[N]:Decimation:InputSampleRate must equal the previously assigned Stage[M]:Decimation:InputSampleRate divided by Stage[M]:Decimation:Factor.",
 					new ChannelCodeRestriction(), new ChannelTypeRestriction(), new ResponsePolynomialRestriction()),
 					Response.class);
 		}
 	}
-
+	
 	public void add(int id, Condition condition, Class<?> clazz) {
 		if (condition == null || clazz == null) {
 			throw new IllegalArgumentException("Null condition|class is not permitted");

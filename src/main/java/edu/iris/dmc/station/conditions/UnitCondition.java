@@ -62,7 +62,7 @@ public class UnitCondition extends ChannelRestrictedCondition {
 			}
 			Units[] units = getUnits(stage);
 			if (units == null) {
-				nestedMessage.add(Result.error("stage [ null units for stage " + stage.getNumber().intValue() + "]"));
+				nestedMessage.add(Result.error("stage [null units for stage " + stage.getNumber().intValue() + "]"));
 			} else {
 				Units inputUnits = units[0];
 				Units outputUnits = units[1];
@@ -75,28 +75,52 @@ public class UnitCondition extends ChannelRestrictedCondition {
 					if (!result) {
 						result = UnitTable.containsCaseInsensitive(inputUnits.getName());
 						if (result) {
+							if (stage.getNumber().intValue() < 10 ) {
+							nestedMessage.add(Result.warning("[stage " + String.format("%02d", stage.getNumber().intValue())
+									+ "] invalid input units " + inputUnits.getName()));
+							}else {
 							nestedMessage.add(Result.warning("[stage " + stage.getNumber().intValue()
 									+ "] invalid input units " + inputUnits.getName()));
+							}
 						} else {
-							nestedMessage.add(Result.error("[stage " + stage.getNumber().intValue()
+							if (stage.getNumber().intValue() < 10 ) {
+							nestedMessage.add(Result.error("[stage " + String.format("%02d", stage.getNumber().intValue())
 									+ "] invalid input units " + inputUnits.getName()));
+							}else {
+								nestedMessage.add(Result.error("[stage " + stage.getNumber().intValue()
+										+ "] invalid input units " + inputUnits.getName()));
+							}
 						}
 					}
 				}
 
 				if (outputUnits == null || outputUnits.getName() == null) {
+					if (stage.getNumber().intValue() < 10 ) {
 					nestedMessage.add(
-							Result.error("Output unit cannot be null [stage " + stage.getNumber().intValue() + "]"));
+							Result.error("Output unit cannot be null [stage " + String.format("%02d", stage.getNumber().intValue()) + "]"));
+					}else {
+						    Result.error("Output unit cannot be null [stage " + stage.getNumber().intValue() + "]");
+					}
 				} else {
 					boolean result = UnitTable.contains(outputUnits.getName());
 					if (!result) {
 						result = UnitTable.containsCaseInsensitive(outputUnits.getName().toLowerCase());
 						if (result) {
-							nestedMessage.add(Result.warning("[stage " + stage.getNumber().intValue()
+							if (stage.getNumber().intValue() < 10 ) {
+							nestedMessage.add(Result.warning("[stage " + String.format("%02d",stage.getNumber().intValue())
 									+ "] invalid output units " + outputUnits.getName()));
+							}else {
+								nestedMessage.add(Result.warning("[stage " + stage.getNumber().intValue()
+									+ "] invalid output units " + outputUnits.getName()));	
+							}
 						} else {
-							nestedMessage.add(Result.error("[stage " + stage.getNumber().intValue()
+							if (stage.getNumber().intValue() < 10 ) {
+							nestedMessage.add(Result.error("[stage " + String.format("%02d", stage.getNumber().intValue())
 									+ "] invalid output units " + outputUnits.getName()));
+							}else {
+								nestedMessage.add(Result.error("[stage " + stage.getNumber().intValue()
+									+ "] invalid output units " + outputUnits.getName()));
+							}
 						}
 					}
 				}

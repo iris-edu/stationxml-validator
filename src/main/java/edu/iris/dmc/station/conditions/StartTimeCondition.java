@@ -42,14 +42,14 @@ public class StartTimeCondition extends AbstractCondition {
 			if (node instanceof Network) {
 				return Result.success();
 			} else {
-				return Result.error("startDate is required for node:" + node.getCode());
+				return Result.error("startDate is required for " + node.getCode());
 			}
 		}
 
-		if (node.getEndDate() != null) {
-			if (!TimeUtil.isBefore(node.getStartDate(), node.getEndDate())) {
-				return Result
-						.error("startDate " + node.getStartDate() + " must occur before endDate " + node.getEndDate());
+		if (node.getEndDate() != null && node.getStartDate() != null) {
+			if (!node.getStartDate().isBefore(node.getEndDate())) {
+				return Result.error(
+						"EndDate " + node.getEndDate() + " must be greater than Start Time " + node.getStartDate());
 			}
 		}
 		return Result.success();

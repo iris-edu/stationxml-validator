@@ -212,7 +212,7 @@ public class Application {
 				}
 			}
 		} else {
-			ps.printMessage("PASSED");
+			ps.printMessage("PASSED\n");
 		}
 
 		ps.printFooter();

@@ -182,7 +182,7 @@ public class Application {
 			  int i = 0;
 			  String extentionString = "";
               int data = r.read();
-              while(i < 100){
+              while(i < 255){
               char inputChar = (char) data;
               extentionString +=inputChar;
               data = r.read();
@@ -191,7 +191,7 @@ public class Application {
 		    InputStream is = new FileInputStream(file);
 
 			// This is where stationxml vs seed is decided. 
-			if (extentionString.toLowerCase().contains(xmlstring.toLowerCase())) {
+			if (extentionString.contains(xmlstring)) {
 				return DocumentMarshaller.unmarshal(is);
 			} else {
 				Volume volume = IrisUtil.readSeed(file);

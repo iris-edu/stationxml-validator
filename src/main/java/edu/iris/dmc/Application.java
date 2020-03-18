@@ -45,10 +45,17 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.xml.XMLConstants;
+import javax.xml.namespace.QName;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
+
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
 
 import edu.iris.dmc.fdsn.station.model.FDSNStationXML;
 import edu.iris.dmc.seed.Blockette;
@@ -58,6 +65,7 @@ import edu.iris.dmc.seed.blockette.util.BlocketteItrator;
 import edu.iris.dmc.seed.builder.BlocketteBuilder;
 import edu.iris.dmc.seed.director.BlocketteDirector;
 import edu.iris.dmc.station.RuleEngineService;
+import edu.iris.dmc.Application.ExtractorHandler;
 import edu.iris.dmc.station.converter.SeedToXmlDocumentConverter;
 import edu.iris.dmc.station.io.CsvPrintStream;
 import edu.iris.dmc.station.io.HtmlPrintStream;
@@ -177,28 +185,18 @@ public class Application {
 			LOGGER.severe("File does not exist.  File is required!");
 			throw new IOException(String.format("File %s does not exist.  File is required!", file.getAbsoluteFile()));
 		}
-		try (InputStream ts = new FileInputStream(file)) {
-			 Reader r = new InputStreamReader(ts, "US-ASCII");
-			  int i = 0;
-			  String extentionString = "";
-              int data = r.read();
-              while(i < 255){
-              char inputChar = (char) data;
-              extentionString +=inputChar;
-              data = r.read();
-              i = i+1;
-           } 
 		    InputStream is = new FileInputStream(file);
 
 			// This is where stationxml vs seed is decided. 
-			if (extentionString.contains(xmlstring)) {
+			if(isStationXml(file)) {
+				LOGGER.info("Input file is formatted as StationXml");
 				return DocumentMarshaller.unmarshal(is);
 			} else {
+				LOGGER.info("Input file is assumed to be formatted as Dataless SEED");
 				Volume volume = IrisUtil.readSeed(file);
 				return SeedToXmlDocumentConverter.getInstance().convert(volume);
 			}
 		}
-	}
 
 	private void print(RuleResultPrintStream ps, Map<Integer, Set<Message>> map) throws IOException {
 
@@ -310,11 +308,6 @@ public class Application {
 		    		unitlist.get(row + stride * 2), unitlist.get(row + stride * 3)));
 		}
 		
-		
-		//for (String unit : UnitTable.units)  {
-		//	 System.out.println();
-
-	//}
 	System.out.println("--------------------------------------------------------------------------");
 
 }
@@ -340,5 +333,48 @@ public class Application {
 		System.out.println("===============================================================");
 		System.exit(0);
 	}
+	
+	private boolean isStationXml(File source) throws IOException {
+		if (source == null) {
+			throw new IOException("File not found");
+		}
+		ExtractorHandler handler = new ExtractorHandler();
+		try (InputStream inputStream = new FileInputStream(source)) {
+			SAXParserFactory factory = SAXParserFactory.newInstance();
+			factory.setNamespaceAware(true);
+			factory.setValidating(true);
+			SAXParser saxParser = factory.newSAXParser();
+			saxParser.parse(inputStream, handler);
+		} catch (
 
-}
+		Exception e) {
+			// do nothing
+		}
+		QName qname = handler.rootElement;
+		if (qname == null) {
+			return false;
+		}
+
+		if ((new QName("http://www.fdsn.org/xml/station/1", "FDSNStationXML")).equals(qname)) {
+			return true;
+		}
+		return false;
+	}
+
+	protected static class ExtractorHandler extends DefaultHandler {
+
+		private QName rootElement = null;
+
+		@Override
+		public void startElement(String uri, String local, String name, Attributes attributes) throws SAXException {
+			this.rootElement = new QName(uri, local);
+			throw new SAXException("Aborting: root element received");
+		}
+
+		QName getRootElement() {
+			return rootElement;
+		}
+	}
+ }
+
+

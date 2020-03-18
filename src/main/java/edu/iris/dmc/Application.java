@@ -64,9 +64,11 @@ import edu.iris.dmc.seed.Volume;
 import edu.iris.dmc.seed.blockette.util.BlocketteItrator;
 import edu.iris.dmc.seed.builder.BlocketteBuilder;
 import edu.iris.dmc.seed.director.BlocketteDirector;
+import edu.iris.dmc.Application;
 import edu.iris.dmc.station.RuleEngineService;
 import edu.iris.dmc.Application.ExtractorHandler;
 import edu.iris.dmc.station.converter.SeedToXmlDocumentConverter;
+import edu.iris.dmc.station.exceptions.StationxmlException;
 import edu.iris.dmc.station.io.CsvPrintStream;
 import edu.iris.dmc.station.io.HtmlPrintStream;
 import edu.iris.dmc.station.io.ReportPrintStream;
@@ -77,8 +79,14 @@ import edu.iris.dmc.station.rules.Rule;
 import edu.iris.dmc.station.rules.UnitTable;
 
 public class Application {
-	private static final Logger LOGGER = Logger.getLogger(Application.class.getName());
-
+	//private static final Logger LOGGER = Logger.getLogger(Application.class.getName());
+	private static Logger LOGGER = null;
+	  static {
+	      System.setProperty("java.util.logging.SimpleFormatter.format",
+	    		  "[%1$tY-%1$tm-%1$td %1$tH:%1$tM:%1$tS] [%4$-6s] %2$s:"
+	    		  + " %5$s%6$s %n");
+	      LOGGER = Logger.getLogger(Application.class.getName());
+	  }
 	private static CommandLine commandLine;
 
 	/**
@@ -87,18 +95,21 @@ public class Application {
 	 */
 	public static void main(String[] args) throws Exception {
 		try {
+			LOGGER.setLevel(Level.WARNING);
 			commandLine = CommandLine.parse(args);
 		} catch (CommandLineParseException e) {
-			System.err.println(e.getMessage()+ "\n");
+			LOGGER.severe(e.getMessage()+ "\n");
 			help();
 			System.exit(1);
 		}
-		Logger rootLogger = LogManager.getLogManager().getLogger("");
-		rootLogger.setLevel(commandLine.getLogLevel());
-		for (Handler h : rootLogger.getHandlers()) {
-			h.setLevel(commandLine.getLogLevel());
-		}
-		LOGGER.info("STATION VALIDATOR");
+		LOGGER.setLevel(Level.WARNING);
+
+		//Logger rootLogger = LogManager.getLogManager().getLogger("");
+		LOGGER.setLevel(commandLine.getLogLevel());
+		//for (Handler h : rootLogger.getHandlers()) {
+		//	h.setLevel(commandLine.getLogLevel());
+		//}
+		//LOGGER.info("STATION VALIDATOR");
 
 		if (commandLine.showVersion()) {
 			LOGGER.info(Application.getVersion());
@@ -112,11 +123,14 @@ public class Application {
 		} else if (commandLine.showUnits()) {
 			printUnits();
 			System.exit(0);
+		//} else if (commandLine.)
 		} else if (commandLine.file() == null) {
-			LOGGER.info("File is required!");
+			LOGGER.severe("File is required!");
 			help();
 			System.exit(1);
 		}
+		// Add configurable verboisty to this project. 
+		// Update the logger to work similar to converter. 
 
 		try {
 			Application app = new Application();
@@ -165,6 +179,10 @@ public class Application {
 			boolean ignoreWarnings) throws Exception {
 		RuleEngineService ruleEngineService = new RuleEngineService(ignoreWarnings, ignoreRules);
 		try (final RuleResultPrintStream ps = getOutputStream(format, outputStream)) {
+			if (input.size() > 1) {
+				
+			}
+			
 			for (Path p : input) {
 				FDSNStationXML document = read(p);
 				if (document == null) {
@@ -189,13 +207,51 @@ public class Application {
 
 			// This is where stationxml vs seed is decided. 
 			if(isStationXml(file)) {
-				LOGGER.info("Input file is formatted as StationXml");
-				return DocumentMarshaller.unmarshal(is);
+				try {
+				   LOGGER.info("Input file: " + path.toString());
+				   return DocumentMarshaller.unmarshal(is);
+				} catch (StationxmlException | IOException | RuntimeException e){
+					StringBuilder message = new StringBuilder(
+							"");
+					if(e.getLocalizedMessage() != null) {
+					    message.append(e.getLocalizedMessage());
+					}
+					for (StackTraceElement element : e.getStackTrace()){
+						message.append(element.toString()).append("\n");
+					}
+					if (e.getCause() != null) {
+						message.append(e.getCause().getLocalizedMessage());
+						for (StackTraceElement element : e.getCause().getStackTrace()) {
+							message.append(element.toString()).append("\n");
+						}
+					}
+					LOGGER.severe(message.toString());
+					return null;
+				}
 			} else {
-				LOGGER.info("Input file is assumed to be formatted as Dataless SEED");
-				Volume volume = IrisUtil.readSeed(file);
+				try {
+				    LOGGER.info("Input file: " + path.toString());
+				    Volume volume = IrisUtil.readSeed(file);
 				return SeedToXmlDocumentConverter.getInstance().convert(volume);
+			}catch(RuntimeException e){
+				StringBuilder message = new StringBuilder(
+						"");
+				if(e.getLocalizedMessage() != null) {
+					message.append(e.getLocalizedMessage());
+				}
+				for (StackTraceElement element : e.getStackTrace()){
+					message.append(element.toString()).append("\n");
+				}
+				if (e.getCause() != null) {
+					message.append(e.getCause().getLocalizedMessage());
+					for (StackTraceElement element : e.getCause().getStackTrace()) {
+						message.append(element.toString()).append("\n");
+					}
+				}
+				LOGGER.severe(message.toString());
+				return null;	
 			}
+		 }
 		}
 
 	private void print(RuleResultPrintStream ps, Map<Integer, Set<Message>> map) throws IOException {
@@ -208,9 +264,11 @@ public class Application {
 					ps.print(m);
 					ps.flush();
 				}
+				ps.printMessage("\n");
 			}
 		} else {
-			ps.printMessage("PASSED\n");
+			ps.printMessage("PASSED");
+			ps.printMessage("\n");
 		}
 
 		ps.printFooter();
@@ -328,6 +386,7 @@ public class Application {
 		System.out.println("   --ignore-warnings    : don't show warnings");
 		System.out.println("   --rules              : print a list of validation rules");
 		System.out.println("   --units              : print a list of units used to validate");
+		System.out.println("   --verbose            : Change the verobsity level to info");
 		System.out.println("   --debug              : Change the verobsity level to debug");
 		System.out.println("   --help               : print this message");
 		System.out.println("===============================================================");

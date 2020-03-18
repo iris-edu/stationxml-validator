@@ -112,7 +112,7 @@ public class CommandLine {
 					commandLine.showHelp = true;
 				} else if ("--version".equalsIgnoreCase(arg) || "-v".equalsIgnoreCase(arg)) {
 					commandLine.showVersion = true;
-				} else if ("--info".equalsIgnoreCase(arg)) {
+				} else if ("--verbose".equalsIgnoreCase(arg)) {
 					commandLine.logLevel = Level.INFO;
 				} else if ("--debug".equalsIgnoreCase(arg)) {
 					commandLine.logLevel = Level.FINE;

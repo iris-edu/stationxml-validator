@@ -325,7 +325,23 @@ public class Application {
 		RuleEngineService ruleEngineService = new RuleEngineService(false, null);
 		List<Rule> ruleslist = ruleEngineService.getRules();
 		Collections.sort(ruleslist, comparator);
-		System.out.println("Validator Rule Set:\n");
+		System.out.print("---------------------------------\n");
+		System.out.print("|StationXML Validation Rule List|\n");
+		System.out.print("---------------------------------\n");
+		//System.out.print("\n");
+		System.out.print("Enforces FDSN StationXML Schema Version 1.1 Compliance\n");
+		System.out.print("Level 100: Network\n");
+		System.out.print("Level 200: Station\n");
+		System.out.print("Level 300: Channel\n");
+		System.out.print("Level 400: Response\n");
+		System.out.print("Error: IF Error==False then document is invalid\n");
+		System.out.print("Warning: IF Warning==TRUE then Return message and PASS else PASS\n");
+		System.out.print("Epoch=startDate-endDate\n");
+		System.out.print("Indices: (N AND M) > 1 AND (N > M)\n");
+		//System.out.print("\n");
+		System.out.print("--------------------------------\n");
+		System.out.print("| Rule ID | Description | Type |\n");
+		System.out.print("--------------------------------\n");
 		System.out.println("--------------------------------------------------------------------------");
 		for (Rule rule : ruleslist) {
 			System.out.printf("%-8s %s%n", rule.getId(), rule.getDescription());
@@ -344,8 +360,9 @@ public class Application {
 	};
 
 	private static void printUnits() {
-		System.out.println("Table of Acceptable Units:\n");
-		
+		System.out.print("---------------------------------\n");
+		System.out.println("|Table of Acceptable Units|\n");
+		System.out.print("---------------------------------\n");
 		System.out.println("--------------------------------------------------------------------------");
 		
 		List<String> unitlist = UnitTable.units;

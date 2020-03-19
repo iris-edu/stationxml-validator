@@ -103,14 +103,7 @@ public class Application {
 			System.exit(1);
 		}
 		LOGGER.setLevel(Level.WARNING);
-
-		//Logger rootLogger = LogManager.getLogManager().getLogger("");
 		LOGGER.setLevel(commandLine.getLogLevel());
-		//for (Handler h : rootLogger.getHandlers()) {
-		//	h.setLevel(commandLine.getLogLevel());
-		//}
-		//LOGGER.info("STATION VALIDATOR");
-
 		if (commandLine.showVersion()) {
 			LOGGER.info(Application.getVersion());
 			System.exit(0);
@@ -123,7 +116,6 @@ public class Application {
 		} else if (commandLine.showUnits()) {
 			printUnits();
 			System.exit(0);
-		//} else if (commandLine.)
 		} else if (commandLine.file() == null) {
 			LOGGER.severe("File is required!");
 			help();
@@ -179,10 +171,6 @@ public class Application {
 			boolean ignoreWarnings) throws Exception {
 		RuleEngineService ruleEngineService = new RuleEngineService(ignoreWarnings, ignoreRules);
 		try (final RuleResultPrintStream ps = getOutputStream(format, outputStream)) {
-			if (input.size() > 1) {
-				
-			}
-			
 			for (Path p : input) {
 				FDSNStationXML document = read(p);
 				if (document == null) {
@@ -269,6 +257,8 @@ public class Application {
 		} else {
 			ps.printMessage("PASSED");
 			ps.printMessage("\n");
+			ps.printMessage("\n");
+
 		}
 
 		ps.printFooter();

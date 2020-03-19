@@ -23,7 +23,7 @@ public class CommandLine {
 	private boolean showHelp;
 	private boolean showVersion;
 
-	private Level logLevel = Level.OFF;
+	private Level logLevel = Level.WARNING;
 
 	private Map<String, String> map = new HashMap<>();
 

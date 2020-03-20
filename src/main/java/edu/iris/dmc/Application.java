@@ -98,7 +98,8 @@ public class Application {
 			LOGGER.setLevel(Level.WARNING);
 			commandLine = CommandLine.parse(args);
 		} catch (CommandLineParseException e) {
-			LOGGER.severe(e.getMessage()+ "\n");
+			StringBuilder message = createExceptionMessage(e);
+			LOGGER.severe(message.toString());
 			help();
 			System.exit(1);
 		}
@@ -123,13 +124,11 @@ public class Application {
 		}
 		// Add configurable verboisty to this project. 
 		// Update the logger to work similar to converter. 
-
 		try {
 			Application app = new Application();
 			app.run();
 		} catch (Exception e) {
-			LOGGER.log(Level.INFO, e.getMessage(), e);
-			System.exit(1);
+			exitWithError(e);
 		}
 	}
 
@@ -176,17 +175,19 @@ public class Application {
 				if (document == null) {
 					continue;
 				}
+				
+				// This is where the output is printed. 
 				print(ps, ruleEngineService.executeAllRules(document));
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			exitWithError(e);
+			//e.printStackTrace();
 		}
 
 	}
 
 	private FDSNStationXML read(Path path) throws Exception {
 		File file = path.toFile();
-		String xmlstring = "<FDSNStationXML";
 		if (!file.exists()) {
 			LOGGER.severe("File does not exist.  File is required!");
 			throw new IOException(String.format("File %s does not exist.  File is required!", file.getAbsoluteFile()));
@@ -199,21 +200,9 @@ public class Application {
 				   LOGGER.info("Input file: " + path.toString());
 				   return DocumentMarshaller.unmarshal(is);
 				} catch (StationxmlException | IOException | RuntimeException e){
-					StringBuilder message = new StringBuilder(
-							"");
-					if(e.getLocalizedMessage() != null) {
-					    message.append(e.getLocalizedMessage());
-					}
-					for (StackTraceElement element : e.getStackTrace()){
-						message.append(element.toString()).append("\n");
-					}
-					if (e.getCause() != null) {
-						message.append(e.getCause().getLocalizedMessage());
-						for (StackTraceElement element : e.getCause().getStackTrace()) {
-							message.append(element.toString()).append("\n");
-						}
-					}
-					LOGGER.severe(message.toString());
+				    exitWithError(e);
+					//StringBuilder message = createExceptionMessage(e);
+					//LOGGER.severe(message.toString());
 					return null;
 				}
 			} else {
@@ -221,23 +210,11 @@ public class Application {
 				    LOGGER.info("Input file: " + path.toString());
 				    Volume volume = IrisUtil.readSeed(file);
 				return SeedToXmlDocumentConverter.getInstance().convert(volume);
-			}catch(RuntimeException e){
-				StringBuilder message = new StringBuilder(
-						"");
-				if(e.getLocalizedMessage() != null) {
-					message.append(e.getLocalizedMessage());
-				}
-				for (StackTraceElement element : e.getStackTrace()){
-					message.append(element.toString()).append("\n");
-				}
-				if (e.getCause() != null) {
-					message.append(e.getCause().getLocalizedMessage());
-					for (StackTraceElement element : e.getCause().getStackTrace()) {
-						message.append(element.toString()).append("\n");
-					}
-				}
-				LOGGER.severe(message.toString());
-				return null;	
+			    }catch(RuntimeException e){
+				    exitWithError(e);
+				    //StringBuilder message = createExceptionMessage(e);		
+				    //LOGGER.severe(message.toString());
+				   return null;	
 			}
 		 }
 		}
@@ -280,6 +257,18 @@ public class Application {
 			volume.add(blockette);
 		}
 		return volume;
+	}
+	
+	
+	private static void exitWithError(Exception e) {
+		StringBuilder message = createExceptionMessage(e);
+		if (commandLine.continueError()==true){
+			LOGGER.severe(message.toString());
+	        //null 
+		}else {
+			LOGGER.severe(message.toString());
+		    System.exit(1);
+	    }
 	}
 
 	private RuleResultPrintStream getOutputStream(String format, OutputStream outputStream) throws IOException {
@@ -325,9 +314,9 @@ public class Application {
 		RuleEngineService ruleEngineService = new RuleEngineService(false, null);
 		List<Rule> ruleslist = ruleEngineService.getRules();
 		Collections.sort(ruleslist, comparator);
-		System.out.print("---------------------------------\n");
-		System.out.print("|StationXML Validation Rule List|\n");
-		System.out.print("---------------------------------\n");
+		System.out.println("===============================================================");
+		System.out.println("|" + center("StationXML Validation Rule List", 62, " ") + "|");
+		System.out.println("===============================================================");
 		//System.out.print("\n");
 		System.out.print("Enforces FDSN StationXML Schema Version 1.1 Compliance\n");
 		System.out.print("Level 100: Network\n");
@@ -339,14 +328,13 @@ public class Application {
 		System.out.print("Epoch=startDate-endDate\n");
 		System.out.print("Indices: (N AND M) > 1 AND (N > M)\n");
 		//System.out.print("\n");
-		System.out.print("--------------------------------\n");
-		System.out.print("| Rule ID | Description | Type |\n");
-		System.out.print("--------------------------------\n");
-		System.out.println("--------------------------------------------------------------------------");
+		System.out.println("===============================================================");
+		System.out.println("|" + center("| Rule ID | Description | Type |", 62, " ") + "|");
+		System.out.println("===============================================================");
 		for (Rule rule : ruleslist) {
 			System.out.printf("%-8s %s%n", rule.getId(), rule.getDescription());
 		}
-		System.out.println("--------------------------------------------------------------------------");
+		System.out.println("===============================================================");
 
 	}
 	
@@ -360,10 +348,9 @@ public class Application {
 	};
 
 	private static void printUnits() {
-		System.out.print("---------------------------------\n");
-		System.out.println("|Table of Acceptable Units|\n");
-		System.out.print("---------------------------------\n");
-		System.out.println("--------------------------------------------------------------------------");
+		System.out.println("===============================================================");
+		System.out.println("|" + center("Table of Acceptable Units", 62, " ") + "|");
+		System.out.println("===============================================================");
 		
 		List<String> unitlist = UnitTable.units;
 		int stride = (unitlist.size()/4);
@@ -373,7 +360,7 @@ public class Application {
 		    		unitlist.get(row + stride * 2), unitlist.get(row + stride * 3)));
 		}
 		
-	System.out.println("--------------------------------------------------------------------------");
+		System.out.println("===============================================================");
 
 }
 
@@ -382,7 +369,7 @@ public class Application {
 		version = center(version, 62, " ");
 
 		System.out.println("===============================================================");
-		System.out.println("|" + center("FDSN StationXml validator", 62, " ") + "|");
+		System.out.println("|" + center("FDSN StationXml Validator", 62, " ") + "|");
 		System.out.println("|" + version + "|");
 		System.out.println("================================================================");
 		System.out.println("Usage:");
@@ -396,9 +383,29 @@ public class Application {
 		System.out.println("   --verbose            : Change the verobsity level to info");
 		System.out.println("   --debug              : Change the verobsity level to debug");
 		System.out.println("   --help               : print this message");
+		System.out.println("   --continue-on-error, usage = Prints exceptions to stdout and processes next file");
 		System.out.println("===============================================================");
 		System.exit(0);
 	}
+	
+	private static StringBuilder createExceptionMessage(Exception e) {
+		StringBuilder message = new StringBuilder(
+				"");
+		if(e.getLocalizedMessage() != null) {
+		    message.append(e.getLocalizedMessage());
+		}
+		for (StackTraceElement element : e.getStackTrace()){
+			message.append(element.toString()).append("\n");
+		}
+		if (e.getCause() != null) {
+			message.append(e.getCause().getLocalizedMessage());
+			for (StackTraceElement element : e.getCause().getStackTrace()) {
+				message.append(element.toString()).append("\n");
+			}
+		}
+		return message;
+	}
+	
 	
 	private boolean isStationXml(File source) throws IOException {
 		if (source == null) {

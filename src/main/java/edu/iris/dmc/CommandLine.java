@@ -21,6 +21,7 @@ public class CommandLine {
 	private String format;
 	private boolean summary;
 	private boolean showHelp;
+	private boolean continueError;
 	private boolean showVersion;
 
 	private Level logLevel = Level.WARNING;
@@ -54,7 +55,11 @@ public class CommandLine {
 	public boolean showRules() {
 		return showRules;
 	}
-
+	
+	public boolean continueError() {
+		return continueError;
+	}
+	
 	public boolean showUnits() {
 		return showUnits;
 	}
@@ -131,7 +136,9 @@ public class CommandLine {
 					commandLine.showRules = true;
 				} else if ("--show-units".equalsIgnoreCase(arg)) {
 					commandLine.showUnits = true;
-				} else if ("--output".equalsIgnoreCase(arg) || "-o".equalsIgnoreCase(arg)) {
+				} else if ("--continue-on-error".equalsIgnoreCase(arg)) {
+					commandLine.continueError = true;
+				}  else if ("--output".equalsIgnoreCase(arg) || "-o".equalsIgnoreCase(arg)) {
 					if(args.length < (i+2)) {
 						throw new CommandLineParseException(String.format("Please provide an argument for --output."));	
 					}else {

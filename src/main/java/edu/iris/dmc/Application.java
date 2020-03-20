@@ -375,15 +375,15 @@ public class Application {
 		System.out.println("Usage:");
 		System.out.println("java -jar stationxml-validator <FILE> [OPTIONS]");
 		System.out.println("OPTIONS:");
-		System.out.println("   --file               : Full input file path");
+		System.out.println("   --file               : full input file path");
 		System.out.println("   --output             : where to output result, default is System.out");
 		System.out.println("   --ignore-warnings    : don't show warnings");
 		System.out.println("   --rules              : print a list of validation rules");
 		System.out.println("   --units              : print a list of units used to validate");
-		System.out.println("   --verbose            : Change the verobsity level to info");
-		System.out.println("   --debug              : Change the verobsity level to debug");
+		System.out.println("   --verbose            : change the verobsity level to info");
+		System.out.println("   --debug              : change the verobsity level to debug");
 		System.out.println("   --help               : print this message");
-		System.out.println("   --continue-on-error, usage = Prints exceptions to stdout and processes next file");
+		System.out.println("   --continue-on-error  : print exceptions to stdout and processes next file");
 		System.out.println("===============================================================");
 		System.exit(0);
 	}

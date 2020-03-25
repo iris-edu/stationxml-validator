@@ -13,6 +13,7 @@ import edu.iris.dmc.CommandLineParseException;
 public class CommandLine {
 
 	private Path file;
+	private Path input;
 	private Path output;
 	private boolean ignoreWarnings;
 	private int[] ignoreRules;
@@ -28,8 +29,8 @@ public class CommandLine {
 
 	private Map<String, String> map = new HashMap<>();
 
-	public Path file() {
-		return file;
+	public Path input() {
+		return input;
 	}
 
 	public Path output() {
@@ -91,8 +92,8 @@ public class CommandLine {
 				return commandLine;
 			} else {
 				String path = args[0];
-				commandLine.file = Paths.get(path);
-				if (!commandLine.file.toFile().exists()) {
+				commandLine.input = Paths.get(path);
+				if (!commandLine.input.toFile().exists()) {
 					commandLine.showHelp = true;
 					System.out.println(String.format("File %s does not exist!", path));
 					return commandLine;
@@ -145,21 +146,21 @@ public class CommandLine {
 					    commandLine.output = Paths.get(args[i + 1]);
 					i = i + 1;
 					}
-				}else if ("--file".equalsIgnoreCase(arg) || "-f".equalsIgnoreCase(arg)) {
+				}else if ("--input".equalsIgnoreCase(arg) || "-i".equalsIgnoreCase(arg)) {
 					if(args.length < (i+2)) {
 						throw new CommandLineParseException(String.format("Please provide an argument for --file."));	
 					}else {
 					    String path = args[i+1];
-					    commandLine.file = Paths.get(path);
+					    commandLine.input = Paths.get(path);
 					    i = i + 1;
-					    if (!commandLine.file.toFile().exists()) {
+					    if (!commandLine.input.toFile().exists()) {
 						throw new CommandLineParseException(String.format("File %s does not exist!", path));
 					   }
 					}
 				}else {
 					String path = args[i];
-					commandLine.file = Paths.get(path);
-					if (!commandLine.file.toFile().exists()) {
+					commandLine.input = Paths.get(path);
+					if (!commandLine.input.toFile().exists()) {
 						throw new CommandLineParseException(String.format("File %s does not exist!", path));
 					}
 				}

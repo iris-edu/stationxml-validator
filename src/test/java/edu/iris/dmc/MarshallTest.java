@@ -1,5 +1,7 @@
 package edu.iris.dmc;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -19,16 +21,18 @@ public class MarshallTest {
 	}
 
 
-//@Test
+@Test
 public void xmlxsdfailure() throws Exception{
 	try (InputStream is = RuleEngineServiceTest.class.getClassLoader().getResourceAsStream("xmlVSxsd.xml")) {
-	    try {	
+		assertThrows(StationxmlException.class, () -> {
+			try {	
 		    DocumentMarshaller.unmarshaller().unmarshal(is);
 	    }catch(javax.xml.bind.UnmarshalException e) {
 			//System.out.println("XML XSD Validation ERROR!", e);
 			e.printStackTrace();
-	    	throw new StationxmlException(String.format("XML XSD Validation ERROR!"), e);
-	}
-	}
-}
+	    	throw new StationxmlException(String.format("XML XSD Validation ERROR!"), e); 	
+	   }
+	});
+  }
+ }
 }

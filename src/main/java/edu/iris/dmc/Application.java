@@ -117,7 +117,7 @@ public class Application {
 		} else if (commandLine.showUnits()) {
 			printUnits();
 			System.exit(0);
-		} else if (commandLine.file() == null) {
+		} else if (commandLine.input() == null) {
 			LOGGER.severe("File is required!");
 			help();
 			System.exit(1);
@@ -133,7 +133,7 @@ public class Application {
 	}
 
 	public void run() throws Exception {
-		Path path = commandLine.file();
+		Path path = commandLine.input();
 		if (!path.toFile().exists()) {
 			throw new IOException(String.format("File %s does not exist.  File is required!", path.toString()));
 		}
@@ -287,12 +287,9 @@ public class Application {
 		}
 	}
 
-	private static String getVersion() throws IOException {
-		Properties prop = new Properties();
-		InputStream in = Application.class.getClassLoader().getResourceAsStream("application.properties");
-		prop.load(in);
-		in.close();
-		return prop.getProperty("application.version");
+	public static String getVersion() throws IOException {
+
+		return Application.class.getPackage().getImplementationVersion();
 	}
 
 	private static String center(String text, int length, String pad) {
@@ -309,7 +306,7 @@ public class Application {
 		return builder.toString();
 	}
 
-	private static void printRules() {
+	public static void printRules() {
 
 		RuleEngineService ruleEngineService = new RuleEngineService(false, null);
 		List<Rule> ruleslist = ruleEngineService.getRules();
@@ -347,7 +344,7 @@ public class Application {
 		}
 	};
 
-	private static void printUnits() {
+	public static void printUnits() {
 		System.out.println("===============================================================");
 		System.out.println("|" + center("Table of Acceptable Units", 62, " ") + "|");
 		System.out.println("===============================================================");
@@ -364,8 +361,9 @@ public class Application {
 
 }
 
-	private static void help() throws IOException {
+	public static void help() throws IOException {
 		String version = "Version " + getVersion();
+		System.out.println(getVersion());
 		version = center(version, 62, " ");
 
 		System.out.println("===============================================================");
@@ -375,7 +373,7 @@ public class Application {
 		System.out.println("Usage:");
 		System.out.println("java -jar stationxml-validator <FILE> [OPTIONS]");
 		System.out.println("OPTIONS:");
-		System.out.println("   --file               : full input file path");
+		System.out.println("   --input              : full input file path");
 		System.out.println("   --output             : where to output result, default is System.out");
 		System.out.println("   --ignore-warnings    : don't show warnings");
 		System.out.println("   --rules              : print a list of validation rules");
@@ -385,7 +383,6 @@ public class Application {
 		System.out.println("   --help               : print this message");
 		System.out.println("   --continue-on-error  : print exceptions to stdout and processes next file");
 		System.out.println("===============================================================");
-		System.exit(0);
 	}
 	
 	private static StringBuilder createExceptionMessage(Exception e) {

@@ -45,7 +45,7 @@ public class OrientationConditionTest {
 			Restriction[] restrictions = new Restriction[] { new ChannelCodeRestriction(), new ChannelTypeRestriction() };
 			Network iu = theDocument.getNetwork().get(0);
 			Station anmo = iu.getStations().get(0);
-			OrientationCondition condition = new OrientationCondition(true, "", restrictions);
+			OrientationConditionE condition = new OrientationConditionE(true, "", restrictions);
 			Channel channel = anmo.getChannels().get(0);
 			Message result = condition.evaluate(channel);
 			assertTrue(result instanceof edu.iris.dmc.station.rules.Warning);
@@ -60,7 +60,7 @@ public class OrientationConditionTest {
 			Restriction[] restrictions = new Restriction[] { new ChannelCodeRestriction(), new ChannelTypeRestriction() };
 			Network iu = theDocument.getNetwork().get(0);
 			Station anmo = iu.getStations().get(0);
-			OrientationCondition condition = new OrientationCondition(true, "", restrictions);
+			OrientationConditionZ condition = new OrientationConditionZ(true, "", restrictions);
 			Channel channel = anmo.getChannels().get(0);
 			Message result = condition.evaluate(channel);
 			assertTrue(result instanceof edu.iris.dmc.station.rules.Warning);

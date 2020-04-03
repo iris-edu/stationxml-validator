@@ -66,19 +66,7 @@ public class OrientationCondition extends AbstractCondition {
 		if (array.length < 3) {
 			return Result.success();
 		}
-		if ('E' == array[2]) {
-			if (azimuth < 95 && azimuth > 85 || azimuth < 275 && azimuth > 265) {
-
-			} else {
-				valid = false;
-				messageBuilder.append("azimuth: ").append(azimuth).append(" ");
-			}
-
-			if (dip > 5 || dip < -5) {
-				valid = false;
-				messageBuilder.append("dip: ").append(dip).append(" ");
-			}
-		} else if ('N' == array[2]) {
+		if ('N' == array[2]) {
 			if (azimuth <= 5 && azimuth >= 0 || azimuth >= 355 && azimuth <= 360
 					|| (azimuth <= 185 && azimuth >= 175)) {
 
@@ -87,17 +75,6 @@ public class OrientationCondition extends AbstractCondition {
 				messageBuilder.append("azimuth: ").append(azimuth).append(" ");
 			}
 			if (dip < 5 || dip > -5) {
-
-			} else {
-				valid = false;
-				messageBuilder.append("dip: ").append(dip).append(" ");
-			}
-		} else if ('Z' == array[2]) {
-			if (azimuth > 5 && azimuth < 355) {
-				valid = false;
-				messageBuilder.append("azimuth: ").append(azimuth).append(" ");
-			}
-			if (dip > -95 && dip < -85 || (dip > 85 && dip < 95)) {
 
 			} else {
 				valid = false;
@@ -112,4 +89,4 @@ public class OrientationCondition extends AbstractCondition {
 				.warning("Invalid channel orientation: " + messageBuilder.toString() + " for " + channel.getCode());
 
 	}
-}
+  }

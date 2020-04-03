@@ -14,6 +14,7 @@ public interface Message {
 
 	public void setNetwork(Network network);
 
+	
 	public Network getNetwork();
 
 	public void setStation(Station station);
@@ -27,4 +28,6 @@ public interface Message {
 	public String getDescription();
 
 	public String getSource();
+
 }
+

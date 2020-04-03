@@ -45,19 +45,24 @@
      <Description>CI/PAS pressure sensor</Description>
     </Sensor>
     <Response>
-     <InstrumentSensitivity>
-      <Value>1</Value>
-      <Frequency>1E0</Frequency>   
-      <InputUnits>
-       <Name>PA</Name>
-       <Description>Pressure in Pascals</Description>
-      </InputUnits>
-      <OutputUnits>
-       <Name>COUNTS</Name>
-       <Description>Digital Counts</Description>
-      </OutputUnits>
-     </InstrumentSensitivity>
-     <Stage number="1">
+      <InstrumentPolynomial>
+       <InputUnits>
+        <Name>PA</Name>
+        <Description>PRESSURE in Pascals</Description>
+       </InputUnits>
+       <OutputUnits>
+        <Name>COUNTS</Name>
+        <Description>DIGITAL UNIT in Counts</Description>
+       </OutputUnits>
+       <ApproximationType>MACLAURIN</ApproximationType>
+       <FrequencyLowerBound>0.0</FrequencyLowerBound>
+       <FrequencyUpperBound>0.0</FrequencyUpperBound>
+       <ApproximationLowerBound>90000.0</ApproximationLowerBound>
+       <ApproximationUpperBound>106000</ApproximationUpperBound>
+       <MaximumError>0.00000</MaximumError>
+       <Coefficient minusError="0.00000" plusError="0.00000" number="0">90000.0</Coefficient>
+       <Coefficient minusError="0.00000" plusError="0.00000" number="1">0.614258</Coefficient>
+      </InstrumentPolynomial><Stage number="1">
       <Polynomial>
        <InputUnits>
         <Name>PA</Name>

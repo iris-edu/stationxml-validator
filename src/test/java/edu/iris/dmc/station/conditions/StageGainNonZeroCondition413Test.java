@@ -24,7 +24,7 @@ public class StageGainNonZeroCondition413Test {
 
 	private FDSNStationXML theDocument;
 
-	//@Test
+	@Test
 	public void fail() throws Exception {
 		try (InputStream is = RuleEngineServiceTest.class.getClassLoader().getResourceAsStream("F1_413.xml")) {
 			theDocument = DocumentMarshaller.unmarshal(is);
@@ -44,27 +44,10 @@ public class StageGainNonZeroCondition413Test {
 
 	}
 
+
+	
+
 	@Test
-	public void pass2() throws Exception {
-		try (InputStream is = RuleEngineServiceTest.class.getClassLoader().getResourceAsStream("P1_413.xml")) {
-			theDocument = DocumentMarshaller.unmarshal(is);
-
-			Network iu = theDocument.getNetwork().get(0);
-			Channel bhz00 = iu.getStations().get(0).getChannels().get(0);
-
-			Restriction[] restrictions = new Restriction[] { new ChannelCodeRestriction(),
-					new ChannelTypeRestriction() ,new ResponsePolynomialRestriction()};
-
-			StageGainNonZeroCondition condition = new StageGainNonZeroCondition(true, "", restrictions);
-
-			Response response = bhz00.getResponse();
-			Message result = condition.evaluate(bhz00, response);
-			assertTrue(result instanceof edu.iris.dmc.station.rules.Success);
-		}
-
-	}
-
-	//@Test
 	public void pass1() throws Exception {
 		try (InputStream is = RuleEngineServiceTest.class.getClassLoader().getResourceAsStream("pass.xml")) {
 			theDocument = DocumentMarshaller.unmarshal(is);

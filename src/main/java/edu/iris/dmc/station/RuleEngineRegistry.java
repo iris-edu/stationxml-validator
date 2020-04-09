@@ -12,6 +12,7 @@ import edu.iris.dmc.fdsn.station.model.Channel;
 import edu.iris.dmc.fdsn.station.model.Network;
 import edu.iris.dmc.fdsn.station.model.Response;
 import edu.iris.dmc.fdsn.station.model.Station;
+import edu.iris.dmc.station.conditions.AzimuthDipCondition;
 import edu.iris.dmc.station.conditions.CalibrationUnitCondition;
 import edu.iris.dmc.station.conditions.CodeCondition;
 import edu.iris.dmc.station.conditions.Condition;
@@ -159,7 +160,11 @@ public class RuleEngineRegistry {
 					"Channel:startDate must be included and must occur before Channel:endDate if included."),
 					Channel.class);
 		}
-		
+		if (!set.contains(320)) {
+			add(320, new AzimuthDipCondition(true,
+					"IF Channel:Code[2]==(H | L | M | N) THEN Channel:Azimuth and Channel:Dip must be included."),
+					Channel.class);
+		}
 		if (!set.contains(332)) {
 			add(332, new OrientationCondition(true,
 					"If Channel:Code[LAST]==N then Channel:Azimuth must be assigned (>=355.0 or <=5.0) or (>=175.0 and <=185.0) and Channel:Dip must be assigned (>=-5 AND <=5.0).",

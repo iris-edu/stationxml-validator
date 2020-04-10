@@ -193,6 +193,34 @@ public class RuleEngineServiceTest {
 		Message message = s.iterator().next();
 		assertEquals(304, message.getRule().getId());
 	}
+	
+	@Test
+	public void rule320() throws Exception {
+
+		theDocument = unmarshal("F1_320.xml");
+		Map<Integer, Set<Message>> m = ruleEngineService.executeAllRules(theDocument);
+
+		Set<Message> s = m.get(320);
+		assertNotNull(s);
+		assertEquals(1, s.size());
+		Message message = s.iterator().next();
+		assertEquals(320, message.getRule().getId());
+	}
+	
+	@Test
+	public void rule321() throws Exception {
+
+		theDocument = unmarshal("F1_321.xml");
+		Map<Integer, Set<Message>> m = ruleEngineService.executeAllRules(theDocument);
+
+		Set<Message> s = m.get(321);
+		assertNotNull(s);
+		assertEquals(1, s.size());
+		Message message = s.iterator().next();
+		assertEquals(321, message.getRule().getId());
+	}
+
+
 
 	@Test
 	public void rule402() throws Exception {

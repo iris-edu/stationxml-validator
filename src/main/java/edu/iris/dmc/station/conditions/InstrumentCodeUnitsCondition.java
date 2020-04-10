@@ -67,10 +67,10 @@ public class InstrumentCodeUnitsCondition extends AbstractCondition {
 		try {
 		if("HLMN".indexOf(code.charAt(1)) >=0 | "hlmn".indexOf(code.charAt(1)) >=0) {
 			if(!inputUnit.toLowerCase().contains("m/s")) {
-			return Result.warning("Instument code " +code.charAt(1)+" should have stage 1 input units similar to *m/s*.");
+			return Result.warning("Instument code " +code.charAt(1)+" should have stage 1 input units similar to *m/s*");
 		    }
 			if(!outputUnit.toLowerCase().contains("count")) {
-			return Result.warning("Instument code " +code.charAt(1)+ " should have stage last output units similar to count*.");
+			return Result.warning("Instument code " +code.charAt(1)+ " should have stage last output units similar to count*");
 		    }
 			
 		}

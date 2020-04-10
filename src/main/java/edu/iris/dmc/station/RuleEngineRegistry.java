@@ -166,6 +166,11 @@ public class RuleEngineRegistry {
 					"IF Channel:Code[2]==(H | L | M | N) THEN Channel:Azimuth and Channel:Dip must be included."),
 					Channel.class);
 		}
+		if (!set.contains(321)) {
+			add(321, new InstrumentCodeUnitsCondition(true,
+					" IF Channel:Code[2] == (H | L | M | N) then Stage[1]:InputUnit must equal *m/s* AND Stage[Last]:OutputUnits must equal count*"),
+					Channel.class);
+		}
 		if (!set.contains(332)) {
 			add(332, new OrientationCondition(true,
 					"If Channel:Code[LAST]==N then Channel:Azimuth must be assigned (>=355.0 or <=5.0) or (>=175.0 and <=185.0) and Channel:Dip must be assigned (>=-5 AND <=5.0).",
@@ -212,11 +217,6 @@ public class RuleEngineRegistry {
 			add(405, new ResponseListCondition(true,
 					"Stage:ResponseList cannot be the only stage included in a response.",
 					new ChannelCodeRestriction(), new ChannelTypeRestriction()), Response.class);
-		}
-		if (!s.contains(406)) {
-			add(406, new InstrumentCodeUnitsCondition(true,
-					" IF Channel:Code[2] == (H | L | M | N) then Stage[1]:InputUnit must equal *m/s* AND Stage[Last]:OutputUnits must equal count* | Warning |"),
-					Response.class);
 		}
 		if (!s.contains(410)) {
 			add(410, new EmptySensitivityCondition(true, "If InstrumentSensitivity is included then InstrumentSensitivity:Value must be assigned a double > 0.0 ",

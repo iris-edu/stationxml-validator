@@ -17,7 +17,7 @@ import edu.iris.dmc.station.conditions.EpochRangeCondition;
 import edu.iris.dmc.station.conditions.StartTimeCondition;
 import edu.iris.dmc.station.rules.Message;
 
-public class Condition406Test {
+public class Condition321Test {
 
 	private FDSNStationXML theDocument;
 
@@ -28,7 +28,7 @@ public class Condition406Test {
 
 	@Test
 	public void azimuthfail() throws Exception {
-		try (InputStream is = RuleEngineServiceTest.class.getClassLoader().getResourceAsStream("F1_406.xml")) {
+		try (InputStream is = RuleEngineServiceTest.class.getClassLoader().getResourceAsStream("F1_321.xml")) {
 			theDocument = DocumentMarshaller.unmarshal(is);
 
 			Network n = theDocument.getNetwork().get(0);

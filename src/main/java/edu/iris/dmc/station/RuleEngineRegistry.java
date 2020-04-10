@@ -24,6 +24,7 @@ import edu.iris.dmc.station.conditions.EmptySensitivityCondition;
 import edu.iris.dmc.station.conditions.EpochOverlapCondition;
 import edu.iris.dmc.station.conditions.EpochRangeCondition;
 import edu.iris.dmc.station.conditions.FrequencyCondition;
+import edu.iris.dmc.station.conditions.InstrumentCodeUnitsCondition;
 import edu.iris.dmc.station.conditions.LocationCodeCondition;
 import edu.iris.dmc.station.conditions.MissingDecimationCondition;
 import edu.iris.dmc.station.conditions.OrientationCondition;
@@ -116,7 +117,7 @@ public class RuleEngineRegistry {
 		}
 		if (!set.contains(221)) {
 			add(212, new EpochRangeCondition(true,
-					"Station:Epoch must encompass all subordinate Channel:Epoch"),
+					"Station:Epoch must encompass all subordinate Channel:Epoch."),
 					Station.class);
 		}
 
@@ -211,6 +212,11 @@ public class RuleEngineRegistry {
 			add(405, new ResponseListCondition(true,
 					"Stage:ResponseList cannot be the only stage included in a response.",
 					new ChannelCodeRestriction(), new ChannelTypeRestriction()), Response.class);
+		}
+		if (!s.contains(406)) {
+			add(406, new InstrumentCodeUnitsCondition(true,
+					" IF Channel:Code[2] == (H | L | M | N) then Stage[1]:InputUnit must equal *m/s* AND Stage[Last]:OutputUnits must equal count* | Warning |"),
+					Response.class);
 		}
 		if (!s.contains(410)) {
 			add(410, new EmptySensitivityCondition(true, "If InstrumentSensitivity is included then InstrumentSensitivity:Value must be assigned a double > 0.0 ",

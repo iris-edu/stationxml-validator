@@ -17,7 +17,7 @@ import edu.iris.dmc.station.conditions.EpochRangeCondition;
 import edu.iris.dmc.station.conditions.StartTimeCondition;
 import edu.iris.dmc.station.rules.Message;
 
-public class Condition320Test {
+public class Condition406Test {
 
 	private FDSNStationXML theDocument;
 
@@ -28,35 +28,21 @@ public class Condition320Test {
 
 	@Test
 	public void azimuthfail() throws Exception {
-		try (InputStream is = RuleEngineServiceTest.class.getClassLoader().getResourceAsStream("F1_320.xml")) {
+		try (InputStream is = RuleEngineServiceTest.class.getClassLoader().getResourceAsStream("F1_406.xml")) {
 			theDocument = DocumentMarshaller.unmarshal(is);
 
 			Network n = theDocument.getNetwork().get(0);
 			Station s = n.getStations().get(0);
 			Channel c = s.getChannels().get(0);
 
-			AzimuthDipCondition condition = new AzimuthDipCondition(true, "");
+			InstrumentCodeUnitsCondition condition = new InstrumentCodeUnitsCondition(true, "");
 			Message result = condition.evaluate(c);
-			assertTrue(result instanceof edu.iris.dmc.station.rules.Error);
+			System.out.println(result);
+			assertTrue(result instanceof edu.iris.dmc.station.rules.Warning);
 		}
 
 	}
 	
-	@Test
-	public void dipfail() throws Exception {
-		try (InputStream is = RuleEngineServiceTest.class.getClassLoader().getResourceAsStream("F2_320.xml")) {
-			theDocument = DocumentMarshaller.unmarshal(is);
-
-			Network n = theDocument.getNetwork().get(0);
-			Station s = n.getStations().get(0);
-			Channel c = s.getChannels().get(0);
-
-			AzimuthDipCondition condition = new AzimuthDipCondition(true, "");
-			Message result = condition.evaluate(c);
-			assertTrue(result instanceof edu.iris.dmc.station.rules.Error);
-		}
-
-	}
 
 	@Test
 	public void pass() throws Exception {
@@ -68,7 +54,7 @@ public class Condition320Test {
 			Channel c = s.getChannels().get(0);
 
 
-			AzimuthDipCondition condition = new AzimuthDipCondition(true, "");
+			InstrumentCodeUnitsCondition condition = new InstrumentCodeUnitsCondition(true, "");
 
 			Message result = condition.evaluate(c);
 			assertTrue(result instanceof edu.iris.dmc.station.rules.Success);

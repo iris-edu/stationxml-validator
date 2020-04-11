@@ -15,6 +15,7 @@ import edu.iris.dmc.station.RuleEngineServiceTest;
 import edu.iris.dmc.station.conditions.EpochOverlapCondition;
 import edu.iris.dmc.station.conditions.EpochRangeCondition;
 import edu.iris.dmc.station.rules.Message;
+import edu.iris.dmc.station.rules.NestedMessage;
 
 public class Condition211Test {
 
@@ -32,10 +33,13 @@ public class Condition211Test {
 
 			Network n = theDocument.getNetwork().get(0);
 			Station s = n.getStations().get(0);
-			EpochOverlapCondition condition = new EpochOverlapCondition(true, "");
 
+			EpochOverlapCondition condition = new EpochOverlapCondition(true, "");
 			Message result = condition.evaluate(s);
-			assertTrue(result instanceof edu.iris.dmc.station.rules.Error);
+			System.out.println(result);
+			NestedMessage nestedMessage=(NestedMessage)result;
+			System.out.println(nestedMessage.getNestedMessages().get(0).getDescription());
+			assertTrue(nestedMessage.getNestedMessages().get(0).getDescription().contains("Chan:BDF Loc:00 2016-06-06T00:00:00 2019-09-30T23:59:59 epoch"));
 		}
 
 	}
@@ -48,7 +52,7 @@ public class Condition211Test {
 			Network n = theDocument.getNetwork().get(0);
 			Station s = n.getStations().get(0);
 
-			EpochRangeCondition condition = new EpochRangeCondition(true, "");
+			EpochOverlapCondition condition = new EpochOverlapCondition(true, "");
 
 			Message result = condition.evaluate(s);
 			assertTrue(result instanceof edu.iris.dmc.station.rules.Success);

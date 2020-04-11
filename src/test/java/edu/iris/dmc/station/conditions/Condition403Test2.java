@@ -19,6 +19,8 @@ import edu.iris.dmc.station.restrictions.ChannelCodeRestriction;
 import edu.iris.dmc.station.restrictions.ChannelTypeRestriction;
 import edu.iris.dmc.station.restrictions.Restriction;
 import edu.iris.dmc.station.rules.Message;
+import edu.iris.dmc.station.rules.NestedMessage;
+import edu.iris.dmc.station.rules.Result;
 
 public class Condition403Test2 {
 
@@ -43,8 +45,10 @@ public class Condition403Test2 {
 			StageUnitCondition condition = new StageUnitCondition(true, "", restrictions);
 
 			Message result = condition.evaluate(c);
-			
-			assertTrue(result instanceof edu.iris.dmc.station.rules.Error);
+			NestedMessage nestedMessage=(NestedMessage)result;
+			assertTrue(nestedMessage.getNestedMessages().get(0).getDescription().contains("Stage [03] input unit Volts must equal stage[01] output unit V"));
+			assertTrue(nestedMessage.getNestedMessages().get(1).getDescription().contains("Stage [05] input unit C must equal stage[04] output unit COUNTS"));
+
 		}
 
 	}

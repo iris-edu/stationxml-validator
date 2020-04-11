@@ -192,7 +192,7 @@
      <Stage number="5">
       <Coefficients>
        <InputUnits>
-        <Name>COUNTS</Name>
+        <Name>C</Name>
         <Description>Digital Counts</Description>
        </InputUnits>
        <OutputUnits>

@@ -122,14 +122,14 @@ public class EpochOverlapCondition extends AbstractCondition {
 				// May need to add station code back in channel level help message for users. 
 				for (Tuple[] tuple : invalidRanges) {
 					if(chanlevel==true) {
-					builder.append("").append("").append("").append("Chan:").append("").append(tuple[0].code).append(" ")
-					        .append("Loc:").append("").append(tuple[0].location).append(" ").append(XmlUtil.toText(tuple[0].start))
+					builder.append("").append("").append("").append("Chan: ").append("").append(tuple[0].code).append(" ")
+					        .append("Loc: ").append("").append(tuple[0].location).append(" ").append(XmlUtil.toText(tuple[0].start))
 							.append(" ").append(XmlUtil.toText(tuple[0].end)).append(" epoch overlaps with ").append(tuple[1].code)
 							.append(" ").append(tuple[0].location)
 							.append(" ").append(XmlUtil.toText(tuple[1].start)).append(" ")
 							.append(XmlUtil.toText(tuple[1].end)).append("");
 					}else {
-						builder.append("Sta:").append("").append(tuple[0].code).append(" ").append(XmlUtil.toText(tuple[0].start))
+						builder.append("Sta: ").append("").append(tuple[0].code).append(" ").append(XmlUtil.toText(tuple[0].start))
 						.append(" ").append(XmlUtil.toText(tuple[0].end)).append(" epoch overlaps with ").append(tuple[1].code)
 						.append(" ").append(XmlUtil.toText(tuple[1].start)).append(" ")
 						.append(XmlUtil.toText(tuple[1].end)).append("");

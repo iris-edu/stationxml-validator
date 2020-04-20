@@ -37,7 +37,7 @@ public class Condition111Test {
 
 			Message result = condition.evaluate(n);
 			NestedMessage nestedMessage=(NestedMessage)result;
-			assertTrue(nestedMessage.getNestedMessages().get(0).getDescription().contains("Sta:TPASS 2016-06-06T00:00:00 2019-09-06T00:00:00 epoch"));
+			assertTrue(nestedMessage.getNestedMessages().get(0).getDescription().contains("Sta: TPASS 2016-06-06T00:00:00 2019-09-06T00:00:00 epoch"));
 
 
 		}

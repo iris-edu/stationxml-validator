@@ -19,7 +19,7 @@ public class CsvPrintStream extends PrintStream implements RuleResultPrintStream
 	// This class is not used to print out messages. Look at CSVMessageLogger 
 	// to alter the validator output messages. 
 
-	private static final Object[] FILE_HEADER = { "Source", "RuleId", "Type", "Network", "Station", "Channel",
+	private static final Object[] FILE_HEADER = {"RuleId", "Type", "Network", "Station", "Channel",
 			"Location", "StartDate", "EndDate", "Message" };
 	private CSVPrinter csvFilePrinter = null;
 
@@ -54,8 +54,8 @@ public class CsvPrintStream extends PrintStream implements RuleResultPrintStream
 				print(source,m);
 			}
 		} else {
-			record.add(source);
-			record.add("" + message.getRule().getId());
+			//record.add(source);
+			record.add(""+message.getRule().getId());
 			if (message instanceof Warning) {
 				record.add("Warning");
 			} else if (message instanceof edu.iris.dmc.station.rules.Error) {

@@ -39,7 +39,7 @@ public class Condition211Test {
 			System.out.println(result);
 			NestedMessage nestedMessage=(NestedMessage)result;
 			System.out.println(nestedMessage.getNestedMessages().get(0).getDescription());
-			assertTrue(nestedMessage.getNestedMessages().get(0).getDescription().contains("Chan:BDF Loc:00 2016-06-06T00:00:00 2019-09-30T23:59:59 epoch"));
+			assertTrue(nestedMessage.getNestedMessages().get(0).getDescription().contains("Chan: BDF Loc: 00 2016-06-06T00:00:00 2019-09-30T23:59:59 epoch"));
 		}
 
 	}

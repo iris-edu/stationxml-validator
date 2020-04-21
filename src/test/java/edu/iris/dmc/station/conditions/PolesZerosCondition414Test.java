@@ -61,7 +61,7 @@ public class PolesZerosCondition414Test {
 
 	}
 
-	// @Test
+	 @Test
 	public void pass() throws Exception {
 		try (InputStream is = RuleEngineServiceTest.class.getClassLoader().getResourceAsStream("pass.xml")) {
 			theDocument = DocumentMarshaller.unmarshal(is);

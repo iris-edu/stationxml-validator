@@ -18,6 +18,7 @@ import edu.iris.dmc.station.conditions.CodeCondition;
 import edu.iris.dmc.station.conditions.Condition;
 import edu.iris.dmc.station.conditions.DecimationCondition;
 import edu.iris.dmc.station.conditions.DecimationSampleRateCondition;
+import edu.iris.dmc.station.conditions.DecimationStageGainCondition;
 import edu.iris.dmc.station.conditions.DigitalFilterCondition;
 import edu.iris.dmc.station.conditions.DistanceCondition;
 import edu.iris.dmc.station.conditions.EmptySensitivityCondition;
@@ -32,6 +33,7 @@ import edu.iris.dmc.station.conditions.OrientationCondition;
 import edu.iris.dmc.station.conditions.OrientationConditionE;
 import edu.iris.dmc.station.conditions.OrientationConditionZ;
 import edu.iris.dmc.station.conditions.PolesZerosCondition;
+import edu.iris.dmc.station.conditions.PolesZerosSequenceCondition;
 import edu.iris.dmc.station.conditions.PolynomialCondition;
 import edu.iris.dmc.station.conditions.ResponseListCondition;
 import edu.iris.dmc.station.conditions.SampleRateCondition;
@@ -258,8 +260,8 @@ public class RuleEngineRegistry {
 					new ChannelCodeRestriction(), new ChannelTypeRestriction()), Response.class);
 		}
 		if (!s.contains(417)) {
-			add(417, new InstrumentSensitivityCondition(false,
-					"If Stage[N]:PolesZeros contains Zeros then Zero:Number must start at 0 and be sequential.",
+			add(417, new PolesZerosSequenceCondition(false,
+					"If Stage[N]:PolesZeros contains Zeros and Poles then Zero:Number and Pole:Number must start at 0 and be sequential.",
 					new ChannelCodeRestriction(), new ChannelTypeRestriction()), Response.class);
 		}
 		
@@ -279,6 +281,12 @@ public class RuleEngineRegistry {
 			add(422, new DecimationCondition(true,
 					"Stage[N]:Decimation:InputSampleRate must equal the previously assigned Stage[M]:Decimation:InputSampleRate divided by Stage[M]:Decimation:Factor.",
 					new ChannelCodeRestriction(), new ChannelTypeRestriction(), new ResponsePolynomialRestriction()),
+					Response.class);
+		}
+		if (!s.contains(423)) {
+			add(423, new DecimationStageGainCondition(true,
+					"Stage[N]:Decimation:InputSampleRate must equal the previously assigned Stage[M]:Decimation:InputSampleRate divided by Stage[M]:Decimation:Factor.",
+					restrictions),
 					Response.class);
 		}
 	}

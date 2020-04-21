@@ -19,6 +19,7 @@ import edu.iris.dmc.station.restrictions.ChannelCodeRestriction;
 import edu.iris.dmc.station.restrictions.ChannelTypeRestriction;
 import edu.iris.dmc.station.restrictions.Restriction;
 import edu.iris.dmc.station.rules.Message;
+import edu.iris.dmc.station.rules.NestedMessage;
 
 public class Condition414Test3 {
 
@@ -43,8 +44,10 @@ public class Condition414Test3 {
 			PolesZerosCondition condition = new PolesZerosCondition(true, "", restrictions);
                
 			Message result = condition.evaluate(c);
-			
-			assertTrue(result instanceof edu.iris.dmc.station.rules.Error);
+			NestedMessage nestedMessage=(NestedMessage)result;
+ 			assertTrue(nestedMessage.getNestedMessages().get(0).getDescription().contains("[stage 01] Zero:number 0 Zero:Real==0 and Zero:Imaginary==0 InstrumentSensitivity:Frequency must not equal 0"));
+			assertTrue(nestedMessage.getNestedMessages().get(1).getDescription().contains("[stage 01] Zero:number 1 Zero:Real==0 and Zero:Imaginary==0 InstrumentSensitivity:Frequency must not equal 0"));
+
 		}
 
 	}

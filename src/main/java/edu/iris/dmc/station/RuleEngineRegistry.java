@@ -25,6 +25,7 @@ import edu.iris.dmc.station.conditions.EpochOverlapCondition;
 import edu.iris.dmc.station.conditions.EpochRangeCondition;
 import edu.iris.dmc.station.conditions.FrequencyCondition;
 import edu.iris.dmc.station.conditions.InstrumentCodeUnitsCondition;
+import edu.iris.dmc.station.conditions.InstrumentSensitivityCondition;
 import edu.iris.dmc.station.conditions.LocationCodeCondition;
 import edu.iris.dmc.station.conditions.MissingDecimationCondition;
 import edu.iris.dmc.station.conditions.OrientationCondition;
@@ -248,9 +249,20 @@ public class RuleEngineRegistry {
 		}
 		if (!s.contains(415)) {
 			add(415, new PolynomialCondition(false,
-					"Response must be of type Response:InstrumentPolynomial if a Polynomial stage exist.",
+					"Response must include InstrumentPolynomial if a Polynomial stage is included.",
 					new ChannelCodeRestriction(), new ChannelTypeRestriction()), Response.class);
 		}
+		if (!s.contains(416)) {
+			add(416, new InstrumentSensitivityCondition(false,
+					"Response must include InstrumentSensitivity if no Polynomial stages are included.",
+					new ChannelCodeRestriction(), new ChannelTypeRestriction()), Response.class);
+		}
+		if (!s.contains(417)) {
+			add(417, new InstrumentSensitivityCondition(false,
+					"If Stage[N]:PolesZeros contains Zeros then Zero:Number must start at 0 and be sequential.",
+					new ChannelCodeRestriction(), new ChannelTypeRestriction()), Response.class);
+		}
+		
 		if (!s.contains(420)) {
 			add(420, new MissingDecimationCondition(true,
 					"A Response must contain at least one instance of Response:Stage:Decimation.",

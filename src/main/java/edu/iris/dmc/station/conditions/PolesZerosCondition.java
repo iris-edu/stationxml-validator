@@ -14,6 +14,7 @@ import edu.iris.dmc.fdsn.station.model.Sensitivity;
 import edu.iris.dmc.fdsn.station.model.Station;
 import edu.iris.dmc.station.restrictions.Restriction;
 import edu.iris.dmc.station.rules.Message;
+import edu.iris.dmc.station.rules.NestedMessage;
 import edu.iris.dmc.station.rules.Result;
 
 public class PolesZerosCondition extends ChannelRestrictedCondition {
@@ -44,13 +45,14 @@ public class PolesZerosCondition extends ChannelRestrictedCondition {
 
 	@Override
 	public Message evaluate(Channel channel, Response response) {
-
+		NestedMessage nestedMessage = new NestedMessage();
+		boolean returnmessage = false;
 		if (isRestricted(channel)) {
 			return Result.success();
 		}
 		if (this.required) {
 			if (response == null) {
-				return Result.error("expected response but was null");
+				return Result.error("Expected a response but was null");
 			}
 		}
 		if (response.getStage() != null && !response.getStage().isEmpty()) {
@@ -58,6 +60,7 @@ public class PolesZerosCondition extends ChannelRestrictedCondition {
 
 			Sensitivity sensitivity = response.getInstrumentSensitivity();
 			boolean t = false;
+			// Deals with instrument sensitivity
 			if (sensitivity == null || sensitivity.getFrequency() == 0.0) {
 				t = true;
 			}
@@ -69,10 +72,33 @@ public class PolesZerosCondition extends ChannelRestrictedCondition {
 					if (s.getPolesZeros() != null) {
 						if (s.getPolesZeros().getZero() != null) {
 							for (PoleZero z : s.getPolesZeros().getZero()) {
-								if (z.getReal().getValue() == 0 || z.getImaginary().getValue() == 0) {
+								if (z.getReal().getValue() == 0 && z.getImaginary().getValue() == 0) {
 									//"stage 2 zero at index 0 is at 0; stage 2 StageGain:Frequency cannot be 0”
-									return Result.error("stage " + s.getNumber() + " zero at index " + z.getNumber()
-											+ " is at 0; stage " + s.getNumber() + " StageGain:Frequency cannot be 0");
+									
+									if(t) {
+									    if (s.getNumber().intValue() < 10 ) {
+										    nestedMessage.add(Result.error("[stage " + String.format("%02d", s.getNumber().intValue())
+												+ "] Zero:number " + z.getNumber() +" Zero:Real==0 and Zero:Imaginary==0 InstrumentSensitivity:Frequency must not equal 0"));
+										    returnmessage =true;
+
+									    }else {
+										    nestedMessage.add(Result.error("[stage " + s.getNumber().intValue()
+										    + "] Zero:number " + z.getNumber() +" Zero:Real==0 and Zero:Imaginary==0 InstrumentSensitivity:Frequency must not equal 0"));
+										    returnmessage =true;
+									    }	
+									}else {	
+									    if (s.getNumber().intValue() < 10 ) {
+										    nestedMessage.add(Result.error("[stage " + String.format("%02d", s.getNumber().intValue())
+												+ "] Zero:number " + z.getNumber() +" Zero:Real==0 and Zero:Imaginary==0 StageGain:Frequency must not equal 0"));
+										    returnmessage =true;
+
+									    }else {
+										    nestedMessage.add(Result.error("[stage " + s.getNumber().intValue()
+										    + "] Zero:number " + z.getNumber() +" Zero:Real==0 and Zero:Imaginary==0 StageGain:Frequency must not equal 0"));
+										    returnmessage =true;
+										}
+									}
+									
 								}
 							}
 						}
@@ -82,7 +108,10 @@ public class PolesZerosCondition extends ChannelRestrictedCondition {
 			}
 
 		}
-
-		return Result.success();
+		if(returnmessage==true) {
+			   return nestedMessage;
+			}else {
+			   return Result.success();
+			}
 	}
 }

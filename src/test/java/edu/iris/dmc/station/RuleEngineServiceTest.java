@@ -334,7 +334,7 @@ public class RuleEngineServiceTest {
 
 		Set<Message> s = m.get(414);
 		assertNotNull(s);
-		assertEquals(1, s.size());
+		assertEquals(2, s.size());
 		Message message = s.iterator().next();
 		assertEquals(414, message.getRule().getId());
 

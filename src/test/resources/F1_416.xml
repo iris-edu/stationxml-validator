@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<FDSNStationXML xmlns="http://www.fdsn.org/xml/station/1" schemaVersion="1.0" xsi:schemaLocation="http://www.fdsn.org/xml/station/1 http://www.fdsn.org/xml/station/fdsn-station-1.0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:iris="http://www.fdsn.org/xml/station/1/iris">
+ <Source>IRIS-DMC</Source>
+ <Sender>IRIS-DMC</Sender>
+ <Module>IRIS WEB SERVICE: fdsnws-station | version: 1.1.33</Module>
+ <ModuleURI>http://service.iris.edu/fdsnws/station/1/query?net=XX&amp;sta=VPASS&amp;cha=BDF&amp;starttime=2018-08-06T00:00:01&amp;level=response&amp;format=xml&amp;includecomments=true&amp;nodata=404</ModuleURI>
+ <Created>2018-08-06T20:17:16</Created>
+ <Network code="XX" startDate="2018-08-06T00:00:00" endDate="2500-12-31T23:59:59" restrictedStatus="open">
+  <Description>[IRIS DMC] Station XML Validator Passing Test File</Description>
+  <TotalNumberStations>1</TotalNumberStations>
+  <SelectedNumberStations>1</SelectedNumberStations>
+  <Station code="TPASS" startDate="2018-08-06T00:00:00" endDate="2500-12-31T23:59:59" restrictedStatus="open" iris:alternateNetworkCodes="_FDSN,.UNRESTRICTED">
+   <Latitude>47.66157</Latitude>
+   <Longitude>-122.31332</Longitude>
+   <Elevation>225.879999</Elevation>
+   <Site>
+    <Name>Synthetic Test File, IRIS DMC, USA, 218 2018, Tim Ronan</Name>
+   </Site>
+   <CreationDate>2018-08-06T00:00:00</CreationDate>
+   <TotalNumberChannels>1</TotalNumberChannels>
+   <SelectedNumberChannels>1</SelectedNumberChannels>
+   <Channel code="LDI" endDate="2500-12-31T23:59:59" locationCode="00" restrictedStatus="open" startDate="2018-08-06T00:00:00">
+    <Latitude>47.66157</Latitude>
+    <Longitude>-122.31332</Longitude>
+    <Elevation>225.879999</Elevation>
+    <Depth>0</Depth>
+    <Azimuth>0</Azimuth>
+    <Dip>0</Dip>
+    <Type>CONTINUOUS</Type>
+    <Type>WEATHER</Type>
+    <SampleRate>1E00</SampleRate>
+    <ClockDrift>1E-04</ClockDrift>
+    <Sensor>
+     <Description>Microbaro EFFA</Description>
+    </Sensor>
+    <Response>
+     <InstrumentPolynomial>
+      <InputUnits>
+       <Name>PA</Name>
+       <Description>PRESSURE in Pascals</Description>
+      </InputUnits>
+      <OutputUnits>
+       <Name>COUNTS</Name>
+       <Description>DIGITAL UNIT in Counts</Description>
+      </OutputUnits>
+      <ApproximationType>MACLAURIN</ApproximationType>
+      <FrequencyLowerBound>0.0</FrequencyLowerBound>
+      <FrequencyUpperBound>0.0</FrequencyUpperBound>
+      <ApproximationLowerBound>90000.0</ApproximationLowerBound>
+      <ApproximationUpperBound>106000</ApproximationUpperBound>
+      <MaximumError>0.00000</MaximumError>
+      <Coefficient minusError="0.00000" plusError="0.00000" number="0">90000.0</Coefficient>
+      <Coefficient minusError="0.00000" plusError="0.00000" number="1">0.614258</Coefficient>
+     </InstrumentPolynomial>
+     <Stage number="1">
+      <Coefficients>
+       <InputUnits>
+        <Name>V</Name>
+        <Description>Volts</Description>
+       </InputUnits>
+       <OutputUnits>
+        <Name>COUNTS</Name>
+        <Description>DIGITAL UNIT in Counts</Description>
+       </OutputUnits>
+       <CfTransferFunctionType>DIGITAL</CfTransferFunctionType>
+      </Coefficients>
+      <Decimation>
+       <InputSampleRate>1.0</InputSampleRate>
+       <Factor>1</Factor>
+       <Offset>0</Offset>
+       <Delay>0.0</Delay>
+       <Correction>0.0</Correction>
+      </Decimation>
+      <StageGain>
+       <Value>5209.0</Value>
+       <Frequency>0.0</Frequency>
+      </StageGain>
+     </Stage>
+    </Response>
+   </Channel>
+  </Station>
+ </Network>
+</FDSNStationXML>

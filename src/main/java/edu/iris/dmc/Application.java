@@ -394,7 +394,6 @@ public class Application {
 
 	public static void help() throws IOException {
 		String version = "Version " + getVersion();
-		System.out.println(getVersion());
 		version = center(version, 62, " ");
 
 		System.out.println("===============================================================");

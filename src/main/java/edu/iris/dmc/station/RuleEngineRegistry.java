@@ -166,12 +166,12 @@ public class RuleEngineRegistry {
 		}
 		if (!set.contains(320)) {
 			add(320, new AzimuthDipCondition(true,
-					"IF Channel:Code[2]==(H | L | M | N) THEN Channel:Azimuth and Channel:Dip must be included."),
+					"If Channel:Code[2]==(H | L | M | N) THEN Channel:Azimuth and Channel:Dip must be included."),
 					Channel.class);
 		}
 		if (!set.contains(321)) {
 			add(321, new InstrumentCodeUnitsCondition(true,
-					" IF Channel:Code[2] == (H | L | M | N) then Stage[1]:InputUnit must equal *m/s* AND Stage[Last]:OutputUnits must equal count*"),
+					"If Channel:Code[2] == (H | L | M | N) then Stage[1]:InputUnit must equal *m/s* AND Stage[Last]:OutputUnits must equal count*"),
 					Channel.class);
 		}
 		if (!set.contains(332)) {
@@ -285,7 +285,7 @@ public class RuleEngineRegistry {
 		}
 		if (!s.contains(423)) {
 			add(423, new DecimationStageGainCondition(true,
-					"Stage[N]:Decimation:InputSampleRate must equal the previously assigned Stage[M]:Decimation:InputSampleRate divided by Stage[M]:Decimation:Factor.",
+					"If Stage[N]:Decimation and Stage[N]:StageGain are included then Stage[N]:PolesZeros or Stage[N]:Coefficients or Stage[N]:ResponseList or Stage[N]:FIR must also be included.",
 					restrictions),
 					Response.class);
 		}

@@ -45,6 +45,7 @@ Below are the common unit names checked by the IRIS validator.  The values are b
     "watt", "W", "milliwatt", "mW",
     "V/m",
     "W/m**2",
+    "hit/(cm**2*hour)",
     "gap",
     "reboot",
     "byte","bit",

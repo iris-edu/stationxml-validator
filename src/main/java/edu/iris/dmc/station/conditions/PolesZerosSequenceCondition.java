@@ -1,5 +1,6 @@
 package edu.iris.dmc.station.conditions;
 
+import java.math.BigInteger;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -17,11 +18,11 @@ import edu.iris.dmc.station.rules.Message;
 import edu.iris.dmc.station.rules.NestedMessage;
 import edu.iris.dmc.station.rules.Result;
 
-public class PolesZerosCondition extends ChannelRestrictedCondition {
+public class PolesZerosSequenceCondition extends ChannelRestrictedCondition {
 
-	private static final Logger LOGGER = Logger.getLogger(PolesZerosCondition.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(PolesZerosSequenceCondition.class.getName());
 
-	public PolesZerosCondition(boolean required, String description, Restriction... restrictions) {
+	public PolesZerosSequenceCondition(boolean required, String description, Restriction... restrictions) {
 		super(required, description, restrictions);
 	}
 
@@ -47,6 +48,8 @@ public class PolesZerosCondition extends ChannelRestrictedCondition {
 	public Message evaluate(Channel channel, Response response) {
 		NestedMessage nestedMessage = new NestedMessage();
 		boolean returnmessage = false;
+		int zeroInc = 0;
+		int poleInc = 0;
 		if (isRestricted(channel)) {
 			return Result.success();
 		}
@@ -58,53 +61,44 @@ public class PolesZerosCondition extends ChannelRestrictedCondition {
 		if (response.getStage() != null && !response.getStage().isEmpty()) {
 			List<ResponseStage> stages = response.getStage();
 
-			Sensitivity sensitivity = response.getInstrumentSensitivity();
-			boolean t = false;
-			// Deals with instrument sensitivity
-			if (sensitivity == null || sensitivity.getFrequency() == 0.0) {
-				t = true;
-			}
-
-			int stage = 1;
 			for (ResponseStage s : stages) {
 				StageGain gain = s.getStageGain();
-				if (t || gain == null || gain.getFrequency() == 0) {
 					if (s.getPolesZeros() != null) {
 						if (s.getPolesZeros().getZero() != null) {
 							for (PoleZero z : s.getPolesZeros().getZero()) {
-								if (z.getReal().getValue() == 0 && z.getImaginary().getValue() == 0) {
-									//"stage 2 zero at index 0 is at 0; stage 2 StageGain:Frequency cannot be 0”
-									
-									if(t) {
-									    if (s.getNumber().intValue() < 10 ) {
-										    nestedMessage.add(Result.error("[stage " + String.format("%02d", s.getNumber().intValue())
-												+ "] Zero:number " + z.getNumber() +" Zero:Real==0 and Zero:Imaginary==0 InstrumentSensitivity:Frequency must not equal 0"));
-										    returnmessage =true;
-
-									    }else {
-										    nestedMessage.add(Result.error("[stage " + s.getNumber().intValue()
-										    + "] Zero:number " + z.getNumber() +" Zero:Real==0 and Zero:Imaginary==0 InstrumentSensitivity:Frequency must not equal 0"));
-										    returnmessage =true;
-									    }	
-									}else {	
-									    if (s.getNumber().intValue() < 10 ) {
-										    nestedMessage.add(Result.error("[stage " + String.format("%02d", s.getNumber().intValue())
-												+ "] Zero:number " + z.getNumber() +" Zero:Real==0 and Zero:Imaginary==0 StageGain:Frequency must not equal 0"));
-										    returnmessage =true;
-
-									    }else {
-										    nestedMessage.add(Result.error("[stage " + s.getNumber().intValue()
-										    + "] Zero:number " + z.getNumber() +" Zero:Real==0 and Zero:Imaginary==0 StageGain:Frequency must not equal 0"));
-										    returnmessage =true;
-										}
+								if (z.getNumber().compareTo(BigInteger.valueOf(zeroInc))!=0) {
+									if (s.getNumber().intValue() < 10 ) {
+									    nestedMessage.add(Result.error("[stage " + String.format("%02d", s.getNumber().intValue())
+									    + "] Zero:number "+z.getNumber()+ " is out of sequence " +zeroInc+ " is expected"));
+									    returnmessage =true;
+									}else {									    
+										nestedMessage.add(Result.error("[stage " + s.getNumber().intValue()
+								        + "] Zero:number "+z.getNumber()+ " is out of sequence "+zeroInc+ " is expected"));
+								        returnmessage =true;
+										
 									}
-									
 								}
+							    zeroInc  = zeroInc+ 1;
 							}
-						}
+					}
+						if (s.getPolesZeros().getPole() != null) {
+							for (PoleZero p : s.getPolesZeros().getPole()) {
+								if (p.getNumber().compareTo(BigInteger.valueOf(poleInc))!=0) {
+									if (s.getNumber().intValue() < 10 ) {
+									    nestedMessage.add(Result.error("[stage " + String.format("%02d", s.getNumber().intValue())
+									    + "] Pole:number "+p.getNumber()+ " is out of sequence " +poleInc+ " is expected"));
+									    returnmessage =true;
+									}else {									    
+										nestedMessage.add(Result.error("[stage " + s.getNumber().intValue()
+								        + "] Pole:number "+p.getNumber()+ " is out of sequence " +poleInc+ " is expected"));
+								        returnmessage =true;	
+									}
+								}
+								 poleInc  = poleInc+ 1;
+
+							}
 					}
 				}
-				stage++;
 			}
 
 		}

@@ -175,7 +175,6 @@ public class Application {
 				if (document == null) {
 					continue;
 				}
-				
 				// This is where the output is printed. 
 				print(ps, ruleEngineService.executeAllRules(document));
 			}
@@ -193,11 +192,11 @@ public class Application {
 			throw new IOException(String.format("File %s does not exist.  File is required!", file.getAbsoluteFile()));
 		}
 		    InputStream is = new FileInputStream(file);
+			LOGGER.info("Input file: " + path.toString());
 
-			// This is where stationxml vs seed is decided. 
+			// This is where stationxml vs seed is decided.
 			if(isStationXml(file)) {
 				try {
-				   LOGGER.info("Input file: " + path.toString());
 				   return DocumentMarshaller.unmarshal(is);
 				} catch (StationxmlException | IOException | RuntimeException e){
 				    exitWithError(e);
@@ -207,7 +206,8 @@ public class Application {
 				}
 			} else {
 				try {
-				    LOGGER.info("Input file: " + path.toString());
+					//LOGGER.setLevel(Level.WARNING);
+				    //LOGGER.info("Input file: " + path.toString());
 				    Volume volume = IrisUtil.readSeed(file);
 				return SeedToXmlDocumentConverter.getInstance().convert(volume);
 			    }catch(RuntimeException e){
@@ -220,17 +220,23 @@ public class Application {
 		}
 
 	private void print(RuleResultPrintStream ps, Map<Integer, Set<Message>> map) throws IOException {
-
+		List<Message> lsorter = new ArrayList<>();
 		if (map != null && !map.isEmpty()) {
 			SortedSet<Integer> keys = new TreeSet<>(map.keySet());
 			for (Integer key : keys) {
 				Set<Message> l = map.get(key);
 				for (Message m : l) {
-					ps.print(m);
-					ps.flush();
+					lsorter.add(m);
+					//ps.print(m);
+					//ps.flush();
 				}
-				ps.printMessage("\n");
 			}
+			lsorter.sort(comparatorMessage);
+			for (Message m : lsorter) {
+				ps.print(m);
+				ps.flush();
+			}
+			ps.printMessage("\n");
 		} else {
 			ps.printMessage("PASSED");
 			ps.printMessage("\n");
@@ -344,6 +350,31 @@ public class Application {
 		}
 	};
 
+	private static Comparator<Message> comparatorMessage = new Comparator<Message>() {
+	    private Comparator<Rule> comparatorOne;
+	    private Comparator<String> comparatorTwo;
+
+		    public void ComplexComparator(Comparator<Rule> c1,
+		            Comparator<String> c2) {
+		        this.comparatorOne = c1;
+		        this.comparatorTwo = c2;
+		    }
+
+		    @Override
+		    public int compare(Message c1,  Message c2) {
+			int r = Integer.compare(c1.getRule().getId(), c2.getRule().getId());
+	        // check if it was 0 (items equal in that attribute)  
+			if (r == 0) {
+	            // if yes, return the result of the next comparison
+	            return c1.getDescription().compareTo(c2.getDescription());
+	        } else {
+	            // otherwise return the result of the first comparison
+	            return r;
+		}
+	 }
+	};
+	
+	
 	public static void printUnits() {
 		System.out.println("===============================================================");
 		System.out.println("|" + center("Table of Acceptable Units", 62, " ") + "|");
@@ -363,7 +394,6 @@ public class Application {
 
 	public static void help() throws IOException {
 		String version = "Version " + getVersion();
-		System.out.println(getVersion());
 		version = center(version, 62, " ");
 
 		System.out.println("===============================================================");

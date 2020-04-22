@@ -4,9 +4,9 @@
  <Source>IRIS-DMC</Source>
  <Sender>IRIS-DMC</Sender>
  <Module>IRIS WEB SERVICE: fdsnws-station | version: 1.1.33</Module>
- <ModuleURI>http://service.iris.edu/fdsnws/station/1/query?net=XX&amp;sta=VPASS&amp;cha=BDF&amp;starttime=2018-08-06T00:00:01&amp;level=response&amp;format=xml&amp;includecomments=true&amp;nodata=404</ModuleURI>
+ <ModuleURI>http://service.iris.edu/fdsnws/station/1/query?net=QI&amp;sta=VPASS&amp;cha=BDF&amp;starttime=2018-08-06T00:00:01&amp;level=response&amp;format=xml&amp;includecomments=true&amp;nodata=404</ModuleURI>
  <Created>2018-08-06T20:17:16</Created>
- <Network code="XX" startDate="2018-08-06T00:00:00" endDate="2500-12-31T23:59:59" restrictedStatus="open">
+ <Network code="QI" startDate="2018-08-06T00:00:00" endDate="2500-12-31T23:59:59" restrictedStatus="open">
   <Description>[IRIS DMC] Station XML Validator Passing Test File</Description>
   <TotalNumberStations>1</TotalNumberStations>
   <SelectedNumberStations>1</SelectedNumberStations>
@@ -36,7 +36,7 @@
      <Description>Volts</Description>
     </CalibrationUnits>
     <Sensor>
-     <Description>50A (Infrasound), 0.2-50 Hz, 0.4 V/Pa-null</Description>
+     <Description>GEM (Infrasound), 0.2-50 Hz, 0.4 V/Pa-null</Description>
     </Sensor>
     <Response>
      <InstrumentSensitivity>
@@ -52,47 +52,13 @@
       </OutputUnits>
      </InstrumentSensitivity>
      <Stage number="1">
-      <PolesZeros>
-       <InputUnits>
-        <Name>PA</Name>
-        <Description>No Abbreviation Referenced</Description>
-       </InputUnits>
-       <OutputUnits>
-        <Name>V</Name>
-        <Description>Volts</Description>
-       </OutputUnits>
-       <PzTransferFunctionType>LAPLACE (RADIANS/SECOND)</PzTransferFunctionType>
-       <NormalizationFactor>314.1</NormalizationFactor>
-       <NormalizationFrequency>1.00000</NormalizationFrequency>
-       <Zero number="0">
-        <Real minusError="0.00000" plusError="0.00000">0.00000</Real>
-        <Imaginary minusError="0.00000" plusError="0.00000">0.00000</Imaginary>
-       </Zero>
-       <Zero number="1">
-        <Real minusError="0.00000" plusError="0.00000">0.00000</Real>
-        <Imaginary minusError="0.00000" plusError="0.00000">0.00000</Imaginary>
-       </Zero>
-       <Zero number="2">
-        <Real minusError="0.00000" plusError="0.00000">-0.170000</Real>
-        <Imaginary minusError="0.00000" plusError="0.00000">0.00000</Imaginary>
-       </Zero>
-       <Pole number="0">
-        <Real minusError="0.00000" plusError="0.00000">0.00000</Real>
-        <Imaginary minusError="0.00000" plusError="0.00000">0.00000</Imaginary>
-       </Pole>
-       <Pole number="1">
-        <Real minusError="0.00000" plusError="0.00000">-314.000</Real>
-        <Imaginary minusError="0.00000" plusError="0.00000">0.00000</Imaginary>
-       </Pole>
-       <Pole number="2">
-        <Real minusError="0.00000" plusError="0.00000">-0.188000</Real>
-        <Imaginary minusError="0.00000" plusError="0.00000">0.00000</Imaginary>
-       </Pole>
-       <Pole number="3">
-        <Real minusError="0.00000" plusError="0.00000">-0.0440000</Real>
-        <Imaginary minusError="0.00000" plusError="0.00000">0.00000</Imaginary>
-       </Pole>
-      </PolesZeros>
+      <Decimation>
+       <InputSampleRate>512000.0</InputSampleRate>
+       <Factor>1</Factor>
+       <Offset>0</Offset>
+       <Delay>0.0</Delay>
+       <Correction>0.0</Correction>
+      </Decimation>
       <StageGain>
        <Value>0.4</Value>
        <Frequency>1.0</Frequency>
@@ -107,7 +73,7 @@
      <Stage number="3">
       <Coefficients>
        <InputUnits>
-        <Name>Volts</Name>
+        <Name>V</Name>
         <Description>Volts</Description>
        </InputUnits>
        <OutputUnits>
@@ -192,7 +158,7 @@
      <Stage number="5">
       <Coefficients>
        <InputUnits>
-        <Name>C</Name>
+        <Name>COUNTS</Name>
         <Description>Digital Counts</Description>
        </InputUnits>
        <OutputUnits>
@@ -251,34 +217,6 @@
       </StageGain>
      </Stage>
      <Stage number="7">
-      <Coefficients>
-       <InputUnits>
-        <Name>COUNTS</Name>
-        <Description>Digital Counts</Description>
-       </InputUnits>
-       <OutputUnits>
-        <Name>COUNTS</Name>
-        <Description>Digital Counts</Description>
-       </OutputUnits>
-       <CfTransferFunctionType>DIGITAL</CfTransferFunctionType>
-       <Numerator minusError="0.00000" plusError="0.00000">0.00160000</Numerator>
-       <Numerator minusError="0.00000" plusError="0.00000">0.00640000</Numerator>
-       <Numerator minusError="0.00000" plusError="0.00000">0.0160000</Numerator>
-       <Numerator minusError="0.00000" plusError="0.00000">0.0320000</Numerator>
-       <Numerator minusError="0.00000" plusError="0.00000">0.0560000</Numerator>
-       <Numerator minusError="0.00000" plusError="0.00000">0.0832000</Numerator>
-       <Numerator minusError="0.00000" plusError="0.00000">0.108800</Numerator>
-       <Numerator minusError="0.00000" plusError="0.00000">0.128000</Numerator>
-       <Numerator minusError="0.00000" plusError="0.00000">0.136000</Numerator>
-       <Numerator minusError="0.00000" plusError="0.00000">0.128000</Numerator>
-       <Numerator minusError="0.00000" plusError="0.00000">0.108800</Numerator>
-       <Numerator minusError="0.00000" plusError="0.00000">0.0832000</Numerator>
-       <Numerator minusError="0.00000" plusError="0.00000">0.0560000</Numerator>
-       <Numerator minusError="0.00000" plusError="0.00000">0.0320000</Numerator>
-       <Numerator minusError="0.00000" plusError="0.00000">0.0160000</Numerator>
-       <Numerator minusError="0.00000" plusError="0.00000">0.00640000</Numerator>
-       <Numerator minusError="0.00000" plusError="0.00000">0.00160000</Numerator>
-      </Coefficients>
       <Decimation>
        <InputSampleRate>16000.0</InputSampleRate>
        <Factor>5</Factor>

@@ -3,6 +3,7 @@ package edu.iris.dmc.station.conditions;
 import java.util.List;
 import java.util.logging.Logger;
 
+import edu.iris.dmc.fdsn.station.model.BaseFilter;
 import edu.iris.dmc.fdsn.station.model.Channel;
 import edu.iris.dmc.fdsn.station.model.Network;
 import edu.iris.dmc.fdsn.station.model.Response;
@@ -13,11 +14,11 @@ import edu.iris.dmc.station.rules.Message;
 import edu.iris.dmc.station.rules.NestedMessage;
 import edu.iris.dmc.station.rules.Result;
 
-public class StageSequenceCondition extends ChannelRestrictedCondition {
+public class DecimationStageGainCondition extends ChannelRestrictedCondition {
 
-	private static final Logger LOGGER = Logger.getLogger(StageSequenceCondition.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(DecimationStageGainCondition.class.getName());
 
-	public StageSequenceCondition(boolean required, String description, Restriction[] restrictions) {
+	public DecimationStageGainCondition(boolean required, String description, Restriction[] restrictions) {
 		super(required, description, restrictions);
 	}
 
@@ -33,10 +34,7 @@ public class StageSequenceCondition extends ChannelRestrictedCondition {
 
 	@Override
 	public Message evaluate(Channel channel) {
-		if (channel == null) {
-			return Result.success();
-		}
-		return evaluate(channel, channel.getResponse());
+		return this.evaluate(channel,channel.getResponse());
 	}
 
 	@Override
@@ -53,24 +51,29 @@ public class StageSequenceCondition extends ChannelRestrictedCondition {
 		}
 		if (response.getStage() != null && !response.getStage().isEmpty()) {
 			List<ResponseStage> stages = response.getStage();
-			ResponseStage stage = stages.get(stages.size() - 1);
-			if (stage.getNumber().intValue() == stages.size() - 1) {
-				nestedMessage.add(Result.error("Invalid stage sequence number " + stage.getNumber().intValue()));
-				returnmessage=true;
-			} else {
-				int i = 1;
-				for (ResponseStage s : stages) {
-					if (s.getNumber().intValue() != i) {
-						    nestedMessage.add(Result.error("Stage sequence number [" + s.getNumber().intValue() + "] is invalid [" +i+"] is expected"));
-						returnmessage=true;
+
+			for (ResponseStage s : stages) {
+				if (s.getDecimation() != null && s.getStageGain() != null) { 
+				if (s.getCoefficients() == null && s.getPolesZeros() == null && s.getFIR()==null && s.getResponseList()==null) {
+					if (s.getNumber().intValue() < 10 ) {
+					    nestedMessage.add(Result.error("[stage " + String.format("%02d", s.getNumber().intValue())
+					    + "] includes Decimation and StageGain but does not include a Filter"));
+					    returnmessage =true;
+					}else {									    
+						nestedMessage.add(Result.error("[stage " + s.getNumber().intValue()
+				        + "] includes Decimation and StageGain but does not include a Filter"));
+				        returnmessage =true;	
 					}
-					i++;
+					}
 				}
+
 			}
+
 		}
 		if(returnmessage==true) {
 			   return nestedMessage;
 			}else {
 			   return Result.success();
-			}	}
+			}
+	}
 }

@@ -43,7 +43,6 @@ public class Condition421Test {
 			DecimationSampleRateCondition condition = new DecimationSampleRateCondition(true, "", restrictions);
                
 			Message result = condition.evaluate(c);
-			
 			assertTrue(result instanceof edu.iris.dmc.station.rules.Error);
 		}
 

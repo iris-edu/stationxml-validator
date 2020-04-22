@@ -4,9 +4,9 @@
  <Source>IRIS-DMC</Source>
  <Sender>IRIS-DMC</Sender>
  <Module>IRIS WEB SERVICE: fdsnws-station | version: 1.1.33</Module>
- <ModuleURI>http://service.iris.edu/fdsnws/station/1/query?net=XX&amp;sta=VPASS&amp;cha=BDF&amp;starttime=2018-08-06T00:00:01&amp;level=response&amp;format=xml&amp;includecomments=true&amp;nodata=404</ModuleURI>
+ <ModuleURI>http://service.iris.edu/fdsnws/station/1/query?net=QI&amp;sta=VPASS&amp;cha=BDF&amp;starttime=2018-08-06T00:00:01&amp;level=response&amp;format=xml&amp;includecomments=true&amp;nodata=404</ModuleURI>
  <Created>2018-08-06T20:17:16</Created>
- <Network code="XX" startDate="2018-08-06T00:00:00" endDate="2500-12-31T23:59:59" restrictedStatus="open">
+ <Network code="QI" startDate="2018-08-06T00:00:00" endDate="2500-12-31T23:59:59" restrictedStatus="open">
   <Description>[IRIS DMC] Station XML Validator Passing Test File</Description>
   <TotalNumberStations>1</TotalNumberStations>
   <SelectedNumberStations>1</SelectedNumberStations>
@@ -36,7 +36,7 @@
      <Description>Volts</Description>
     </CalibrationUnits>
     <Sensor>
-     <Description>50A (Infrasound), 0.2-50 Hz, 0.4 V/Pa-null</Description>
+     <Description>GEM (Infrasound), 0.2-50 Hz, 0.4 V/Pa-null</Description>
     </Sensor>
     <Response>
      <InstrumentSensitivity>
@@ -72,11 +72,11 @@
         <Real minusError="0.00000" plusError="0.00000">0.00000</Real>
         <Imaginary minusError="0.00000" plusError="0.00000">0.00000</Imaginary>
        </Zero>
-       <Zero number="2">
+       <Zero number="6">
         <Real minusError="0.00000" plusError="0.00000">-0.170000</Real>
         <Imaginary minusError="0.00000" plusError="0.00000">0.00000</Imaginary>
        </Zero>
-       <Pole number="0">
+       <Pole number="11">
         <Real minusError="0.00000" plusError="0.00000">0.00000</Real>
         <Imaginary minusError="0.00000" plusError="0.00000">0.00000</Imaginary>
        </Pole>
@@ -124,6 +124,10 @@
        <Delay>0.0</Delay>
        <Correction>0.0</Correction>
       </Decimation>
+      <StageGain>
+       <Value>611621.0</Value>
+       <Frequency>1.0</Frequency>
+      </StageGain>
      </Stage>
      <Stage number="4">
       <Coefficients>

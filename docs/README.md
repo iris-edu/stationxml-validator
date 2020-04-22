@@ -1,6 +1,6 @@
 # StationXML Validator
 
-The IRIS stationxml-validator is a Java library and related command-line tool for validating FDSN-StationXML documents against a set of rules.
+The IRIS stationxml-validator is a Java library and related command-line utility for validating FDSN-StationXML documents against a set of rules.
 
 For more information please refer to the project Wiki:
 

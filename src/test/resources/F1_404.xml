@@ -170,13 +170,6 @@
        <Numerator minusError="0.00000" plusError="0.00000">0.000152588</Numerator>
        <Numerator minusError="0.00000" plusError="0.00000">0.0000305176</Numerator>
       </Coefficients>
-      <Decimation>
-       <InputSampleRate>512000.0</InputSampleRate>
-       <Factor>8</Factor>
-       <Offset>0</Offset>
-       <Delay>3.418E-5</Delay>
-       <Correction>3.418E-5</Correction>
-      </Decimation>
       <StageGain>
        <Value>1.0</Value>
        <Frequency>1.0</Frequency>

@@ -15,6 +15,7 @@ import edu.iris.dmc.fdsn.station.model.Station;
 import edu.iris.dmc.station.RuleEngineServiceTest;
 import edu.iris.dmc.station.conditions.EpochRangeCondition;
 import edu.iris.dmc.station.rules.Message;
+import edu.iris.dmc.station.rules.NestedMessage;
 
 public class Condition212Test {
 
@@ -35,7 +36,11 @@ public class Condition212Test {
 			EpochRangeCondition condition = new EpochRangeCondition(true, "");
 
 			Message result = condition.evaluate(s);
-			assertTrue(result instanceof edu.iris.dmc.station.rules.Error);
+			//assertTrue(result instanceof edu.iris.dmc.station.rules.Error);
+			NestedMessage nestedMessage=(NestedMessage)result;
+			assertTrue(nestedMessage.getNestedMessages().get(0).getDescription().contains("Chan: BDF Loc: 00 startDate 1951-08-06T00:00:00 cannot occur before Station startDate 2018-08-06T00:00:00"));
+			assertTrue(nestedMessage.getNestedMessages().get(1).getDescription().contains("Chan: BDF Loc: 00 endDate 2750-12-31T23:59:59 cannot occur after Station endDate 2500-12-31T23:59:59"));
+
 		}
 
 	}
@@ -47,11 +52,14 @@ public class Condition212Test {
 
 			Network n = theDocument.getNetwork().get(0);
 			Station s = n.getStations().get(0);
-			Channel c = s.getChannels().get(0);			
 			EpochRangeCondition condition = new EpochRangeCondition(true, "");
 
 			Message result = condition.evaluate(s);
-			assertTrue(result instanceof edu.iris.dmc.station.rules.Error);
+			NestedMessage nestedMessage=(NestedMessage)result;
+
+			assertTrue(nestedMessage.getNestedMessages().get(0).getDescription().contains("Chan: BDF Loc: 00 endDate cannot be null if station endDate is defined as: 2500-12-31T23:59:59"));
+
+			//assertTrue(result instanceof edu.iris.dmc.station.rules.Error);
 		}
 
 	}

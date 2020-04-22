@@ -11,7 +11,7 @@ public class ChannelCodeRestriction implements Restriction {
 	private String[] codes = new String[] { "ACE", "ATC", "BDO", "EX1", "EX2", "EX3", "EX4", "EX5", "EX6", "EX7", "EX8",
 			"EX9", "GAN", "GEL", "GLA", "GLO", "GNS", "GPL", "GPS", "GST", "LCA", "LCB", "LCC", "LCD", "LCE", "LCF",
 			"LCG", "LCH", "LCI", "LCJ", "LCK", "LCL", "LCM", "LCN", "LCO", "LCP", "LCQ", "LCR", "LCS", "LCT", "LCU",
-			"LCV", "LCW", "LCX", "LCY", "LCZ", "LDE", "LDN", "LDZ", "LDO", "LEE", "LED", "LEO", "LEP", "LII", "LKI",
+			"LCV", "LCW", "LCX", "LCY", "LCZ", "LDE", "LDN", "LDZ", "LEE", "LED", "LEO", "LEP", "LII", "LKI",
 			"LOG", "LPL", "OAC", "OCF", "QBD", "QBP", "QDG", "QDL", "QDR", "QEF", "QG1", "QGD", "QID", "QLD", "QPD",
 			"QRD", "QRT", "QTP", "QTH", "QTP", "QWD", "SBT", "SCA", "SCB", "SCC", "SCD", "SCE", "SCF", "SCG", "SCH",
 			"SCI", "SCJ", "SCK", "SCL", "SCM", "SCN", "SCO", "SCP", "SCQ", "SCR", "SCS", "SCT", "SCU", "SCV", "SCW",

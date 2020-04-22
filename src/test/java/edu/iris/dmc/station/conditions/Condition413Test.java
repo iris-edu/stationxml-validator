@@ -19,6 +19,7 @@ import edu.iris.dmc.station.restrictions.ChannelCodeRestriction;
 import edu.iris.dmc.station.restrictions.ChannelTypeRestriction;
 import edu.iris.dmc.station.restrictions.Restriction;
 import edu.iris.dmc.station.rules.Message;
+import edu.iris.dmc.station.rules.NestedMessage;
 
 public class Condition413Test {
 
@@ -44,7 +45,8 @@ public class Condition413Test {
                
 			Message result = condition.evaluate(c);
 			
-			assertTrue(result instanceof edu.iris.dmc.station.rules.Error);
+			NestedMessage nestedMessage=(NestedMessage)result;
+			assertTrue(nestedMessage.getNestedMessages().get(0).getDescription().contains("[stage 01] StageGain:Value must not be 0"));
 		}
 
 	}

@@ -8,6 +8,7 @@ import edu.iris.dmc.fdsn.station.model.Station;
 import edu.iris.dmc.fdsn.station.model.Units;
 import edu.iris.dmc.station.restrictions.Restriction;
 import edu.iris.dmc.station.rules.Message;
+import edu.iris.dmc.station.rules.NestedMessage;
 import edu.iris.dmc.station.rules.Result;
 
 public class StageUnitCondition extends ChannelRestrictedCondition {
@@ -36,6 +37,10 @@ public class StageUnitCondition extends ChannelRestrictedCondition {
 
 	@Override
 	public Message evaluate(Channel channel, Response response) {
+		NestedMessage nestedMessage = new NestedMessage();
+		boolean returnmessage = false;
+		boolean stageskip = false;
+		int prevstage=0;
 		if (isRestricted(channel)) {
 			return Result.success();
 		}
@@ -52,22 +57,47 @@ public class StageUnitCondition extends ChannelRestrictedCondition {
 
 				StageUnit stageUnit = getUnits(stage);
 				if (stageUnit == null) {
+					stageskip = true;
 					continue;
 				}
+				// Current is the previous stage which harvest output unit
+				// stageUnit is current stage which harvest input unit. 
 				if (current == null) {
 					current = stageUnit;
 					continue;
 				}
+				
+				//First make this a nested message 
 
 				if (!current.output.getName().equals(stageUnit.input.getName())) {
-					return Result.error("stage [" + stage.getNumber().intValue() + "] " + stageUnit.input.getName()
-							+ " does not equal stage[" + (stage.getNumber().intValue() - 1) + "] "
-							+ current.output.getName());
+					if(stageskip == true) {
+						prevstage  = stage.getNumber().intValue() - 2;
+						stageskip=false;
+					}else {
+						prevstage  = stage.getNumber().intValue() - 1;
+					}
+					
+					if (stage.getNumber().intValue() < 10 ) {
+					    nestedMessage.add(Result.error("Stage [" + String.format("%02d", stage.getNumber().intValue()) + "] input unit " + stageUnit.input.getName()
+					    + " must equal stage[" + String.format("%02d", prevstage) + "] output unit "
+					    + current.output.getName()));
+					}else {
+						nestedMessage.add(Result.error("stage [" + stage.getNumber().intValue() + "] input unit " + stageUnit.input.getName()
+						+ " must equal stage[" + prevstage + "] output unit "
+						+ current.output.getName()));
+					}
+
+					returnmessage = true;
 				}
 				current = stageUnit;
 			}
+			if(returnmessage==true) {
+
+				return nestedMessage;
+			}
 
 		}
+		
 		return Result.success();
 	}
 

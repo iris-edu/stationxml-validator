@@ -11,6 +11,7 @@ import edu.iris.dmc.fdsn.station.model.ResponseStage;
 import edu.iris.dmc.fdsn.station.model.Station;
 import edu.iris.dmc.station.restrictions.Restriction;
 import edu.iris.dmc.station.rules.Message;
+import edu.iris.dmc.station.rules.NestedMessage;
 import edu.iris.dmc.station.rules.Result;
 
 public class DecimationCondition extends ChannelRestrictedCondition {
@@ -43,6 +44,8 @@ public class DecimationCondition extends ChannelRestrictedCondition {
 
 	@Override
 	public Message evaluate(Channel channel, Response response) {
+		NestedMessage nestedMessage = new NestedMessage();
+		boolean returnmessage = false;
 		if (isRestricted(channel)) {
 			return Result.success();
 		}
@@ -57,21 +60,42 @@ public class DecimationCondition extends ChannelRestrictedCondition {
 			if (stage.getDecimation() != null) {
 				Frequency sampleRate = decimation.getInputSampleRate();
 				if(sampleRate==null) {
-					return Result.error("expected samplerate but was null");
+					if (stage.getNumber().intValue() < 10 ) {
+					    nestedMessage.add(Result.error("[stage " + String.format("%02d", stage.getNumber().intValue())
+					    + "] must include Decimation:Samplerate"));
+					    returnmessage =true;
+					}else {									    
+						nestedMessage.add(Result.error("[stage " + stage.getNumber().intValue()
+				        + "] must include Decimation:Samplerate"));
+				        returnmessage =true;	
+					}					
 				}
 				double inputSampleRate = sampleRate.getValue();
 				
 				if (inputSampleRateByFactor != null) {
 					if (Math.abs(inputSampleRate - inputSampleRateByFactor.doubleValue()) > 0.001) {
-						return Result.error("stage number: " + i+" inputSampleRate="+inputSampleRate+" : inputSampleRateByFactor="+inputSampleRateByFactor.doubleValue());
+						if (stage.getNumber().intValue() < 10 ) {
+						    nestedMessage.add(Result.error("[stage " + String.format("%02d", stage.getNumber().intValue())
+						    + "] Decimation:InputSampleRate "+ inputSampleRate +" != [stage "+ String.format("%02d", (stage.getNumber().intValue()-1))
+						    + "] Decimation:InputSampleRate/Decimation:Factor "+inputSampleRateByFactor.doubleValue()));
+						    returnmessage =true;
+						}else {									    
+						    nestedMessage.add(Result.error("[stage " +  stage.getNumber().intValue()
+						    + "] Decimation:InputSampleRate "+ inputSampleRate +" != [stage "+ (stage.getNumber().intValue()-1)
+						    + "] Decimation:InputSampleRate/Decimation:Factor "+inputSampleRateByFactor.doubleValue()));
+					        returnmessage =true;	
+						}						
 					}
 				}
 				inputSampleRateByFactor = inputSampleRate / decimation.getFactor().doubleValue();
 			}
 			i++;
 		}
-
-		return Result.success();
+		if(returnmessage==true) {
+		    return nestedMessage;
+		}else {
+			return Result.success();
+	 	}
 	}
 
 }

@@ -15,6 +15,7 @@ import edu.iris.dmc.station.RuleEngineServiceTest;
 import edu.iris.dmc.station.conditions.EpochOverlapCondition;
 import edu.iris.dmc.station.conditions.EpochRangeCondition;
 import edu.iris.dmc.station.rules.Message;
+import edu.iris.dmc.station.rules.NestedMessage;
 
 public class Condition111Test {
 
@@ -35,7 +36,10 @@ public class Condition111Test {
 			EpochOverlapCondition condition = new EpochOverlapCondition(true, "");
 
 			Message result = condition.evaluate(n);
-			assertTrue(result instanceof edu.iris.dmc.station.rules.Error);
+			NestedMessage nestedMessage=(NestedMessage)result;
+			assertTrue(nestedMessage.getNestedMessages().get(0).getDescription().contains("Sta: TPASS 2016-06-06T00:00:00 2019-09-06T00:00:00 epoch"));
+
+
 		}
 
 	}
@@ -48,7 +52,7 @@ public class Condition111Test {
 			Network n = theDocument.getNetwork().get(0);
 			Station s = n.getStations().get(0);
 
-			EpochRangeCondition condition = new EpochRangeCondition(true, "");
+			EpochOverlapCondition condition = new EpochOverlapCondition(true, "");
 
 			Message result = condition.evaluate(s);
 			assertTrue(result instanceof edu.iris.dmc.station.rules.Success);

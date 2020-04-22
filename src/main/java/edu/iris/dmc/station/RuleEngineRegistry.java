@@ -12,23 +12,28 @@ import edu.iris.dmc.fdsn.station.model.Channel;
 import edu.iris.dmc.fdsn.station.model.Network;
 import edu.iris.dmc.fdsn.station.model.Response;
 import edu.iris.dmc.fdsn.station.model.Station;
+import edu.iris.dmc.station.conditions.AzimuthDipCondition;
 import edu.iris.dmc.station.conditions.CalibrationUnitCondition;
 import edu.iris.dmc.station.conditions.CodeCondition;
 import edu.iris.dmc.station.conditions.Condition;
 import edu.iris.dmc.station.conditions.DecimationCondition;
 import edu.iris.dmc.station.conditions.DecimationSampleRateCondition;
+import edu.iris.dmc.station.conditions.DecimationStageGainCondition;
 import edu.iris.dmc.station.conditions.DigitalFilterCondition;
 import edu.iris.dmc.station.conditions.DistanceCondition;
 import edu.iris.dmc.station.conditions.EmptySensitivityCondition;
 import edu.iris.dmc.station.conditions.EpochOverlapCondition;
 import edu.iris.dmc.station.conditions.EpochRangeCondition;
 import edu.iris.dmc.station.conditions.FrequencyCondition;
+import edu.iris.dmc.station.conditions.InstrumentCodeUnitsCondition;
+import edu.iris.dmc.station.conditions.InstrumentSensitivityCondition;
 import edu.iris.dmc.station.conditions.LocationCodeCondition;
 import edu.iris.dmc.station.conditions.MissingDecimationCondition;
 import edu.iris.dmc.station.conditions.OrientationCondition;
 import edu.iris.dmc.station.conditions.OrientationConditionE;
 import edu.iris.dmc.station.conditions.OrientationConditionZ;
 import edu.iris.dmc.station.conditions.PolesZerosCondition;
+import edu.iris.dmc.station.conditions.PolesZerosSequenceCondition;
 import edu.iris.dmc.station.conditions.PolynomialCondition;
 import edu.iris.dmc.station.conditions.ResponseListCondition;
 import edu.iris.dmc.station.conditions.SampleRateCondition;
@@ -115,7 +120,7 @@ public class RuleEngineRegistry {
 		}
 		if (!set.contains(221)) {
 			add(212, new EpochRangeCondition(true,
-					"Station:Epoch must encompass all subordinate Channel:Epoch"),
+					"Station:Epoch must encompass all subordinate Channel:Epoch."),
 					Station.class);
 		}
 
@@ -159,7 +164,16 @@ public class RuleEngineRegistry {
 					"Channel:startDate must be included and must occur before Channel:endDate if included."),
 					Channel.class);
 		}
-		
+		if (!set.contains(320)) {
+			add(320, new AzimuthDipCondition(true,
+					"If Channel:Code[2]==(H | L | M | N) THEN Channel:Azimuth and Channel:Dip must be included."),
+					Channel.class);
+		}
+		if (!set.contains(321)) {
+			add(321, new InstrumentCodeUnitsCondition(true,
+					"If Channel:Code[2] == (H | L | M | N) then Stage[1]:InputUnit must equal *m/s* AND Stage[Last]:OutputUnits must equal count*"),
+					Channel.class);
+		}
 		if (!set.contains(332)) {
 			add(332, new OrientationCondition(true,
 					"If Channel:Code[LAST]==N then Channel:Azimuth must be assigned (>=355.0 or <=5.0) or (>=175.0 and <=185.0) and Channel:Dip must be assigned (>=-5 AND <=5.0).",
@@ -233,13 +247,24 @@ public class RuleEngineRegistry {
 			add(414, new PolesZerosCondition(false,
 					"If Stage[N]:PolesZeros contains Zero:Real==0 and Zero:Imaginary==0 then InstrumentSensitivity:Frequency cannot equal 0 and Stage[N]:StageGain:Frequency cannot equal 0.",
 					new ChannelCodeRestriction(), new ChannelTypeRestriction(), new ResponsePolynomialRestriction()),
-					Response.class);
+					Response.class); 
 		}
 		if (!s.contains(415)) {
 			add(415, new PolynomialCondition(false,
-					"Response must be of type Response:InstrumentPolynomial if a Polynomial stage exist.",
+					"Response must include InstrumentPolynomial if a Polynomial stage is included.",
 					new ChannelCodeRestriction(), new ChannelTypeRestriction()), Response.class);
 		}
+		if (!s.contains(416)) {
+			add(416, new InstrumentSensitivityCondition(false,
+					"Response must include InstrumentSensitivity if no Polynomial stages are included.",
+					new ChannelCodeRestriction(), new ChannelTypeRestriction()), Response.class);
+		}
+		if (!s.contains(417)) {
+			add(417, new PolesZerosSequenceCondition(false,
+					"If Stage[N]:PolesZeros contains Zeros and Poles then Zero:Number and Pole:Number must start at 0 and be sequential.",
+					new ChannelCodeRestriction(), new ChannelTypeRestriction()), Response.class);
+		}
+		
 		if (!s.contains(420)) {
 			add(420, new MissingDecimationCondition(true,
 					"A Response must contain at least one instance of Response:Stage:Decimation.",
@@ -256,6 +281,12 @@ public class RuleEngineRegistry {
 			add(422, new DecimationCondition(true,
 					"Stage[N]:Decimation:InputSampleRate must equal the previously assigned Stage[M]:Decimation:InputSampleRate divided by Stage[M]:Decimation:Factor.",
 					new ChannelCodeRestriction(), new ChannelTypeRestriction(), new ResponsePolynomialRestriction()),
+					Response.class);
+		}
+		if (!s.contains(423)) {
+			add(423, new DecimationStageGainCondition(true,
+					"If Stage[N]:Decimation and Stage[N]:StageGain are included then Stage[N]:PolesZeros or Stage[N]:Coefficients or Stage[N]:ResponseList or Stage[N]:FIR must also be included.",
+					restrictions),
 					Response.class);
 		}
 	}

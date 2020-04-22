@@ -14,6 +14,7 @@ import edu.iris.dmc.station.RuleEngineServiceTest;
 import edu.iris.dmc.station.conditions.DistanceCondition;
 import edu.iris.dmc.station.conditions.EpochRangeCondition;
 import edu.iris.dmc.station.rules.Message;
+import edu.iris.dmc.station.rules.NestedMessage;
 
 public class Condition222Test {
 
@@ -34,7 +35,8 @@ public class Condition222Test {
 			DistanceCondition condition = new DistanceCondition(true, "", 1);
 
 			Message result = condition.evaluate(s);
-			assertTrue(result instanceof edu.iris.dmc.station.rules.Error);
+			NestedMessage nestedMessage=(NestedMessage)result;
+			assertTrue(nestedMessage.getNestedMessages().get(0).getDescription().contains("Distance between Sta: TPASS and Chan: BDF Loc: 00 is expected to be less than 1 km but is 10229.44108032 km"));
 		}
 
 	}

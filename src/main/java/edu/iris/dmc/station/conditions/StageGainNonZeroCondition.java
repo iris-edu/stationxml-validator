@@ -8,6 +8,7 @@ import edu.iris.dmc.fdsn.station.model.ResponseStage;
 import edu.iris.dmc.fdsn.station.model.Station;
 import edu.iris.dmc.station.restrictions.Restriction;
 import edu.iris.dmc.station.rules.Message;
+import edu.iris.dmc.station.rules.NestedMessage;
 import edu.iris.dmc.station.rules.Result;
 
 public class StageGainNonZeroCondition extends ChannelRestrictedCondition {
@@ -36,6 +37,8 @@ public class StageGainNonZeroCondition extends ChannelRestrictedCondition {
 
 	@Override
 	public Message evaluate(Channel channel, Response response) {
+		NestedMessage nestedMessage = new NestedMessage();
+		boolean returnmessage = false;
 		if (isRestricted(channel)) {
 			return Result.success();
 		}
@@ -50,7 +53,15 @@ public class StageGainNonZeroCondition extends ChannelRestrictedCondition {
 				StageGain stageGain = stage.getStageGain();
 				if (stageGain == null) {
 					if (stage.getPolynomial() == null) {
-						return Result.error("Stage " + stage.getNumber() + " is missing gain");
+						if (stage.getNumber().intValue() < 10 ) {
+						    nestedMessage.add(Result.error("[stage " + String.format("%02d", stage.getNumber().intValue())
+						    + "] must include StageGain"));
+						    returnmessage =true;
+						}else {									    
+							nestedMessage.add(Result.error("[stage " + stage.getNumber().intValue()
+					        + "] must include StageGain"));
+					        returnmessage =true;	
+						}						
 					}
 				} else {
 					Double stageGainValue = stageGain.getValue();
@@ -58,12 +69,25 @@ public class StageGainNonZeroCondition extends ChannelRestrictedCondition {
 
 					} else {
 						if (stage.getPolynomial() == null) {
-							return Result.error("Stage " + stage.getNumber() + " gain cannot be zero");
+							if (stage.getNumber().intValue() < 10 ) {
+							    nestedMessage.add(Result.error("[stage " + String.format("%02d", stage.getNumber().intValue())
+							    + "] StageGain:Value must not be 0"));
+							    returnmessage =true;
+							}else {									    
+								nestedMessage.add(Result.error("[stage " + stage.getNumber().intValue()
+						        + "] StageGain:Value must not be 0"));
+						        returnmessage =true;	
+							}
+							
 						}
 					}
 				}
 			}
 		}
-		return Result.success();
+		if(returnmessage==true) {
+		    return nestedMessage;
+		}else {
+			return Result.success();
+	 	}
 	}
 }

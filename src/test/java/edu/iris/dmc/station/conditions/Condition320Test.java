@@ -13,15 +13,11 @@ import edu.iris.dmc.fdsn.station.model.FDSNStationXML;
 import edu.iris.dmc.fdsn.station.model.Network;
 import edu.iris.dmc.fdsn.station.model.Station;
 import edu.iris.dmc.station.RuleEngineServiceTest;
-import edu.iris.dmc.station.conditions.DigitalFilterCondition;
-import edu.iris.dmc.station.conditions.EmptySensitivityCondition;
-import edu.iris.dmc.station.restrictions.ChannelCodeRestriction;
-import edu.iris.dmc.station.restrictions.ChannelTypeRestriction;
-import edu.iris.dmc.station.restrictions.Restriction;
+import edu.iris.dmc.station.conditions.EpochRangeCondition;
+import edu.iris.dmc.station.conditions.StartTimeCondition;
 import edu.iris.dmc.station.rules.Message;
-import edu.iris.dmc.station.rules.NestedMessage;
 
-public class Condition404Test2 {
+public class Condition320Test {
 
 	private FDSNStationXML theDocument;
 
@@ -31,23 +27,33 @@ public class Condition404Test2 {
 	}
 
 	@Test
-	public void fail() throws Exception {
-		try (InputStream is = RuleEngineServiceTest.class.getClassLoader().getResourceAsStream("F2_404.xml")) {
+	public void azimuthfail() throws Exception {
+		try (InputStream is = RuleEngineServiceTest.class.getClassLoader().getResourceAsStream("F1_320.xml")) {
 			theDocument = DocumentMarshaller.unmarshal(is);
 
 			Network n = theDocument.getNetwork().get(0);
 			Station s = n.getStations().get(0);
 			Channel c = s.getChannels().get(0);
-			
-			Restriction[] restrictions = new Restriction[] { new ChannelCodeRestriction(), new ChannelTypeRestriction() };
 
-			DigitalFilterCondition condition = new DigitalFilterCondition(true, "", restrictions);
-               
+			AzimuthDipCondition condition = new AzimuthDipCondition(true, "");
 			Message result = condition.evaluate(c);
-			NestedMessage nestedMessage=(NestedMessage)result;
-			assertTrue(nestedMessage.getNestedMessages().get(0).getDescription().contains("[stage 03] must include StageGain and Decimation"));
+			assertTrue(result instanceof edu.iris.dmc.station.rules.Error);
+		}
 
-			
+	}
+	
+	@Test
+	public void dipfail() throws Exception {
+		try (InputStream is = RuleEngineServiceTest.class.getClassLoader().getResourceAsStream("F2_320.xml")) {
+			theDocument = DocumentMarshaller.unmarshal(is);
+
+			Network n = theDocument.getNetwork().get(0);
+			Station s = n.getStations().get(0);
+			Channel c = s.getChannels().get(0);
+
+			AzimuthDipCondition condition = new AzimuthDipCondition(true, "");
+			Message result = condition.evaluate(c);
+			assertTrue(result instanceof edu.iris.dmc.station.rules.Error);
 		}
 
 	}
@@ -60,7 +66,9 @@ public class Condition404Test2 {
 			Network n = theDocument.getNetwork().get(0);
 			Station s = n.getStations().get(0);
 			Channel c = s.getChannels().get(0);
-			EmptySensitivityCondition condition = new EmptySensitivityCondition(true, "");
+
+
+			AzimuthDipCondition condition = new AzimuthDipCondition(true, "");
 
 			Message result = condition.evaluate(c);
 			assertTrue(result instanceof edu.iris.dmc.station.rules.Success);
@@ -68,3 +76,4 @@ public class Condition404Test2 {
 
 	}
 }
+

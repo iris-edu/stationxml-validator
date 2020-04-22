@@ -21,6 +21,7 @@ import edu.iris.dmc.fdsn.station.model.Network;
 import edu.iris.dmc.fdsn.station.model.Station;
 import edu.iris.dmc.station.XmlUtil;
 import edu.iris.dmc.station.rules.Message;
+import edu.iris.dmc.station.rules.NestedMessage;
 import edu.iris.dmc.station.rules.Result;
 
 public class EpochOverlapCondition extends AbstractCondition {
@@ -77,7 +78,11 @@ public class EpochOverlapCondition extends AbstractCondition {
 	}
 
 	private Message run(List<? extends BaseNodeType> list) {
-
+		NestedMessage nestedMessage = new NestedMessage();
+		boolean returnmessage = false;
+		
+		boolean chanlevel = false;
+		String staString = "";
 		int i = 0;
 		Map<String, List<Tuple>> map = new HashMap<String, List<Tuple>>();
 		for (BaseNodeType node : list) {
@@ -93,15 +98,18 @@ public class EpochOverlapCondition extends AbstractCondition {
 			}
 
 			if (node instanceof Channel) {
+				
 				tuples.add(new Tuple(node.getCode(), ((Channel) node).getLocationCode(), node.getStartDate(),
 						node.getEndDate(), i));
+				staString = ((Channel) node).getStation().getCode();
+				chanlevel= true;		
 			} else {
 				tuples.add(new Tuple(node.getCode(), node.getCode(), node.getStartDate(), node.getEndDate(), i));
 			}
-
 			i++;
 		}
-
+		
+        
 		if (!map.isEmpty()) {
 			int mapsize = map.size();
 			int i2 = 1;
@@ -111,22 +119,40 @@ public class EpochOverlapCondition extends AbstractCondition {
 				List<Tuple> tuples = map.get(key);
 				List<Tuple[]> invalidRanges = checkRanges(tuples);
 				StringBuilder builder = new StringBuilder();
+				// May need to add station code back in channel level help message for users. 
 				for (Tuple[] tuple : invalidRanges) {
-					builder.append("[(").append(tuple[0].code).append("|").append(XmlUtil.toText(tuple[0].start))
-							.append("|").append(XmlUtil.toText(tuple[0].end)).append(")(").append(tuple[1].code)
-							.append("|").append(XmlUtil.toText(tuple[1].start)).append("|")
-							.append(XmlUtil.toText(tuple[1].end)).append(")]");
+					if(chanlevel==true) {
+					builder.append("").append("").append("").append("Chan: ").append("").append(tuple[0].code).append(" ")
+					        .append("Loc: ").append("").append(tuple[0].location).append(" ").append(XmlUtil.toText(tuple[0].start))
+							.append(" ").append(XmlUtil.toText(tuple[0].end)).append(" epoch overlaps with ").append(tuple[1].code)
+							.append(" ").append(tuple[0].location)
+							.append(" ").append(XmlUtil.toText(tuple[1].start)).append(" ")
+							.append(XmlUtil.toText(tuple[1].end)).append("");
+					}else {
+						builder.append("Sta: ").append("").append(tuple[0].code).append(" ").append(XmlUtil.toText(tuple[0].start))
+						.append(" ").append(XmlUtil.toText(tuple[0].end)).append(" epoch overlaps with ").append(tuple[1].code)
+						.append(" ").append(XmlUtil.toText(tuple[1].start)).append(" ")
+						.append(XmlUtil.toText(tuple[1].end)).append("");
+					}
+				    nestedMessage.add(Result.error(builder.toString()));
+				    builder.setLength(0);
+				    
 				}
 			    description = description + builder.toString();
 				
 				if (mapsize == i2 && invalidRanges != null && !invalidRanges.isEmpty()) {
-
-					return Result.error(description);
+					//nestedMessage.add(Result.error(description));
+					returnmessage =true;
 				}
 				i2 ++;
 			}
 		}
-		return Result.success();
+		if(returnmessage==true) {
+		   return nestedMessage;
+		}else {
+		   return Result.success();
+		}
+		
 	}
 
 	private List<Tuple[]> checkRanges(List<Tuple> tuples) {

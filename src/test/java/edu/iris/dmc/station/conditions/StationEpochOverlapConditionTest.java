@@ -1,6 +1,7 @@
 package edu.iris.dmc.station.conditions;
 
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -38,8 +39,7 @@ public class StationEpochOverlapConditionTest {
 			EpochOverlapCondition condition = new EpochOverlapCondition(true,
 					"Channel:Epoch cannot be partly concurrent with any other Channel:Epoch encompassed in parent Station:Epoch.");
 			Message result = condition.evaluate(s);
-			System.out.println(result.getDescription());
-			assertTrue(result instanceof edu.iris.dmc.station.rules.Error);
+			assertFalse(result instanceof edu.iris.dmc.station.rules.Error);
 		}
 
 	}

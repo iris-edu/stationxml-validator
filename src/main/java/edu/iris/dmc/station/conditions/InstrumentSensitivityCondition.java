@@ -1,19 +1,19 @@
 package edu.iris.dmc.station.conditions;
 
-import java.util.List;
-
 import edu.iris.dmc.fdsn.station.model.Channel;
 import edu.iris.dmc.fdsn.station.model.Network;
 import edu.iris.dmc.fdsn.station.model.Response;
 import edu.iris.dmc.fdsn.station.model.ResponseStage;
+import edu.iris.dmc.fdsn.station.model.Sensitivity;
 import edu.iris.dmc.fdsn.station.model.Station;
 import edu.iris.dmc.station.restrictions.Restriction;
 import edu.iris.dmc.station.rules.Message;
 import edu.iris.dmc.station.rules.Result;
+import edu.iris.dmc.station.rules.Util;
 
-public class MissingDecimationCondition extends ChannelRestrictedCondition {
+public class InstrumentSensitivityCondition extends ChannelRestrictedCondition {
 
-	public MissingDecimationCondition(boolean required, String description, Restriction... restrictions) {
+	public InstrumentSensitivityCondition(boolean required, String description, Restriction... restrictions) {
 		super(required, description, restrictions);
 	}
 
@@ -29,10 +29,10 @@ public class MissingDecimationCondition extends ChannelRestrictedCondition {
 
 	@Override
 	public Message evaluate(Channel channel) {
-		if(channel==null) {
-			
+		if (channel == null) {
+			return Result.success();
 		}
-		return evaluate(channel,channel.getResponse());
+		return this.evaluate(channel, channel.getResponse());
 	}
 
 	@Override
@@ -40,16 +40,24 @@ public class MissingDecimationCondition extends ChannelRestrictedCondition {
 		if (isRestricted(channel)) {
 			return Result.success();
 		}
-		List<ResponseStage> stages = response.getStage();
-		if (stages == null || stages.isEmpty()) {
-			return Result.success();
-		}
 
-		for (ResponseStage stage : stages) {
-			if (stage.getDecimation() != null) {
-				return Result.success();
+		if (this.required) {
+			if (response == null) {
+				return Result.error("expected response but was null");
 			}
 		}
-		return Result.warning("Response does not include decimation");
+
+		int index=1;
+		for (ResponseStage stage : response.getStage()) {
+			if (stage.getPolynomial() == null) {
+				if (response.getInstrumentSensitivity() == null) {
+					//Stage [N] polynomial requires that an InstrumentPolynomial be included
+					return Result.error("InstrumentSensitivity must be included for a non-polynomial responses.");
+				}
+			}
+			index++;
+		}
+		return Result.success();
 	}
+
 }

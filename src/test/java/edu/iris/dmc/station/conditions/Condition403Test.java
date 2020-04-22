@@ -19,6 +19,7 @@ import edu.iris.dmc.station.restrictions.ChannelCodeRestriction;
 import edu.iris.dmc.station.restrictions.ChannelTypeRestriction;
 import edu.iris.dmc.station.restrictions.Restriction;
 import edu.iris.dmc.station.rules.Message;
+import edu.iris.dmc.station.rules.NestedMessage;
 
 public class Condition403Test {
 
@@ -43,8 +44,8 @@ public class Condition403Test {
 			StageUnitCondition condition = new StageUnitCondition(true, "", restrictions);
 
 			Message result = condition.evaluate(c);
-			
-			assertTrue(result instanceof edu.iris.dmc.station.rules.Error);
+			NestedMessage nestedMessage=(NestedMessage) result;
+			assertTrue(nestedMessage.getNestedMessages().get(0).getDescription().contains("Stage [03] input unit V must equal stage[01] output unit volt"));
 		}
 
 	}
@@ -53,11 +54,12 @@ public class Condition403Test {
 	public void pass() throws Exception {
 		try (InputStream is = RuleEngineServiceTest.class.getClassLoader().getResourceAsStream("pass.xml")) {
 			theDocument = DocumentMarshaller.unmarshal(is);
+			Restriction[] restrictions = new Restriction[] { new ChannelCodeRestriction(), new ChannelTypeRestriction() };
 
 			Network n = theDocument.getNetwork().get(0);
 			Station s = n.getStations().get(0);
 			Channel c = s.getChannels().get(0);
-			EmptySensitivityCondition condition = new EmptySensitivityCondition(true, "");
+			StageUnitCondition condition = new StageUnitCondition(true, "", restrictions);
 
 			Message result = condition.evaluate(c);
 			assertTrue(result instanceof edu.iris.dmc.station.rules.Success);

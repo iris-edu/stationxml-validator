@@ -13,15 +13,15 @@ import edu.iris.dmc.fdsn.station.model.FDSNStationXML;
 import edu.iris.dmc.fdsn.station.model.Network;
 import edu.iris.dmc.fdsn.station.model.Station;
 import edu.iris.dmc.station.RuleEngineServiceTest;
-import edu.iris.dmc.station.conditions.DigitalFilterCondition;
 import edu.iris.dmc.station.conditions.EmptySensitivityCondition;
+import edu.iris.dmc.station.conditions.PolesZerosCondition;
 import edu.iris.dmc.station.restrictions.ChannelCodeRestriction;
 import edu.iris.dmc.station.restrictions.ChannelTypeRestriction;
 import edu.iris.dmc.station.restrictions.Restriction;
 import edu.iris.dmc.station.rules.Message;
 import edu.iris.dmc.station.rules.NestedMessage;
 
-public class Condition404Test2 {
+public class Condition423 {
 
 	private FDSNStationXML theDocument;
 
@@ -32,7 +32,7 @@ public class Condition404Test2 {
 
 	@Test
 	public void fail() throws Exception {
-		try (InputStream is = RuleEngineServiceTest.class.getClassLoader().getResourceAsStream("F2_404.xml")) {
+		try (InputStream is = RuleEngineServiceTest.class.getClassLoader().getResourceAsStream("F1_423.xml")) {
 			theDocument = DocumentMarshaller.unmarshal(is);
 
 			Network n = theDocument.getNetwork().get(0);
@@ -41,13 +41,14 @@ public class Condition404Test2 {
 			
 			Restriction[] restrictions = new Restriction[] { new ChannelCodeRestriction(), new ChannelTypeRestriction() };
 
-			DigitalFilterCondition condition = new DigitalFilterCondition(true, "", restrictions);
+			DecimationStageGainCondition condition = new DecimationStageGainCondition(true, "", restrictions);
                
 			Message result = condition.evaluate(c);
 			NestedMessage nestedMessage=(NestedMessage)result;
-			assertTrue(nestedMessage.getNestedMessages().get(0).getDescription().contains("[stage 03] must include StageGain and Decimation"));
 
-			
+
+			assertTrue(nestedMessage.getNestedMessages().get(0).getDescription().contains("[stage 01] includes Decimation and StageGain but does not include a Filter"));
+			assertTrue(nestedMessage.getNestedMessages().get(1).getDescription().contains("[stage 07] includes Decimation and StageGain but does not include a Filter"));
 		}
 
 	}

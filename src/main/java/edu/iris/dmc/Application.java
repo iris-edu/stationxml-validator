@@ -404,7 +404,7 @@ public class Application {
 		System.out.println("java -jar stationxml-validator <FILE> [OPTIONS]");
 		System.out.println("OPTIONS:");
 		System.out.println("   --input              : full input file path");
-		System.out.println("   --output             : where to output result, default is System.out");
+		//System.out.println("   --output             : where to output result, default is System.out");
 		System.out.println("   --ignore-warnings    : don't show warnings");
 		System.out.println("   --rules              : print a list of validation rules");
 		System.out.println("   --units              : print a list of units used to validate");

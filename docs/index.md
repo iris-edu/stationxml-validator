@@ -49,13 +49,13 @@ The Validator accepts dataless SEED metadata and directories in addation to stat
     java -jar station-xml-validator-1.7.0.jar IU.ANMO.00.BHZ.dataless
     java -jar stationxml-validator-1.7.0.jar /path/to/metadata
 
-Output are printed to System.out by default. The ouput argument directs Validator messages to the full path name supplied to the argument. 
+Output are printed to System.out by default. Use an stdout and stderr redirect to ouput Validator messages to a file. 
 
-    java -jar stationxml-validator-1.7.0.jar /path/to/metadata --output /path/for/output.txt
+    java -jar stationxml-validator-1.7.0.jar /path/to/metadata &> /path/for/output.txt
 
 Additional arguments may be provided to the Validator including: `--verbose` which provides additional output messages to the user, and `continue-on-error` which forces the validator to continue if an exception is encountered. `continue-on-error` is only useful when validating directories. 
     
-    java -jar stationxml-validator-1.7.0.jar /path/to/metadata --verbose --continue-on-error --output /path/for/output.txt
+    java -jar stationxml-validator-1.7.0.jar /path/to/metadata --verbose --continue-on-error &> /path/for/output.txt
 
 Users interested in generating stationXML formatted metadata from dataless SEED files should refer to the [stationxml-seed-converter](https://github.com/iris-edu/stationxml-seed-converter).
 

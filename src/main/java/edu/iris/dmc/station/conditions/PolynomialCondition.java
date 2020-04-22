@@ -52,7 +52,13 @@ public class PolynomialCondition extends ChannelRestrictedCondition {
 			if (stage.getPolynomial() != null) {
 				if (response.getInstrumentPolynomial() == null) {
 					//Stage [N] polynomial requires that an InstrumentPolynomial be included
-					return Result.error("Stage ["+index+"] polynomial requires that an InstrumentPolynomial be included");
+					if (stage.getNumber().intValue() < 10 ) {
+					    return Result.error("[stage " + String.format("%02d", stage.getNumber().intValue())
+					    + "] includes a Polynomial so InstrumentPolynomial be included");
+					}else {									    
+						return Result.error("[stage " + stage.getNumber().intValue()
+				        + "] must includes a Polynomial so InstrumentPolynomial be included");
+					}					
 				}
 			}
 			index++;

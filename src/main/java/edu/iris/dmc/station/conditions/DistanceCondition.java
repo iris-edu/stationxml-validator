@@ -4,6 +4,7 @@ import edu.iris.dmc.fdsn.station.model.Channel;
 import edu.iris.dmc.fdsn.station.model.Network;
 import edu.iris.dmc.fdsn.station.model.Station;
 import edu.iris.dmc.station.rules.Message;
+import edu.iris.dmc.station.rules.NestedMessage;
 import edu.iris.dmc.station.rules.Result;
 
 public class DistanceCondition extends AbstractCondition {
@@ -22,30 +23,38 @@ public class DistanceCondition extends AbstractCondition {
 
 	@Override
 	public Message evaluate(Station station) {
+		NestedMessage nestedMessage = new NestedMessage();
+		boolean returnmessage = false;
 
 		if (station.getChannels() == null || station.getChannels().isEmpty()) {
 			return Result.success();
 		}
 		if (station.getLongitude() == null || station.getLatitude() == null) {
-			return Result.warning("Expected longitude/latitude but was null!");
+			nestedMessage.add(Result.warning("Latitude value is null"));
+			returnmessage=true;
 		}
 
 		for (Channel channel : station.getChannels()) {
 			if (channel.getLatitude() == null || channel.getLongitude() == null) {
-				return Result.warning("Expected longitude/latitude but was null!");
+				nestedMessage.add(Result.warning("Longitude value is null"));
+				returnmessage=true;
 			}
 			double distance = DistanceCalculator.distance(channel.getLatitude().getValue(),
 					channel.getLongitude().getValue(), station.getLatitude().getValue(),
 					station.getLongitude().getValue(), "K");
 			if (distance > this.margin) {
-				return Result.error("Expected a distance difference of less than " + margin + " between "
-						+ station.getCode() + " and " + channel.getCode() + ":" + channel.getLocationCode()
-						+ " but was " + distance);
+				nestedMessage.add(Result.error("Distance between Sta: " 
+						+ station.getCode() + " and Chan: " + channel.getCode() + " Loc: " + channel.getLocationCode()
+						+ " is expected to be less than " + margin + " km but is " + distance + " km"));
+				returnmessage=true;
 			}
 		}
 
-		return Result.success();
-
+		if(returnmessage==true) {
+			   return nestedMessage;
+			}else {
+			   return Result.success();
+			}
 	}
 
 	@Override

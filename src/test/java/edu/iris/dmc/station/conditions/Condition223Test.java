@@ -15,6 +15,7 @@ import edu.iris.dmc.station.RuleEngineServiceTest;
 import edu.iris.dmc.station.conditions.EpochRangeCondition;
 import edu.iris.dmc.station.conditions.StationElevationCondition;
 import edu.iris.dmc.station.rules.Message;
+import edu.iris.dmc.station.rules.NestedMessage;
 
 public class Condition223Test {
 
@@ -35,7 +36,10 @@ public class Condition223Test {
 			StationElevationCondition condition = new StationElevationCondition(true, "");
 
 			Message result = condition.evaluate(s);
-			assertTrue(result instanceof edu.iris.dmc.station.rules.Error);
+			NestedMessage nestedMessage=(NestedMessage)result;
+			System.out.println(nestedMessage.getNestedMessages().get(0).getDescription());
+			assertTrue(nestedMessage.getNestedMessages().get(0).getDescription().
+					contains("Elevation between Sta: TPASS and Chan: BDF Loc: 00 is expected to be less than 1000 m but is 1.0E7 m"));
 		}
 
 	}

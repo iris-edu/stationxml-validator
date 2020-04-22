@@ -45,9 +45,12 @@ public class Condition417 {
                
 			Message result = condition.evaluate(c);
 			NestedMessage nestedMessage=(NestedMessage)result;
+			System.out.println(nestedMessage.getNestedMessages().get(0).getDescription());
+			System.out.println(nestedMessage.getNestedMessages().get(1).getDescription());
 
-			assertTrue(nestedMessage.getNestedMessages().get(0).getDescription().contains("[stage 01] Zero:number 6 is out of sequence"));
-			assertTrue(nestedMessage.getNestedMessages().get(1).getDescription().contains("[stage 01] Pole:number 11 is out of sequence"));
+
+			assertTrue(nestedMessage.getNestedMessages().get(0).getDescription().contains("[stage 01] Zero:number 6 is out of sequence 2 is expected"));
+			assertTrue(nestedMessage.getNestedMessages().get(1).getDescription().contains("[stage 01] Pole:number 11 is out of sequence 0 is expected"));
 		}
 
 	}

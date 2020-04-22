@@ -5,6 +5,7 @@ import edu.iris.dmc.fdsn.station.model.Distance;
 import edu.iris.dmc.fdsn.station.model.Network;
 import edu.iris.dmc.fdsn.station.model.Station;
 import edu.iris.dmc.station.rules.Message;
+import edu.iris.dmc.station.rules.NestedMessage;
 import edu.iris.dmc.station.rules.Result;
 
 public class StationElevationCondition extends AbstractCondition {
@@ -24,6 +25,8 @@ public class StationElevationCondition extends AbstractCondition {
 
 	@Override
 	public Message evaluate(Station station) {
+		NestedMessage nestedMessage = new NestedMessage();
+		boolean returnmessage = false;
 		if (station.getChannels() == null || station.getChannels().isEmpty()) {
 			return Result.success();
 		}
@@ -36,14 +39,21 @@ public class StationElevationCondition extends AbstractCondition {
 		}
 		for (Channel channel : station.getChannels()) {
 			if (channel.getElevation() != null) {
-				if (Math.abs(channel.getElevation().getValue() - station.getElevation().getValue()) > 1000) {
-					return Result.error("expected " + station.getCode() + " elevation "
-							+ station.getElevation().getValue() + " to be equal to or above " + channel.getCode() + ":"
-							+ channel.getLocationCode() + " elevation " + channel.getElevation().getValue());
+				double elevdelta = Math.abs(channel.getElevation().getValue() - station.getElevation().getValue());
+				if (elevdelta > 1000) {
+					nestedMessage.add(Result.error("Elevation between Sta: " + station.getCode() + " and Chan: "
+						    + channel.getCode() + " Loc: "+ channel.getLocationCode() + " is expected to be less than 1000 m but is "
+						    		+  elevdelta + " m"));
+					returnmessage=true;
+					
 				}
 			}
 		}
-		return Result.success();
+		if(returnmessage==true) {
+			   return nestedMessage;
+			}else {
+			   return Result.success();
+			}
 	}
 
 	@Override

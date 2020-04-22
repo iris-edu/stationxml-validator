@@ -11,6 +11,7 @@ import edu.iris.dmc.fdsn.station.model.ResponseStage;
 import edu.iris.dmc.fdsn.station.model.Station;
 import edu.iris.dmc.station.restrictions.Restriction;
 import edu.iris.dmc.station.rules.Message;
+import edu.iris.dmc.station.rules.NestedMessage;
 import edu.iris.dmc.station.rules.Result;
 
 public class DigitalFilterCondition extends ChannelRestrictedCondition {
@@ -38,12 +39,14 @@ public class DigitalFilterCondition extends ChannelRestrictedCondition {
 
 	@Override
 	public Message evaluate(Channel channel, Response response) {
+		NestedMessage nestedMessage = new NestedMessage();
+		boolean returnmessage = false;
 		if (isRestricted(channel)) {
 			return Result.success();
 		}
 		if (this.required) {
 			if (response == null) {
-				return Result.error("expected response but was null");
+				return Result.error("Expected response but was null");
 			}
 		}
 		if (response.getStage() != null && !response.getStage().isEmpty()) {
@@ -52,25 +55,54 @@ public class DigitalFilterCondition extends ChannelRestrictedCondition {
 			for (ResponseStage s : stages) {
 				if (s.getCoefficients() != null && "DIGITAL".equals(s.getCoefficients().getCfTransferFunctionType())) {
 					if (s.getDecimation() == null || s.getStageGain() == null) {
-						return Result.error("Gain and|or decimation are missing");
+						if (s.getNumber().intValue() < 10 ) {
+						    nestedMessage.add(Result.error("[stage " + String.format("%02d", s.getNumber().intValue())
+						    + "] must include StageGain and Decimation"));
+						    returnmessage =true;
+						}else {									    
+							nestedMessage.add(Result.error("[stage " + s.getNumber().intValue()
+					        + "] must include StageGain and Decimation"));
+					        returnmessage =true;	
+						}
 					}
 				}
 
 				if (s.getPolesZeros() != null
 						&& "DIGITAL (Z-TRANSFORM)".equals(s.getPolesZeros().getPzTransferFunctionType())) {
 					if (s.getDecimation() == null || s.getStageGain() == null) {
-						return Result.error("Gain and|or decimation are missing");
+						if (s.getNumber().intValue() < 10 ) {
+						    nestedMessage.add(Result.error("[stage " + String.format("%02d", s.getNumber().intValue())
+						    + "] must include StageGain and Decimation"));
+						    returnmessage =true;
+						}else {									    
+							nestedMessage.add(Result.error("[stage " + s.getNumber().intValue()
+					        + "] must include StageGain and Decimation"));
+					        returnmessage =true;	
+						}
 					}
 				}
 
 				if (s.getFIR() != null) {
 					if (s.getDecimation() == null || s.getStageGain() == null) {
-						return Result.error("Gain and|or decimation are missing");
+						nestedMessage.add(Result.error("Gain and|or decimation are missing"));
+						if (s.getNumber().intValue() < 10 ) {
+						    nestedMessage.add(Result.error("[stage " + String.format("%02d", s.getNumber().intValue())
+						    + "] must include StageGain and Decimation"));
+						    returnmessage =true;
+						}else {									    
+							nestedMessage.add(Result.error("[stage " + s.getNumber().intValue()
+					        + "] must include StageGain and Decimation"));
+					        returnmessage =true;	
+						}
 					}
 				}
 			}
 
 		}
-		return Result.success();
+		if(returnmessage==true) {
+		    return nestedMessage;
+		}else {
+			return Result.success();
+	 	}
 	}
 }

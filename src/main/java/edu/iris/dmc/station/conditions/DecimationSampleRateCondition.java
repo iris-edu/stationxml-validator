@@ -50,10 +50,12 @@ public class DecimationSampleRateCondition extends ChannelRestrictedCondition {
 		}
 
 		Decimation decimation = null;
+		int stageindex = 0;
 		for (ResponseStage stage : response.getStage()) {
 			if (stage.getDecimation() != null) {
 				decimation = stage.getDecimation();
 			}
+			stageindex = stageindex+1;
 		}
 		if (decimation == null) {
 			return Result.warning("Decimation cannot be null");
@@ -63,10 +65,27 @@ public class DecimationSampleRateCondition extends ChannelRestrictedCondition {
 		BigInteger factor = decimation.getFactor();
 
 		if (frequence == null) {
-			return Result.error("frequency is null");
+			if (stageindex < 10 ) {
+				return Result.error("[stage "  + String.format("%02d", stageindex) + 
+						"] Decimation:Frequency must not be null");
+			}else {									    
+				return Result.error("[stage "  +  stageindex + 
+						"] Decimation:Frequency must not be null");
+			}
+			
+			
 		}
 		if (Math.abs(sampleRate.getValue() - (frequence.getValue() / factor.doubleValue())) > 0.0001) {
-			return Result.error("samplerate: "+sampleRate.getValue() + "!= frequency/factor " + (frequence.getValue() / factor.doubleValue()));
+			if (stageindex < 10 ) {
+				return Result.error("Chan:Samplerate "+sampleRate.getValue() + " != [stage " 
+						+ String.format("%02d", stageindex) + "] Decimation:Frequency/Decimation:Factor "
+						+ (frequence.getValue() / factor.doubleValue()));
+			}else {									    
+				return Result.error("Channel:Samplerate: "+sampleRate.getValue() + " != [stage " 
+						+  stageindex + "] Decimation:Frequency/Decimation:Factor "
+						+ (frequence.getValue() / factor.doubleValue()));
+			}
+						
 		}
 
 		return Result.success();

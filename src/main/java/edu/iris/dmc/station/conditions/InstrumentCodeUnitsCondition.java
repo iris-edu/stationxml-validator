@@ -7,6 +7,7 @@ import edu.iris.dmc.fdsn.station.model.Network;
 import edu.iris.dmc.fdsn.station.model.ResponseStage;
 import edu.iris.dmc.fdsn.station.model.Station;
 import edu.iris.dmc.seed.control.station.Stage;
+import edu.iris.dmc.station.exceptions.StationxmlException;
 import edu.iris.dmc.station.rules.Message;
 import edu.iris.dmc.station.rules.Result;
 
@@ -31,6 +32,10 @@ public class InstrumentCodeUnitsCondition extends AbstractCondition {
 	public Message evaluate(Channel channel) {
 		String inputUnit ="";
 		String code = channel.getCode();
+		try {
+		if(channel.getResponse().getStage().size()==0) {
+			throw new StationxmlException("Response is missing from input StationXML");
+		}
 		ResponseStage stage1 = channel.getResponse().getStage().get(0);
 		if(stage1.getCoefficients() != null) {
 			inputUnit = stage1.getCoefficients().getInputUnits().getName();
@@ -64,7 +69,7 @@ public class InstrumentCodeUnitsCondition extends AbstractCondition {
 		}
 
 		
-		try {
+
 		if("HLMN".indexOf(code.charAt(1)) >=0 | "hlmn".indexOf(code.charAt(1)) >=0) {
 			if(!inputUnit.toLowerCase().contains("m/s")) {
 			return Result.warning("Instument code " +code.charAt(1)+" should have stage 1 input units similar to *m/s*");

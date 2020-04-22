@@ -19,6 +19,7 @@ import edu.iris.dmc.station.restrictions.ChannelCodeRestriction;
 import edu.iris.dmc.station.restrictions.ChannelTypeRestriction;
 import edu.iris.dmc.station.restrictions.Restriction;
 import edu.iris.dmc.station.rules.Message;
+import edu.iris.dmc.station.rules.NestedMessage;
 
 public class Condition422Test {
 
@@ -43,8 +44,9 @@ public class Condition422Test {
 			DecimationCondition condition = new DecimationCondition(true, "", restrictions);
                
 			Message result = condition.evaluate(c);
-			
-			assertTrue(result instanceof edu.iris.dmc.station.rules.Error);
+			NestedMessage nestedMessage=(NestedMessage)result;
+			assertTrue(nestedMessage.getNestedMessages().get(0).getDescription().contains("[stage 05] Decimation:InputSampleRate 20.0 != [stage 04] Decimation:InputSampleRate/Decimation:Factor 10.0"));
+
 		}
 
 	}

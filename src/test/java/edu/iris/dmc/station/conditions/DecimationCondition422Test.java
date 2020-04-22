@@ -1,5 +1,6 @@
 package edu.iris.dmc.station.conditions;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.InputStream;
@@ -45,7 +46,7 @@ public class DecimationCondition422Test {
 			Response response = bhz00.getResponse();
 			Message result = condition.evaluate(bhz00, response);
 			System.out.println(result);
-			assertTrue(result instanceof edu.iris.dmc.station.rules.Error);
+			assertFalse(result instanceof edu.iris.dmc.station.rules.Success);
 		}
 
 	}

@@ -10,6 +10,7 @@ import edu.iris.dmc.fdsn.station.model.ResponseStage;
 import edu.iris.dmc.fdsn.station.model.Station;
 import edu.iris.dmc.station.restrictions.Restriction;
 import edu.iris.dmc.station.rules.Message;
+import edu.iris.dmc.station.rules.NestedMessage;
 import edu.iris.dmc.station.rules.Result;
 
 public class StageSequenceCondition extends ChannelRestrictedCondition {
@@ -40,6 +41,8 @@ public class StageSequenceCondition extends ChannelRestrictedCondition {
 
 	@Override
 	public Message evaluate(Channel channel, Response response) {
+		NestedMessage nestedMessage = new NestedMessage();
+		boolean returnmessage = false;
 		if (isRestricted(channel)) {
 			return Result.success();
 		}
@@ -52,17 +55,22 @@ public class StageSequenceCondition extends ChannelRestrictedCondition {
 			List<ResponseStage> stages = response.getStage();
 			ResponseStage stage = stages.get(stages.size() - 1);
 			if (stage.getNumber().intValue() == stages.size() - 1) {
-				return Result.error("invalid stage sequence number " + stage.getNumber().intValue());
+				nestedMessage.add(Result.error("Invalid stage sequence number " + stage.getNumber().intValue()));
+				returnmessage=true;
 			} else {
 				int i = 1;
 				for (ResponseStage s : stages) {
 					if (s.getNumber().intValue() != i) {
-						return Result.error("invalid stage sequence number " + s.getNumber().intValue() + " expected: " + i);
+						    nestedMessage.add(Result.error("Stage sequence number [" + s.getNumber().intValue() + "] is invalid [" +i+"] is expected"));
+						returnmessage=true;
 					}
 					i++;
 				}
 			}
 		}
-		return Result.success();
-	}
+		if(returnmessage==true) {
+			   return nestedMessage;
+			}else {
+			   return Result.success();
+			}	}
 }

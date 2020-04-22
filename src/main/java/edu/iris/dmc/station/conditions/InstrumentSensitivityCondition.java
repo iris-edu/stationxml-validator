@@ -52,7 +52,7 @@ public class InstrumentSensitivityCondition extends ChannelRestrictedCondition {
 			if (stage.getPolynomial() == null) {
 				if (response.getInstrumentSensitivity() == null) {
 					//Stage [N] polynomial requires that an InstrumentPolynomial be included
-					return Result.error("InstrumentSensitivity must be included for all non-polynomial responses.");
+					return Result.error("InstrumentSensitivity must be included for a non-polynomial responses.");
 				}
 			}
 			index++;

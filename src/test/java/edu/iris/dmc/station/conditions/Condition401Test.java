@@ -19,6 +19,7 @@ import edu.iris.dmc.station.restrictions.ChannelCodeRestriction;
 import edu.iris.dmc.station.restrictions.ChannelTypeRestriction;
 import edu.iris.dmc.station.restrictions.Restriction;
 import edu.iris.dmc.station.rules.Message;
+import edu.iris.dmc.station.rules.NestedMessage;
 
 public class Condition401Test {
 
@@ -43,9 +44,10 @@ public class Condition401Test {
 			StageSequenceCondition condition = new StageSequenceCondition(true, "", restrictions);
 
 			Message result = condition.evaluate(c);
-			System.out.println(result);
+			NestedMessage nestedMessage=(NestedMessage)result;
+			System.out.println(nestedMessage.getNestedMessages().get(0).getDescription());
 
-			assertTrue(result instanceof edu.iris.dmc.station.rules.Error);
+			assertTrue(nestedMessage.getNestedMessages().get(0).getDescription().contains("Stage sequence number [5] is invalid [2] is expected"));
 		}
 
 	}

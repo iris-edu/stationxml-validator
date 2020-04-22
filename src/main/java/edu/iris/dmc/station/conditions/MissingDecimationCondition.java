@@ -50,6 +50,6 @@ public class MissingDecimationCondition extends ChannelRestrictedCondition {
 				return Result.success();
 			}
 		}
-		return Result.warning("No decimation found");
+		return Result.warning("Response does not include decimation");
 	}
 }

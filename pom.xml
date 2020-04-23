@@ -1,12 +1,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-
 	<groupId>edu.iris.dmc</groupId>
 	<artifactId>stationxml-validator</artifactId>
 	<packaging>jar</packaging>
 	<version>1.7.0-RC-01-SNAPSHOT</version>
 	<name>FDSN StationXML Validator</name>
-     <description>Converts seismological metadata between dataless seed and FDSN StationXML file formats.</description>
+    <url>http://maven.apache.org</url>
+    <description>Converts seismological metadata between dataless seed and FDSN StationXML file formats.</description>
       <developers>
           <developer>
               <name>Yazan</name>
@@ -64,7 +64,6 @@
 				<updatePolicy>always</updatePolicy>
 			</releases>
 		</repository>
-
 	</repositories>
 	<build>
         <resources>
@@ -229,7 +228,6 @@
 			<version>5.4.2</version>
 			<scope>test</scope>
 		</dependency>
-
 		<!-- https://mvnrepository.com/artifact/org.junit.platform/junit-platform-runner -->
 		<dependency>
 			<groupId>org.junit.platform</groupId>
@@ -237,18 +235,15 @@
 			<version>1.4.2</version>
 			<scope>test</scope>
 		</dependency>
-
-
-
 	</dependencies>
 	<distributionManagement>
+		<repository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
 		<snapshotRepository>
 			<id>ossrh</id>
 			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
 		</snapshotRepository>
-		<repository>
-			<id>ossrh</id>
-			<url>https://oss.sonatype.org/content/repositories/releases</url>
-		</repository>
 	</distributionManagement>
 </project>

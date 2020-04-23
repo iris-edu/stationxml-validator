@@ -397,7 +397,7 @@ public class Application {
 		version = center(version, 62, " ");
 
 		System.out.println("===============================================================");
-		System.out.println("|" + center("FDSN StationXml Validator", 62, " ") + "|");
+		System.out.println("|" + center("FDSN StationXML Validator", 62, " ") + "|");
 		System.out.println("|" + version + "|");
 		System.out.println("================================================================");
 		System.out.println("Usage:");

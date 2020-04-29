@@ -54,7 +54,7 @@ Output are printed to System.out by default. Use an stdout and stderr redirect t
 
     java -jar stationxml-validator-1.7.0.jar /path/to/metadata &> /path/for/output.txt
 
-Additional arguments may be provided to the Validator including: `--verbose` which provides additional output messages to the user, and `continue-on-error` which forces the validator to continue if an exception is encountered. `continue-on-error` is only useful when validating directories. 
+Additional arguments may be provided to the Validator including: `--verbose` which provides additional output messages to the user, and `continue-on-error` which forces the validator to continue if an exception is encountered. The `--verbose` flag is only effective if stderr is redirected into stdinfo. `continue-on-error` is only useful when validating directories. 
     
     java -jar stationxml-validator-1.7.0.jar /path/to/metadata --verbose --continue-on-error &> /path/for/output.txt
 

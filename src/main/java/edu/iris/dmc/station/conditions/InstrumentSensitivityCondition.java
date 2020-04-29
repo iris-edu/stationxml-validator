@@ -47,17 +47,27 @@ public class InstrumentSensitivityCondition extends ChannelRestrictedCondition {
 			}
 		}
 
+		// This probably needs to be a list
 		int index=1;
+		boolean failAfterStages = false;
 		for (ResponseStage stage : response.getStage()) {
-			if (stage.getPolynomial() == null) {
-				if (response.getInstrumentSensitivity() == null) {
-					//Stage [N] polynomial requires that an InstrumentPolynomial be included
-					return Result.error("InstrumentSensitivity must be included for a non-polynomial responses.");
+			if(response.getInstrumentSensitivity()==null) {
+			    if (stage.getPolynomial() != null) {
+			    	if(response.getInstrumentPolynomial() != null) {
+			    		return Result.success();
+			    	}else {}
+			    }else {
+			    	// Add a boolean trigger that forces a failure after all stages are checked. 
+			    	failAfterStages = true;
 				}
 			}
 			index++;
 		}
+		if(failAfterStages==true) {
+			return Result.error("InstrumentSensitivity must be included for a non-polynomial responses.");
+
+		}else {
 		return Result.success();
 	}
-
+  } 
 }

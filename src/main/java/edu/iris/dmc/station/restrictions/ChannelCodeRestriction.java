@@ -8,7 +8,7 @@ import edu.iris.dmc.fdsn.station.model.Response;
 public class ChannelCodeRestriction implements Restriction {
 
 	private String name;
-	private String[] codes = new String[] { "ACE", "ATC", "BDO", "EX1", "EX2", "EX3", "EX4", "EX5", "EX6", "EX7", "EX8",
+	private String[] codes = new String[] { "ACE", "ATC", "EX1", "EX2", "EX3", "EX4", "EX5", "EX6", "EX7", "EX8",
 			"EX9", "GAN", "GEL", "GLA", "GLO", "GNS", "GPL", "GPS", "GST", "LCA", "LCB", "LCC", "LCD", "LCE", "LCF",
 			"LCG", "LCH", "LCI", "LCJ", "LCK", "LCL", "LCM", "LCN", "LCO", "LCP", "LCQ", "LCR", "LCS", "LCT", "LCU",
 			"LCV", "LCW", "LCX", "LCY", "LCZ", "LDE", "LDN", "LDZ", "LEE", "LED", "LEO", "LEP", "LII", "LKI",

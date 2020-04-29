@@ -408,7 +408,7 @@ public class Application {
 		System.out.println("   --ignore-warnings    : don't show warnings");
 		System.out.println("   --rules              : print a list of validation rules");
 		System.out.println("   --units              : print a list of units used to validate");
-		System.out.println("   --verbose            : change the verobsity level to info");
+		System.out.println("   --verbose            : change the verobsity level to info; info is printed to stderr");
 		System.out.println("   --debug              : change the verobsity level to debug");
 		System.out.println("   --help               : print this message");
 		System.out.println("   --continue-on-error  : print exceptions to stdout and processes next file");

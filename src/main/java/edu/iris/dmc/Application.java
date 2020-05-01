@@ -143,38 +143,27 @@ public class Application {
 	    run("csv");
 	}
 
-	public void run(String format) throws Exception {
-		Path path = commandLine.input();
-		if (!path.toFile().exists()) {
-			throw new IOException(String.format("File %s does not exist.  File is required!", path.toString()));
-		}
-		List<Path> input = new ArrayList<>();
-		if (path.toFile().isDirectory()) {
-			try (Stream<Path> paths = Files.walk(path)) {
-				input = paths.filter(Files::isRegularFile).collect(Collectors.toList());
-			}
-		} else {
-			input.add(path);
-		}
+	public void run(String format, OutputStream outputStream) throws Exception {
+		run(getInputFiles(), format, outputStream);
+	}
 
-		File outputFile = null;
+	public void run(String format) throws Exception {
+		List<Path> input = getInputFiles();
 		if (commandLine.output() != null) {
-			outputFile = commandLine.output().toFile();
+			File outputFile = commandLine.output().toFile();
 			if (!outputFile.exists()) {
 				outputFile.createNewFile();
 				//throw new IOException(String.format("File %s is not found!", commandLine.output().toString()));
 			}
-		
+
 			try (OutputStream outputStream =  new FileOutputStream(outputFile)) {
 				run(input, format, outputStream);
-		}
-		}else {
-			try (OutputStream outputStream = System.out;) {
-				run(input, format, outputStream);
 			}
+		}else {
+			run(input, format, System.out);
 		}
 	}
-	
+
 	private void run(List<Path> input, String format, OutputStream outputStream) throws Exception {
 		RuleEngineService ruleEngineService = new RuleEngineService(commandLine.ignoreWarnings(), commandLine.ignoreRules());
 		try (final RuleResultPrintStream ps = getOutputStream(format, outputStream)) {
@@ -190,7 +179,22 @@ public class Application {
 			error(e);
 			//e.printStackTrace();
 		}
+	}
 
+	private List<Path> getInputFiles() throws IOException {
+		Path path = commandLine.input();
+		if (!path.toFile().exists()) {
+			throw new IOException(String.format("File %s does not exist.  File is required!", path.toString()));
+		}
+		List<Path> input = new ArrayList<>();
+		if (path.toFile().isDirectory()) {
+			try (Stream<Path> paths = Files.walk(path)) {
+				input = paths.filter(Files::isRegularFile).collect(Collectors.toList());
+			}
+		} else {
+			input.add(path);
+		}
+		return input;
 	}
 
 	private FDSNStationXML read(Path path) throws Exception {

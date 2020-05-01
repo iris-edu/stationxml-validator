@@ -1,4 +1,4 @@
-## Pull Request Submission and Review Protocol for the StationXML Vaidator
+## Pull Request Submission and Review Protocol for the StationXML Validator
 
 Please follow these steps, outlined below, when contributing to the stationxml validator project. 
 

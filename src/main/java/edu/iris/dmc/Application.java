@@ -87,13 +87,13 @@ public class Application {
 	    		  + " %5$s%6$s %n");
 	      LOGGER = Logger.getLogger(Application.class.getName());
 	  }
-	private static CommandLine commandLine;
 
 	/**
 	 * @param args
 	 * @throws Exception
 	 */
 	public static void main(String[] args) throws Exception {
+		CommandLine commandLine;
 		try {
 			LOGGER.setLevel(Level.WARNING);
 			commandLine = CommandLine.parse(args);
@@ -102,6 +102,7 @@ public class Application {
 			LOGGER.severe(message.toString());
 			help();
 			System.exit(1);
+			return;
 		}
 		LOGGER.setLevel(Level.WARNING);
 		LOGGER.setLevel(commandLine.getLogLevel());
@@ -125,14 +126,24 @@ public class Application {
 		// Add configurable verboisty to this project. 
 		// Update the logger to work similar to converter. 
 		try {
-			Application app = new Application();
+			Application app = new Application(commandLine);
 			app.run();
 		} catch (Exception e) {
-			exitWithError(e);
+			exitWithError(e, commandLine.continueError());
 		}
 	}
 
+	private final CommandLine commandLine;
+
+	public Application(CommandLine commandLine) {
+	    this.commandLine = commandLine;
+	}
+
 	public void run() throws Exception {
+	    run("csv");
+	}
+
+	public void run(String format) throws Exception {
 		Path path = commandLine.input();
 		if (!path.toFile().exists()) {
 			throw new IOException(String.format("File %s does not exist.  File is required!", path.toString()));
@@ -154,21 +165,18 @@ public class Application {
 				//throw new IOException(String.format("File %s is not found!", commandLine.output().toString()));
 			}
 		
-		    try (OutputStream outputStream =  new FileOutputStream(outputFile)) {
-			    run(input, "csv", outputStream, commandLine.ignoreRules(), commandLine.ignoreWarnings());
+			try (OutputStream outputStream =  new FileOutputStream(outputFile)) {
+				run(input, format, outputStream);
 		}
 		}else {
 			try (OutputStream outputStream = System.out;) {
-				run(input, "csv", outputStream, commandLine.ignoreRules(), commandLine.ignoreWarnings());
+				run(input, format, outputStream);
 			}
-			
 		}
-		
 	}
 	
-	private void run(List<Path> input, String format, OutputStream outputStream, int[] ignoreRules,
-			boolean ignoreWarnings) throws Exception {
-		RuleEngineService ruleEngineService = new RuleEngineService(ignoreWarnings, ignoreRules);
+	private void run(List<Path> input, String format, OutputStream outputStream) throws Exception {
+		RuleEngineService ruleEngineService = new RuleEngineService(commandLine.ignoreWarnings(), commandLine.ignoreRules());
 		try (final RuleResultPrintStream ps = getOutputStream(format, outputStream)) {
 			for (Path p : input) {
 				FDSNStationXML document = read(p);
@@ -179,7 +187,7 @@ public class Application {
 				print(ps, ruleEngineService.executeAllRules(document));
 			}
 		} catch (Exception e) {
-			exitWithError(e);
+			error(e);
 			//e.printStackTrace();
 		}
 
@@ -199,7 +207,7 @@ public class Application {
 				try {
 				   return DocumentMarshaller.unmarshal(is);
 				} catch (StationxmlException | IOException | RuntimeException e){
-				    exitWithError(e);
+				    error(e);
 					//StringBuilder message = createExceptionMessage(e);
 					//LOGGER.severe(message.toString());
 					return null;
@@ -211,7 +219,7 @@ public class Application {
 				    Volume volume = IrisUtil.readSeed(file);
 				return SeedToXmlDocumentConverter.getInstance().convert(volume);
 			    }catch(RuntimeException e){
-				    exitWithError(e);
+				    error(e);
 				    //StringBuilder message = createExceptionMessage(e);		
 				    //LOGGER.severe(message.toString());
 				   return null;	
@@ -265,10 +273,13 @@ public class Application {
 		return volume;
 	}
 	
-	
-	private static void exitWithError(Exception e) {
+	protected void error(Exception e) {
+		exitWithError(e, commandLine.continueError());
+	}
+
+	private static void exitWithError(Exception e, boolean continueError) {
 		StringBuilder message = createExceptionMessage(e);
-		if (commandLine.continueError()==true){
+		if (continueError==true){
 			LOGGER.severe(message.toString());
 	        //null 
 		}else {

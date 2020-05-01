@@ -57,11 +57,11 @@ public class DecimationStageGainCondition extends ChannelRestrictedCondition {
 				if (s.getCoefficients() == null && s.getPolesZeros() == null && s.getFIR()==null && s.getResponseList()==null) {
 					if (s.getNumber().intValue() < 10 ) {
 					    nestedMessage.add(Result.error("[stage " + String.format("%02d", s.getNumber().intValue())
-					    + "] includes Decimation and StageGain but does not include a Filter"));
+					    + "] includes Decimation and StageGain but does not include a filter"));
 					    returnmessage =true;
 					}else {									    
 						nestedMessage.add(Result.error("[stage " + s.getNumber().intValue()
-				        + "] includes Decimation and StageGain but does not include a Filter"));
+				        + "] includes Decimation and StageGain but does not include a filter"));
 				        returnmessage =true;	
 					}
 					}

@@ -33,8 +33,18 @@ public class CommandLine {
 		return input;
 	}
 
+	public CommandLine setInput(Path input)	{
+		this.input = input;
+		return this;
+	}
+
 	public Path output() {
 		return output;
+	}
+
+	public CommandLine setOutput(Path output) {
+		this.output = output;
+		return this;
 	}
 
 	public boolean showHelp() {
@@ -49,31 +59,57 @@ public class CommandLine {
 		return ignoreWarnings;
 	}
 
+	public CommandLine setIgnoreWarnings(boolean b) {
+		this.ignoreWarnings = b;
+		return this;
+	}
+
 	public int[] ignoreRules() {
 		return ignoreRules;
+	}
+
+	public CommandLine setIgnoreRules(int[] rules) {
+		this.ignoreRules = rules;
+		return this;
 	}
 
 	public boolean showRules() {
 		return showRules;
 	}
-	
+
+	public CommandLine setShowRules(boolean b) {
+		this.showRules = b;
+		return this;
+	}
+
 	public boolean continueError() {
 		return continueError;
 	}
-	
+
+	public CommandLine setContinueError(boolean b) {
+		this.continueError = b;
+		return this;
+	}
+
 	public boolean showUnits() {
 		return showUnits;
+	}
+
+	public CommandLine setShowUnits(boolean b) {
+		this.showUnits = b;
+		return this;
 	}
 
 	public Level getLogLevel() {
 		return logLevel;
 	}
+
 	public static CommandLine parse(String[] args) throws CommandLineParseException {
 		CommandLine commandLine = new CommandLine();
 
 		if (args == null || args.length == 0) {
 			throw new CommandLineParseException("Application arguments cannot be empty or null!");
-			
+
 		}
 		// look for showHelp or showVersion flags
 		if (args.length == 1) {
@@ -100,7 +136,7 @@ public class CommandLine {
 
 				}
 			}
-			
+
 		}
 		if (args.length < 1) {
 			throw new CommandLineParseException(
@@ -126,7 +162,7 @@ public class CommandLine {
 					commandLine.ignoreWarnings = true;
 				} else if ("--ignore-rules".equalsIgnoreCase(arg)) {
 					if(args.length < (i+2)) {
-						throw new CommandLineParseException(String.format("Please provide rules to ignore."));	
+						throw new CommandLineParseException(String.format("Please provide rules to ignore."));
 					}else {
 					    String rules = args[i + 1];
 					    commandLine.ignoreRules = Stream.of(rules.split("\\s*,\\s*")).map(String::trim)
@@ -141,14 +177,14 @@ public class CommandLine {
 					commandLine.continueError = true;
 				}  else if ("--output".equalsIgnoreCase(arg) || "-o".equalsIgnoreCase(arg)) {
 					if(args.length < (i+2)) {
-						throw new CommandLineParseException(String.format("Please provide an argument for --output."));	
+						throw new CommandLineParseException(String.format("Please provide an argument for --output."));
 					}else {
 					    commandLine.output = Paths.get(args[i + 1]);
 					i = i + 1;
 					}
 				}else if ("--input".equalsIgnoreCase(arg) || "-i".equalsIgnoreCase(arg)) {
 					if(args.length < (i+2)) {
-						throw new CommandLineParseException(String.format("Please provide an argument for --file."));	
+						throw new CommandLineParseException(String.format("Please provide an argument for --file."));
 					}else {
 					    String path = args[i+1];
 					    commandLine.input = Paths.get(path);

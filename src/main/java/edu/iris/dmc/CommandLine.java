@@ -104,6 +104,11 @@ public class CommandLine {
 		return logLevel;
 	}
 
+	public CommandLine setLogLevel(Level level) {
+		this.logLevel = logLevel;
+		return this;
+	}
+
 	public static CommandLine parse(String[] args) throws CommandLineParseException {
 		CommandLine commandLine = new CommandLine();
 

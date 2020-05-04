@@ -45,12 +45,31 @@ public class Condition417 {
                
 			Message result = condition.evaluate(c);
 			NestedMessage nestedMessage=(NestedMessage)result;
-			System.out.println(nestedMessage.getNestedMessages().get(0).getDescription());
-			System.out.println(nestedMessage.getNestedMessages().get(1).getDescription());
+			//System.out.println(nestedMessage.getNestedMessages().get(0).getDescription());
+			//System.out.println(nestedMessage.getNestedMessages().get(1).getDescription());
 
 
 			assertTrue(nestedMessage.getNestedMessages().get(0).getDescription().contains("[stage 01] Zero:number 6 is out of sequence 2 is expected"));
 			assertTrue(nestedMessage.getNestedMessages().get(1).getDescription().contains("[stage 01] Pole:number 11 is out of sequence 0 is expected"));
+		}
+
+	}
+	
+	@Test
+	public void pass2() throws Exception {
+		try (InputStream is = RuleEngineServiceTest.class.getClassLoader().getResourceAsStream("P1_417.xml")) {
+			theDocument = DocumentMarshaller.unmarshal(is);
+
+			Network n = theDocument.getNetwork().get(0);
+			Station s = n.getStations().get(0);
+			Channel c = s.getChannels().get(0);
+			
+			Restriction[] restrictions = new Restriction[] { new ChannelCodeRestriction(), new ChannelTypeRestriction() };
+
+			PolesZerosSequenceCondition condition = new PolesZerosSequenceCondition(true, "", restrictions);
+
+			Message result = condition.evaluate(c);
+			assertTrue(result instanceof edu.iris.dmc.station.rules.Success);
 		}
 
 	}

@@ -2,12 +2,10 @@ package edu.iris.dmc;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.io.IOException;
 import java.io.InputStream;
 
 import org.junit.jupiter.api.Test;
 
-import edu.iris.dmc.seed.SeedException;
 import edu.iris.dmc.station.RuleEngineServiceTest;
 import edu.iris.dmc.station.exceptions.StationxmlException;
 

@@ -1,10 +1,10 @@
 package edu.iris.dmc.station.conditions;
 
 import edu.iris.dmc.fdsn.station.model.Channel;
-import edu.iris.dmc.fdsn.station.model.StageGain;
 import edu.iris.dmc.fdsn.station.model.Network;
 import edu.iris.dmc.fdsn.station.model.Response;
 import edu.iris.dmc.fdsn.station.model.ResponseStage;
+import edu.iris.dmc.fdsn.station.model.StageGain;
 import edu.iris.dmc.fdsn.station.model.Station;
 import edu.iris.dmc.station.restrictions.Restriction;
 import edu.iris.dmc.station.rules.Message;

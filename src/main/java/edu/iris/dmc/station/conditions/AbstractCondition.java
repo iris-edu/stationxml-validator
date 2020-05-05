@@ -1,11 +1,8 @@
 package edu.iris.dmc.station.conditions;
 
-import java.util.List;
-
 import edu.iris.dmc.fdsn.station.model.Channel;
 import edu.iris.dmc.fdsn.station.model.FDSNStationXML;
 import edu.iris.dmc.fdsn.station.model.Response;
-import edu.iris.dmc.station.restrictions.Restriction;
 import edu.iris.dmc.station.rules.Message;
 
 public abstract class AbstractCondition implements Condition {

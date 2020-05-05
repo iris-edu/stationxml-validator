@@ -9,18 +9,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import edu.iris.dmc.DocumentMarshaller;
-import edu.iris.dmc.fdsn.station.model.Channel;
 import edu.iris.dmc.fdsn.station.model.FDSNStationXML;
 import edu.iris.dmc.fdsn.station.model.Network;
-import edu.iris.dmc.fdsn.station.model.Response;
 import edu.iris.dmc.fdsn.station.model.Station;
 import edu.iris.dmc.station.RuleEngineServiceTest;
-import edu.iris.dmc.station.conditions.EpochRangeCondition;
-import edu.iris.dmc.station.restrictions.ChannelCodeRestriction;
-import edu.iris.dmc.station.restrictions.ChannelTypeRestriction;
-import edu.iris.dmc.station.restrictions.Restriction;
 import edu.iris.dmc.station.rules.Message;
-import edu.iris.dmc.station.rules.Success;
 
 public class EpochRangeCondition112Test {
 

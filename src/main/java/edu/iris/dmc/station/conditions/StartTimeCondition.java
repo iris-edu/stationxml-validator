@@ -1,6 +1,5 @@
 package edu.iris.dmc.station.conditions;
 
-import edu.iris.dmc.TimeUtil;
 import edu.iris.dmc.fdsn.station.model.BaseNodeType;
 import edu.iris.dmc.fdsn.station.model.Channel;
 import edu.iris.dmc.fdsn.station.model.Network;

@@ -15,7 +15,6 @@ import edu.iris.dmc.fdsn.station.model.Response;
 import edu.iris.dmc.fdsn.station.model.Station;
 import edu.iris.dmc.station.conditions.Condition;
 import edu.iris.dmc.station.rules.Message;
-import edu.iris.dmc.station.rules.NestedMessage;
 import edu.iris.dmc.station.rules.Rule;
 import edu.iris.dmc.station.rules.Warning;
 

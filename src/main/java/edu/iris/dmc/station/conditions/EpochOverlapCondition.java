@@ -1,17 +1,11 @@
 package edu.iris.dmc.station.conditions;
 
-import java.time.OffsetDateTime;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-
-import javax.xml.datatype.XMLGregorianCalendar;
 
 import edu.iris.dmc.TimeUtil;
 import edu.iris.dmc.fdsn.station.model.BaseNodeType;

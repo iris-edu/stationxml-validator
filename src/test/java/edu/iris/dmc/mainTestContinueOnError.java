@@ -1,26 +1,14 @@
 package edu.iris.dmc;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.io.ByteArrayOutputStream;
 import java.io.FileDescriptor;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintStream;
 import java.net.URL;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import com.ginsberg.junit.exit.ExpectSystemExitWithStatus;
-
-import org.junit.Rule;
-
-
-
-import edu.iris.dmc.seed.SeedException;
-import edu.iris.dmc.Application;
-import edu.iris.dmc.station.RuleEngineServiceTest;
-import edu.iris.dmc.station.exceptions.StationxmlException;
 
 public class mainTestContinueOnError {
 

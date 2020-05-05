@@ -4,14 +4,12 @@ import java.math.BigInteger;
 import java.util.List;
 import java.util.logging.Logger;
 
-import edu.iris.dmc.fdsn.station.model.BaseFilter;
 import edu.iris.dmc.fdsn.station.model.Channel;
-import edu.iris.dmc.fdsn.station.model.StageGain;
 import edu.iris.dmc.fdsn.station.model.Network;
 import edu.iris.dmc.fdsn.station.model.PoleZero;
 import edu.iris.dmc.fdsn.station.model.Response;
 import edu.iris.dmc.fdsn.station.model.ResponseStage;
-import edu.iris.dmc.fdsn.station.model.Sensitivity;
+import edu.iris.dmc.fdsn.station.model.StageGain;
 import edu.iris.dmc.fdsn.station.model.Station;
 import edu.iris.dmc.station.restrictions.Restriction;
 import edu.iris.dmc.station.rules.Message;

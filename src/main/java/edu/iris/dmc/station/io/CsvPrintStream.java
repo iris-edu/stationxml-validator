@@ -12,7 +12,6 @@ import org.apache.commons.csv.CSVPrinter;
 import edu.iris.dmc.station.XmlUtil;
 import edu.iris.dmc.station.rules.Message;
 import edu.iris.dmc.station.rules.NestedMessage;
-import edu.iris.dmc.station.rules.Result;
 import edu.iris.dmc.station.rules.Warning;
 
 public class CsvPrintStream extends PrintStream implements RuleResultPrintStream {

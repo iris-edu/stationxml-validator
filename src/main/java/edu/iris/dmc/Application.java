@@ -23,9 +23,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -33,25 +31,18 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
+import java.util.Objects;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
-import java.util.logging.Handler;
 import java.util.logging.Level;
-import java.util.logging.LogManager;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-import javax.xml.transform.stream.StreamSource;
-import javax.xml.validation.Schema;
-import javax.xml.validation.SchemaFactory;
-import javax.xml.validation.Validator;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -62,13 +53,9 @@ import edu.iris.dmc.seed.Blockette;
 import edu.iris.dmc.seed.SeedException;
 import edu.iris.dmc.seed.Volume;
 import edu.iris.dmc.seed.blockette.util.BlocketteItrator;
-import edu.iris.dmc.seed.builder.BlocketteBuilder;
 import edu.iris.dmc.seed.director.BlocketteDirector;
-import edu.iris.dmc.Application;
 import edu.iris.dmc.station.RuleEngineService;
-import edu.iris.dmc.Application.ExtractorHandler;
 import edu.iris.dmc.station.converter.SeedToXmlDocumentConverter;
-import edu.iris.dmc.station.exceptions.StationxmlException;
 import edu.iris.dmc.station.io.CsvPrintStream;
 import edu.iris.dmc.station.io.HtmlPrintStream;
 import edu.iris.dmc.station.io.ReportPrintStream;
@@ -79,14 +66,14 @@ import edu.iris.dmc.station.rules.Rule;
 import edu.iris.dmc.station.rules.UnitTable;
 
 public class Application {
-	//private static final Logger LOGGER = Logger.getLogger(Application.class.getName());
+	// private static final Logger LOGGER =
+	// Logger.getLogger(Application.class.getName());
 	private static Logger LOGGER = null;
-	  static {
-	      System.setProperty("java.util.logging.SimpleFormatter.format",
-	    		  "[%1$tY-%1$tm-%1$td %1$tH:%1$tM:%1$tS] [%4$-6s] %2$s:"
-	    		  + " %5$s%6$s %n");
-	      LOGGER = Logger.getLogger(Application.class.getName());
-	  }
+	static {
+		System.setProperty("java.util.logging.SimpleFormatter.format",
+				"[%1$tY-%1$tm-%1$td %1$tH:%1$tM:%1$tS] [%4$-6s] %2$s:" + " %5$s%6$s %n");
+		LOGGER = Logger.getLogger(Application.class.getName());
+	}
 	private static CommandLine commandLine;
 
 	/**
@@ -122,8 +109,8 @@ public class Application {
 			help();
 			System.exit(1);
 		}
-		// Add configurable verboisty to this project. 
-		// Update the logger to work similar to converter. 
+		// Add configurable verboisty to this project.
+		// Update the logger to work similar to converter.
 		try {
 			Application app = new Application();
 			app.run();
@@ -151,21 +138,22 @@ public class Application {
 			outputFile = commandLine.output().toFile();
 			if (!outputFile.exists()) {
 				outputFile.createNewFile();
-				//throw new IOException(String.format("File %s is not found!", commandLine.output().toString()));
+				// throw new IOException(String.format("File %s is not found!",
+				// commandLine.output().toString()));
 			}
-		
-		    try (OutputStream outputStream =  new FileOutputStream(outputFile)) {
-			    run(input, "csv", outputStream, commandLine.ignoreRules(), commandLine.ignoreWarnings());
-		}
-		}else {
+
+			try (OutputStream outputStream = new FileOutputStream(outputFile)) {
+				run(input, "csv", outputStream, commandLine.ignoreRules(), commandLine.ignoreWarnings());
+			}
+		} else {
 			try (OutputStream outputStream = System.out;) {
 				run(input, "csv", outputStream, commandLine.ignoreRules(), commandLine.ignoreWarnings());
 			}
-			
+
 		}
-		
+
 	}
-	
+
 	private void run(List<Path> input, String format, OutputStream outputStream, int[] ignoreRules,
 			boolean ignoreWarnings) throws Exception {
 		RuleEngineService ruleEngineService = new RuleEngineService(ignoreWarnings, ignoreRules);
@@ -175,49 +163,61 @@ public class Application {
 				if (document == null) {
 					continue;
 				}
-				// This is where the output is printed. 
+				// This is where the output is printed.
 				print(ps, ruleEngineService.executeAllRules(document));
 			}
-		} catch (Exception e) {
-			exitWithError(e);
-			//e.printStackTrace();
 		}
 
 	}
 
 	private FDSNStationXML read(Path path) throws Exception {
+		Objects.requireNonNull(path, "path cannot be null.");
 		File file = path.toFile();
 		if (!file.exists()) {
 			LOGGER.severe("File does not exist.  File is required!");
 			throw new IOException(String.format("File %s does not exist.  File is required!", file.getAbsoluteFile()));
 		}
-		    InputStream is = new FileInputStream(file);
-			LOGGER.info("Input file: " + path.toString());
 
-			// This is where stationxml vs seed is decided.
-			if(isStationXml(file)) {
-				try {
-				   return DocumentMarshaller.unmarshal(is);
-				} catch (StationxmlException | IOException | RuntimeException e){
-				    exitWithError(e);
-					//StringBuilder message = createExceptionMessage(e);
-					//LOGGER.severe(message.toString());
-					return null;
-				}
-			} else {
-				try {
-					//LOGGER.setLevel(Level.WARNING);
-				    //LOGGER.info("Input file: " + path.toString());
-				    Volume volume = IrisUtil.readSeed(file);
-				return SeedToXmlDocumentConverter.getInstance().convert(volume);
-			    }catch(RuntimeException e){
-				    exitWithError(e);
-				    //StringBuilder message = createExceptionMessage(e);		
-				    //LOGGER.severe(message.toString());
-				   return null;	
-			}
-		 }
+		// This is where stationxml vs seed is decided.
+		// All files are xmls unless found otherwise
+
+		ExtractorHandler handler = new ExtractorHandler();
+		try (InputStream inputStream = new FileInputStream(file)) {
+			SAXParserFactory factory = SAXParserFactory.newInstance();
+			factory.setNamespaceAware(true);
+			factory.setValidating(true);
+			SAXParser saxParser = factory.newSAXParser();
+			saxParser.parse(inputStream, handler);
+		} catch (
+
+		Exception e) {
+			// do nothing
 		}
+		QName qname = handler.rootElement;
+		if (qname != null && (new QName("http://www.fdsn.org/xml/station/1", "FDSNStationXML")).equals(qname)) {
+			Attributes attributes = handler.attributes;
+			String version = null;
+			if (attributes != null) {
+				for (int i = 0; i < attributes.getLength(); i++) {
+					// look for version
+					String attrName = attributes.getQName(i);
+					if ("schemaVersion".equals(attrName)) {
+						version = attributes.getValue(i);
+						if (version != null) {
+							version = version.trim();
+						}
+						break;
+					}
+				}
+			}
+			try (InputStream is = new FileInputStream(file);) {
+				return DocumentMarshaller.unmarshal(is, version);
+			}
+		} else {
+			Volume volume = IrisUtil.readSeed(file);
+			return SeedToXmlDocumentConverter.getInstance().convert(volume);
+		}
+	}
 
 	private void print(RuleResultPrintStream ps, Map<Integer, Set<Message>> map) throws IOException {
 		List<Message> lsorter = new ArrayList<>();
@@ -227,8 +227,8 @@ public class Application {
 				Set<Message> l = map.get(key);
 				for (Message m : l) {
 					lsorter.add(m);
-					//ps.print(m);
-					//ps.flush();
+					// ps.print(m);
+					// ps.flush();
 				}
 			}
 			lsorter.sort(comparatorMessage);
@@ -264,17 +264,16 @@ public class Application {
 		}
 		return volume;
 	}
-	
-	
+
 	private static void exitWithError(Exception e) {
 		StringBuilder message = createExceptionMessage(e);
-		if (commandLine.continueError()==true){
+		if (commandLine.continueError() == true) {
 			LOGGER.severe(message.toString());
-	        //null 
-		}else {
+			// null
+		} else {
 			LOGGER.severe(message.toString());
-		    System.exit(1);
-	    }
+			System.exit(1);
+		}
 	}
 
 	private RuleResultPrintStream getOutputStream(String format, OutputStream outputStream) throws IOException {
@@ -320,7 +319,7 @@ public class Application {
 		System.out.println("===============================================================");
 		System.out.println("|" + center("StationXML Validation Rule List", 62, " ") + "|");
 		System.out.println("===============================================================");
-		//System.out.print("\n");
+		// System.out.print("\n");
 		System.out.print("Enforces FDSN StationXML Schema Version 1.1 Compliance\n");
 		System.out.print("Level 100: Network\n");
 		System.out.print("Level 200: Station\n");
@@ -330,7 +329,7 @@ public class Application {
 		System.out.print("Warning: IF Warning==TRUE then Return message and PASS else PASS\n");
 		System.out.print("Epoch=startDate-endDate\n");
 		System.out.print("Indices: (N AND M) > 1 AND (N > M)\n");
-		//System.out.print("\n");
+		// System.out.print("\n");
 		System.out.println("===============================================================");
 		System.out.println("|" + center("| Rule ID | Description | Type |", 62, " ") + "|");
 		System.out.println("===============================================================");
@@ -340,57 +339,54 @@ public class Application {
 		System.out.println("===============================================================");
 
 	}
-	
+
 	private static Comparator<Rule> comparator = new Comparator<Rule>() {
 		public int compare(Rule c1, Rule c2) {
 
 			int r = Integer.compare(c1.getId(), c2.getId());
-			
+
 			return r;
 		}
 	};
 
 	private static Comparator<Message> comparatorMessage = new Comparator<Message>() {
-	    private Comparator<Rule> comparatorOne;
-	    private Comparator<String> comparatorTwo;
+		private Comparator<Rule> comparatorOne;
+		private Comparator<String> comparatorTwo;
 
-		    public void ComplexComparator(Comparator<Rule> c1,
-		            Comparator<String> c2) {
-		        this.comparatorOne = c1;
-		        this.comparatorTwo = c2;
-		    }
-
-		    @Override
-		    public int compare(Message c1,  Message c2) {
-			int r = Integer.compare(c1.getRule().getId(), c2.getRule().getId());
-	        // check if it was 0 (items equal in that attribute)  
-			if (r == 0) {
-	            // if yes, return the result of the next comparison
-	            return c1.getDescription().compareTo(c2.getDescription());
-	        } else {
-	            // otherwise return the result of the first comparison
-	            return r;
+		public void ComplexComparator(Comparator<Rule> c1, Comparator<String> c2) {
+			this.comparatorOne = c1;
+			this.comparatorTwo = c2;
 		}
-	 }
+
+		@Override
+		public int compare(Message c1, Message c2) {
+			int r = Integer.compare(c1.getRule().getId(), c2.getRule().getId());
+			// check if it was 0 (items equal in that attribute)
+			if (r == 0) {
+				// if yes, return the result of the next comparison
+				return c1.getDescription().compareTo(c2.getDescription());
+			} else {
+				// otherwise return the result of the first comparison
+				return r;
+			}
+		}
 	};
-	
-	
+
 	public static void printUnits() {
 		System.out.println("===============================================================");
 		System.out.println("|" + center("Table of Acceptable Units", 62, " ") + "|");
 		System.out.println("===============================================================");
-		
+
 		List<String> unitlist = UnitTable.units;
-		int stride = (unitlist.size()/4);
-		for (int row = 0; row < unitlist.size()/4; row++) {
-		    System.out.println(String.format("%15s %15s %15s %15s", 
-		    		unitlist.get(row), unitlist.get(row + stride), 
-		    		unitlist.get(row + stride * 2), unitlist.get(row + stride * 3)));
+		int stride = (unitlist.size() / 4);
+		for (int row = 0; row < unitlist.size() / 4; row++) {
+			System.out.println(String.format("%15s %15s %15s %15s", unitlist.get(row), unitlist.get(row + stride),
+					unitlist.get(row + stride * 2), unitlist.get(row + stride * 3)));
 		}
-		
+
 		System.out.println("===============================================================");
 
-}
+	}
 
 	public static void help() throws IOException {
 		String version = "Version " + getVersion();
@@ -404,7 +400,8 @@ public class Application {
 		System.out.println("java -jar stationxml-validator <FILE> [OPTIONS]");
 		System.out.println("OPTIONS:");
 		System.out.println("   --input              : full input file path");
-		//System.out.println("   --output             : where to output result, default is System.out");
+		// System.out.println(" --output : where to output result, default is
+		// System.out");
 		System.out.println("   --ignore-warnings    : don't show warnings");
 		System.out.println("   --rules              : print a list of validation rules");
 		System.out.println("   --units              : print a list of units used to validate");
@@ -414,14 +411,13 @@ public class Application {
 		System.out.println("   --continue-on-error  : print exceptions to stdout and processes next file");
 		System.out.println("===============================================================");
 	}
-	
+
 	private static StringBuilder createExceptionMessage(Exception e) {
-		StringBuilder message = new StringBuilder(
-				"");
-		if(e.getLocalizedMessage() != null) {
-		    message.append(e.getLocalizedMessage());
+		StringBuilder message = new StringBuilder("");
+		if (e.getLocalizedMessage() != null) {
+			message.append(e.getLocalizedMessage());
 		}
-		for (StackTraceElement element : e.getStackTrace()){
+		for (StackTraceElement element : e.getStackTrace()) {
 			message.append(element.toString()).append("\n");
 		}
 		if (e.getCause() != null) {
@@ -432,49 +428,25 @@ public class Application {
 		}
 		return message;
 	}
-	
-	
-	private boolean isStationXml(File source) throws IOException {
-		if (source == null) {
-			throw new IOException("File not found");
-		}
-		ExtractorHandler handler = new ExtractorHandler();
-		try (InputStream inputStream = new FileInputStream(source)) {
-			SAXParserFactory factory = SAXParserFactory.newInstance();
-			factory.setNamespaceAware(true);
-			factory.setValidating(true);
-			SAXParser saxParser = factory.newSAXParser();
-			saxParser.parse(inputStream, handler);
-		} catch (
-
-		Exception e) {
-			// do nothing
-		}
-		QName qname = handler.rootElement;
-		if (qname == null) {
-			return false;
-		}
-
-		if ((new QName("http://www.fdsn.org/xml/station/1", "FDSNStationXML")).equals(qname)) {
-			return true;
-		}
-		return false;
-	}
 
 	protected static class ExtractorHandler extends DefaultHandler {
 
 		private QName rootElement = null;
+		private Attributes attributes;
 
 		@Override
 		public void startElement(String uri, String local, String name, Attributes attributes) throws SAXException {
 			this.rootElement = new QName(uri, local);
+			this.attributes = attributes;
 			throw new SAXException("Aborting: root element received");
 		}
 
 		QName getRootElement() {
 			return rootElement;
 		}
+
+		Attributes getAttributes() {
+			return attributes;
+		}
 	}
- }
-
-
+}

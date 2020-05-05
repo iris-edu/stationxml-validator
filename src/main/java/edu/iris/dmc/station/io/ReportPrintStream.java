@@ -5,16 +5,10 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVPrinter;
 
 import edu.iris.dmc.station.XmlUtil;
 import edu.iris.dmc.station.rules.Message;
 import edu.iris.dmc.station.rules.NestedMessage;
-import edu.iris.dmc.station.rules.Result;
 import edu.iris.dmc.station.rules.Warning;
 
 public class ReportPrintStream extends PrintStream implements RuleResultPrintStream {

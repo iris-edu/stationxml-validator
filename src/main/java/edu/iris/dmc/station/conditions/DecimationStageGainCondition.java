@@ -3,7 +3,6 @@ package edu.iris.dmc.station.conditions;
 import java.util.List;
 import java.util.logging.Logger;
 
-import edu.iris.dmc.fdsn.station.model.BaseFilter;
 import edu.iris.dmc.fdsn.station.model.Channel;
 import edu.iris.dmc.fdsn.station.model.Network;
 import edu.iris.dmc.fdsn.station.model.Response;

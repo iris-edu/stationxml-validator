@@ -7,9 +7,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.stream.Stream;
 
-import edu.iris.dmc.CommandLine;
-import edu.iris.dmc.CommandLineParseException;
-
 public class CommandLine {
 
 	private Path file;

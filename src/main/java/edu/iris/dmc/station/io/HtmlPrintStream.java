@@ -6,7 +6,6 @@ import java.io.PrintStream;
 
 import edu.iris.dmc.station.XmlUtil;
 import edu.iris.dmc.station.rules.Message;
-import edu.iris.dmc.station.rules.Result;
 
 public class HtmlPrintStream extends PrintStream implements RuleResultPrintStream {
 

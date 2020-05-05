@@ -7,7 +7,6 @@ import edu.iris.dmc.fdsn.station.model.Station;
 import edu.iris.dmc.station.restrictions.Restriction;
 import edu.iris.dmc.station.rules.Message;
 import edu.iris.dmc.station.rules.Result;
-import edu.iris.dmc.station.rules.Util;
 
 public class EmptySensitivityCondition extends ChannelRestrictedCondition {
 

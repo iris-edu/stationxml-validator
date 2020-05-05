@@ -3,7 +3,6 @@ package edu.iris.dmc.station.conditions;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.InputStream;
 
@@ -15,9 +14,7 @@ import edu.iris.dmc.fdsn.station.model.FDSNStationXML;
 import edu.iris.dmc.fdsn.station.model.Network;
 import edu.iris.dmc.fdsn.station.model.Station;
 import edu.iris.dmc.station.RuleEngineServiceTest;
-import edu.iris.dmc.station.conditions.EpochOverlapCondition;
 import edu.iris.dmc.station.rules.Message;
-import edu.iris.dmc.station.rules.Result;
 
 public class StationEpochOverlapConditionTest {
 

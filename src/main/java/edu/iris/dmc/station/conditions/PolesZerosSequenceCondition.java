@@ -63,6 +63,7 @@ public class PolesZerosSequenceCondition extends ChannelRestrictedCondition {
 				StageGain gain = s.getStageGain();
 					if (s.getPolesZeros() != null) {
 						if (s.getPolesZeros().getZero() != null) {
+							zeroInc = 0;
 							for (PoleZero z : s.getPolesZeros().getZero()) {
 								if (z.getNumber().compareTo(BigInteger.valueOf(zeroInc))!=0) {
 									if (s.getNumber().intValue() < 10 ) {
@@ -80,6 +81,7 @@ public class PolesZerosSequenceCondition extends ChannelRestrictedCondition {
 							}
 					}
 						if (s.getPolesZeros().getPole() != null) {
+							poleInc=0;
 							for (PoleZero p : s.getPolesZeros().getPole()) {
 								if (p.getNumber().compareTo(BigInteger.valueOf(poleInc))!=0) {
 									if (s.getNumber().intValue() < 10 ) {

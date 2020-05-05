@@ -37,8 +37,8 @@ public class MainTest {
 	         newContent.close();
 	         nerrps.close();
 	         ps.close();
-	         //System.out.println(sysout.toString());
-	         //System.out.println(syserr.toString());
+	         System.out.println(sysout.toString());
+	         System.out.println(syserr.toString());
 		     boolean content1  = syserr.toString().contains("edu.iris.dmc.Application read: Input file:");
 		     boolean content2  = sysout.toString().contains("PASSED");
 		     boolean content3  = sysout.toString().contains("\n");

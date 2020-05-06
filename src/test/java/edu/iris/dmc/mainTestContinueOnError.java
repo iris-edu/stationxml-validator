@@ -35,22 +35,14 @@ public class mainTestContinueOnError {
 	         newContent.close();
 	         nerrps.close();
 	         ps.close();
-	         //System.out.println(sysout.toString());
-	         //System.out.println(syserr.toString());
+	        // System.out.println(sysout.toString());
+	        // System.out.println(syserr.toString());
 		     boolean content1  = syserr.toString().contains("[SEVERE] edu.iris.dmc.Application exitWithError: edu.iris.dmc.seed.io.RecordInputStream.getRecordLength(RecordInputStream.java:89)");
-		     boolean content2  = syserr.toString().contains("[SEVERE] edu.iris.dmc.Application exitWithError: XML Document does not comply with the FDSN-StationXML xsd schema.");
+		     boolean content2  = syserr.toString().contains("org.xml.sax.SAXParseException; lineNumber: 622; columnNumber: 3;");
 		     boolean content3  = syserr.toString().contains("\n");
 		     assertTrue(content1==true);
 		     assertTrue(content2==true);
 		     assertTrue(content3==true);     	     
-		}
-		
-		
-		@Test
-		public void version() throws Exception{
-			boolean versionnumber = Application.getVersion().contains("1.6.0");
-			assertTrue(versionnumber==true);
-		
 		}
 		
 		@Test

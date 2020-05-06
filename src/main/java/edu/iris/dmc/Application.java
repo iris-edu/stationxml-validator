@@ -47,6 +47,7 @@ import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
+import edu.iris.dmc.station.exceptions.StationxmlException;
 
 import edu.iris.dmc.fdsn.station.model.FDSNStationXML;
 import edu.iris.dmc.seed.Blockette;
@@ -173,6 +174,7 @@ public class Application {
 				commandLine.ignoreRules());
 		try (final RuleResultPrintStream ps = getOutputStream(format, outputStream)) {
 			for (Path p : input) {
+				//LOGGER.info(p.toString());
 				FDSNStationXML document = read(p);
 				if (document == null) {
 					continue;
@@ -194,46 +196,30 @@ public class Application {
 			throw new IOException(String.format("File %s does not exist.  File is required!", file.getAbsoluteFile()));
 		}
 
+	    InputStream is = new FileInputStream(file);
+		LOGGER.info("Input file: " + path.toString());
+
 		// This is where stationxml vs seed is decided.
-		// All files are xmls unless found otherwise
-
-		ExtractorHandler handler = new ExtractorHandler();
-		try (InputStream inputStream = new FileInputStream(file)) {
-			SAXParserFactory factory = SAXParserFactory.newInstance();
-			factory.setNamespaceAware(true);
-			factory.setValidating(true);
-			SAXParser saxParser = factory.newSAXParser();
-			saxParser.parse(inputStream, handler);
-		} catch (
-
-		Exception e) {
-			// do nothing
-
-		}
-		QName qname = handler.rootElement;
-		if (qname != null && (new QName("http://www.fdsn.org/xml/station/1", "FDSNStationXML")).equals(qname)) {
-			Attributes attributes = handler.attributes;
-			String version = null;
-			if (attributes != null) {
-				for (int i = 0; i < attributes.getLength(); i++) {
-					// look for version
-					String attrName = attributes.getQName(i);
-					if ("schemaVersion".equals(attrName)) {
-						version = attributes.getValue(i);
-						if (version != null) {
-							version = version.trim();
-						}
-						break;
-					}
-				}
-			}
-			try (InputStream is = new FileInputStream(file);) {
-				return DocumentMarshaller.unmarshal(is, version);
+		if(isStationXml(file)) {
+			try {
+			   return DocumentMarshaller.unmarshal(is);
+			} catch (StationxmlException | IOException | RuntimeException e){
+			    error(e);
+				return null;
 			}
 		} else {
-			Volume volume = IrisUtil.readSeed(file);
+			try {
+				//LOGGER.setLevel(Level.WARNING);
+			    //LOGGER.info("Input file: " + path.toString());
+			    Volume volume = IrisUtil.readSeed(file);
 			return SeedToXmlDocumentConverter.getInstance().convert(volume);
+		    }catch(RuntimeException e){
+			    error(e);
+			    //StringBuilder message = createExceptionMessage(e);		
+			    //LOGGER.severe(message.toString());
+			   return null;	
 		}
+	 }
 	}
 
 	private void print(RuleResultPrintStream ps, Map<Integer, Set<Message>> map) throws IOException {
@@ -432,6 +418,50 @@ public class Application {
 		System.out.println("   --continue-on-error  : print exceptions to stdout and processes next file");
 		System.out.println("===============================================================");
 	}
+	
+	
+	
+	private boolean isStationXml(File source) throws IOException {
+		if (source == null) {
+			throw new IOException("File not found");
+		}
+		ExtractorHandler handler = new ExtractorHandler();
+		try (InputStream inputStream = new FileInputStream(source)) {
+			SAXParserFactory factory = SAXParserFactory.newInstance();
+			factory.setNamespaceAware(true);
+			factory.setValidating(true);
+			SAXParser saxParser = factory.newSAXParser();
+			saxParser.parse(inputStream, handler);
+		} catch (
+
+		Exception e) {
+			// do nothing
+		}
+		QName qname = handler.rootElement;
+		if (qname == null) {
+			return false;
+		}
+
+		if ((new QName("http://www.fdsn.org/xml/station/1", "FDSNStationXML")).equals(qname)) {
+			return true;
+		}
+		return false;
+	}
+
+	protected static class ExtractorHandler extends DefaultHandler {
+
+		private QName rootElement = null;
+
+		@Override
+		public void startElement(String uri, String local, String name, Attributes attributes) throws SAXException {
+			this.rootElement = new QName(uri, local);
+			throw new SAXException("Aborting: root element received");
+		}
+
+		QName getRootElement() {
+			return rootElement;
+		}
+	}
 
 	private static StringBuilder createExceptionMessage(Exception e) {
 		StringBuilder message = new StringBuilder("");
@@ -448,26 +478,5 @@ public class Application {
 			}
 		}
 		return message;
-	}
-
-	protected static class ExtractorHandler extends DefaultHandler {
-
-		private QName rootElement = null;
-		private Attributes attributes;
-
-		@Override
-		public void startElement(String uri, String local, String name, Attributes attributes) throws SAXException {
-			this.rootElement = new QName(uri, local);
-			this.attributes = attributes;
-			throw new SAXException("Aborting: root element received");
-		}
-
-		QName getRootElement() {
-			return rootElement;
-		}
-
-		Attributes getAttributes() {
-			return attributes;
-		}
 	}
 }

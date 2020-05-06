@@ -259,11 +259,11 @@ public class RuleEngineRegistry {
 					"Response must include InstrumentSensitivity if no Polynomial stages are included.",
 					new ChannelCodeRestriction(), new ChannelTypeRestriction()), Response.class);
 		}
-		if (!s.contains(417)) {
-			add(417, new PolesZerosSequenceCondition(false,
-					"If Stage[N]:PolesZeros contains Zeros and Poles then Zero:Number and Pole:Number must start at 0 and be sequential.",
-					new ChannelCodeRestriction(), new ChannelTypeRestriction()), Response.class);
-		}
+		//if (!s.contains(417)) {
+		//	add(417, new PolesZerosSequenceCondition(false,
+		//			"If Stage[N]:PolesZeros contains Zeros and Poles then Zero:Number and Pole:Number must start at 0 and be sequential.",
+		//			new ChannelCodeRestriction(), new ChannelTypeRestriction()), Response.class);
+		//}
 		
 		if (!s.contains(420)) {
 			add(420, new MissingDecimationCondition(true,

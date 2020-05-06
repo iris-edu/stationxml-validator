@@ -332,8 +332,8 @@ public class Application {
 		System.out.print("Level 200: Station\n");
 		System.out.print("Level 300: Channel\n");
 		System.out.print("Level 400: Response\n");
-		System.out.print("Error: IF Error==False then document is invalid\n");
-		System.out.print("Warning: IF Warning==TRUE then Return message and PASS else PASS\n");
+		System.out.print("Error: IF Error==False than document is invalid\n");
+		System.out.print("Warning: IF Warning==TRUE than Return message and PASS else PASS\n");
 		System.out.print("Epoch=startDate-endDate\n");
 		System.out.print("Indices: (N AND M) > 1 AND (N > M)\n");
 		// System.out.print("\n");

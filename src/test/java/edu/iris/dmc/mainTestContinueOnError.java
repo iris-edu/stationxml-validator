@@ -89,8 +89,9 @@ public class mainTestContinueOnError {
 	        String sysout = outContent.toString().replaceAll( "\r", "" );
 	        ps.close();
 	        outContent.close();
-		    boolean content1  = sysout.toString().contains("FDSN StationXml Validator ");
-		    boolean content2  = sysout.toString().contains("Version 1.6.0.2-SNAPSHOT");
+	        System.out.println(sysout.toString());
+		    boolean content1  = sysout.toString().contains("FDSN StationXML Validator");
+		    boolean content2  = sysout.toString().contains("Version");
 		    boolean content3  = sysout.toString().contains("--ignore-warnings    : don't show warnings");
 
 		    assertTrue(content1==true);

@@ -44,6 +44,10 @@ public class LocationCodeCondition extends AbstractCondition {
 		if (!m.matches()) {
 			return Result.error( "Expected a value like " + this.regex + " but was " + code);
 		}
+		
+		if(this.regex=="-") {
+		    return Result.error( "Expected a value like " + this.regex + " but was " + code);
+		}
 		return Result.success();
 	}
 

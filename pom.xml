@@ -196,7 +196,7 @@
 		<dependency>
 			<groupId>edu.iris.dmc</groupId>
 			<artifactId>stationxml-seed-converter</artifactId>
-			<version>2.1.0-RC-03-SNAPSHOT</version>
+			<version>2.1.0-RC-03</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>

@@ -171,10 +171,10 @@ public class CommandLine {
 							    .map(Integer::parseInt).mapToInt(item -> item).toArray();
 					    i = i + 1;
 				    }
-				} else if ("--show-rules".equalsIgnoreCase(arg)) {
-					commandLine.showRules = true;
-				} else if ("--show-units".equalsIgnoreCase(arg)) {
-					commandLine.showUnits = true;
+				} else if ("--rules".equalsIgnoreCase(arg)) {
+					throw new CommandLineParseException(String.format("--rules must be the only input argument. "));
+				} else if ("--units".equalsIgnoreCase(arg)) {
+					throw new CommandLineParseException(String.format("--units must be the only input argument. "));
 				} else if ("--continue-on-error".equalsIgnoreCase(arg)) {
 					commandLine.setContinueError(true);
 					//commandLine.continueError = true;

@@ -14,6 +14,7 @@ import edu.iris.dmc.fdsn.station.model.Network;
 import edu.iris.dmc.fdsn.station.model.Station;
 import edu.iris.dmc.station.RuleEngineServiceTest;
 import edu.iris.dmc.station.rules.Message;
+import edu.iris.dmc.station.rules.NestedMessage;
 
 public class Condition321Test {
 
@@ -35,8 +36,13 @@ public class Condition321Test {
 
 			InstrumentCodeUnitsCondition condition = new InstrumentCodeUnitsCondition(true, "");
 			Message result = condition.evaluate(c);
-			System.out.println(result);
-			assertTrue(result instanceof edu.iris.dmc.station.rules.Warning);
+			NestedMessage nestedMessage=(NestedMessage)result;
+			System.out.println(nestedMessage.getNestedMessages().get(0).getDescription());
+			System.out.println(nestedMessage.getNestedMessages().get(1).getDescription());
+
+ 			assertTrue(nestedMessage.getNestedMessages().get(0).getDescription().contains("Instrument code H should have stage 1 input units similar to *m/s* but input units are PA"));
+ 			assertTrue(nestedMessage.getNestedMessages().get(1).getDescription().contains("Instrument code H should have stage last output units similar to count* but output units are m/s"));
+
 		}
 
 	}

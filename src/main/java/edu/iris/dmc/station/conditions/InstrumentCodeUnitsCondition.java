@@ -6,6 +6,7 @@ import edu.iris.dmc.fdsn.station.model.ResponseStage;
 import edu.iris.dmc.fdsn.station.model.Station;
 import edu.iris.dmc.station.exceptions.StationxmlException;
 import edu.iris.dmc.station.rules.Message;
+import edu.iris.dmc.station.rules.NestedMessage;
 import edu.iris.dmc.station.rules.Result;
 
 public class InstrumentCodeUnitsCondition extends AbstractCondition {
@@ -27,6 +28,8 @@ public class InstrumentCodeUnitsCondition extends AbstractCondition {
 
 	@Override
 	public Message evaluate(Channel channel) {
+		NestedMessage nestedMessage = new NestedMessage();
+		boolean returnmessage = false;
 		String inputUnit ="";
 		String code = channel.getCode();
 		try {
@@ -69,17 +72,23 @@ public class InstrumentCodeUnitsCondition extends AbstractCondition {
 
 		if("HLMN".indexOf(code.charAt(1)) >=0 | "hlmn".indexOf(code.charAt(1)) >=0) {
 			if(!inputUnit.toLowerCase().contains("m/s")) {
-			return Result.warning("Instument code " +code.charAt(1)+" should have stage 1 input units similar to *m/s*");
-		    }
+				nestedMessage.add(Result.warning("Instrument code " +code.charAt(1)+" should have stage 1 input units similar to *m/s* but input units are "+inputUnit));
+				returnmessage=true;
+			}
 			if(!outputUnit.toLowerCase().contains("count")) {
-			return Result.warning("Instument code " +code.charAt(1)+ " should have stage last output units similar to count*");
-		    }
+				nestedMessage.add(Result.warning("Instrument code " +code.charAt(1)+ " should have stage last output units similar to count* but output units are "+outputUnit));
+				returnmessage=true;
+			}
 			
 		}
 		}catch(Exception e) {	
 			
 		}
-     	return Result.success();
+		if(returnmessage==true) {
+			   return nestedMessage;
+			}else {
+			   return Result.success();
+			}
     }
  
 }

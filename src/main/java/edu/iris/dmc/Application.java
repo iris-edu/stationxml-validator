@@ -85,7 +85,7 @@ public class Application {
 		try {
 			LOGGER.setLevel(Level.WARNING);
 			commandLine = CommandLine.parse(args);
-		} catch (CommandLineParseException e) {
+		} catch (Exception e) {
 			StringBuilder message = createExceptionMessage(e);
 			LOGGER.severe(message.toString());
 			help();
@@ -203,7 +203,7 @@ public class Application {
 		if(isStationXml(file)) {
 			try {
 			   return DocumentMarshaller.unmarshal(is);
-			} catch (StationxmlException | IOException | RuntimeException e){
+			} catch (Exception e){
 			    error(e);
 				return null;
 			}
@@ -213,7 +213,7 @@ public class Application {
 			    //LOGGER.info("Input file: " + path.toString());
 			    Volume volume = IrisUtil.readSeed(file);
 			return SeedToXmlDocumentConverter.getInstance().convert(volume);
-		    }catch(RuntimeException e){
+		    }catch(Exception e){
 			    error(e);
 			    //StringBuilder message = createExceptionMessage(e);		
 			    //LOGGER.severe(message.toString());

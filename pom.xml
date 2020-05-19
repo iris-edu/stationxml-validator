@@ -3,13 +3,13 @@
 	<groupId>edu.iris.dmc</groupId>
 	<artifactId>stationxml-validator</artifactId>
 	<packaging>jar</packaging>
-	<version>1.7.0-RC-04-SNAPSHOT</version>
+	<version>1.7.0</version>
 	<name>FDSN StationXML Validator</name>
     <url>http://maven.apache.org</url>
     <description>Converts seismological metadata between dataless seed and FDSN StationXML file formats.</description>
       <developers>
           <developer>
-              <name>Yazan</name>
+              <name>Yazan Suleiman</name>
               <organization>IRIS</organization>
               <organizationUrl>https://www.iris.edu</organizationUrl>
           </developer>
@@ -23,7 +23,7 @@
           <developerConnection>scm:git:https://github.com/iris-edu/stationxml-validator.git</developerConnection>
           <connection>scm:git:https://github.com/iris-edu/stationxml-validator.git</connection>
           <url>https://github.com/iris-edu/stationxml-validator.git</url>
-          <tag>stationxml-validator-1.7.0-RC-03</tag>
+          <tag>stationxml-validator-1.7.0</tag>
       </scm>
         <licenses>
          <license>
@@ -196,7 +196,7 @@
 		<dependency>
 			<groupId>edu.iris.dmc</groupId>
 			<artifactId>stationxml-seed-converter</artifactId>
-			<version>2.1.0-RC-03</version>
+			<version>2.1.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>

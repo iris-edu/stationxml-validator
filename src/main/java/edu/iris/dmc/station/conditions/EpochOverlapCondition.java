@@ -109,6 +109,7 @@ public class EpochOverlapCondition extends AbstractCondition {
 			int i2 = 1;
 			String description ="";
             map.keySet();
+            
 			for(String key : map.keySet()) {
 				List<Tuple> tuples = map.get(key);
 				List<Tuple[]> invalidRanges = checkRanges(tuples);
@@ -129,6 +130,7 @@ public class EpochOverlapCondition extends AbstractCondition {
 						.append(XmlUtil.toText(tuple[1].end)).append("");
 					}
 				    nestedMessage.add(Result.error(builder.toString()));
+				    returnmessage =true;
 				    builder.setLength(0);
 				    
 				}

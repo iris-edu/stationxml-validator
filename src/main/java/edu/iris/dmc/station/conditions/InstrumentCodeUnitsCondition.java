@@ -70,7 +70,7 @@ public class InstrumentCodeUnitsCondition extends AbstractCondition {
 
 		
 
-		if("HLMN".indexOf(code.charAt(1)) >=0 | "hlmn".indexOf(code.charAt(1)) >=0) {
+		if("HLN".indexOf(code.charAt(1)) >=0 | "hln".indexOf(code.charAt(1)) >=0) {
 			if(!inputUnit.toLowerCase().contains("m/s")) {
 				nestedMessage.add(Result.warning("Instrument code " +code.charAt(1)+" should have stage 1 input units similar to *m/s* but input units are "+inputUnit));
 				returnmessage=true;

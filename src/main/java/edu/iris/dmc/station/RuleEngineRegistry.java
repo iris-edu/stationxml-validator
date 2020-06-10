@@ -171,7 +171,7 @@ public class RuleEngineRegistry {
 		}
 		if (!set.contains(321)) {
 			add(321, new InstrumentCodeUnitsCondition(true,
-					"If Channel:Code[2] == (H | L | M | N) then Stage[1]:InputUnit must equal *m/s* AND Stage[Last]:OutputUnits must equal count*"),
+					"If Channel:Code[2] == (H | L | N) then Stage[1]:InputUnit must equal *m/s* AND Stage[Last]:OutputUnits must equal count*"),
 					Channel.class);
 		}
 		if (!set.contains(332)) {

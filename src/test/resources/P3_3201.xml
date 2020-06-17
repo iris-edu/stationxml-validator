@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FDSNStationXML xmlns="http://www.fdsn.org/xml/station/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" schemaVersion="1.1" xsi:schemaLocation="http://www.fdsn.org/xml/station/1 http://www.fdsn.org/xml/station/fdsn-station-1.1.xsd">
+  <Source>ANSS Station Information System</Source>
+  <Sender>ANSS Station Information System</Sender>
+  <Created>2020-06-17T16:22:51.455299+00:00</Created>
+  <Network code="NC" startDate="1967-01-01T00:00:00+00:00">
+    <Description>USGS Northern California Regional Network</Description>
+    <TotalNumberStations>53</TotalNumberStations>
+    <SelectedNumberStations>1</SelectedNumberStations>
+    <Station code="LWHB" startDate="2020-06-01T00:00:00+00:00">
+      <Latitude>40.6415</Latitude>
+      <Longitude>-121.94737</Longitude>
+      <Elevation>585.0</Elevation>
+      <Site>
+        <Name>Whitmore</Name>
+        <Town>Whitmore</Town>
+        <County>Shasta</County>
+        <Region>CA</Region>
+        <Country>USA</Country>
+      </Site>
+      <Vault>NCSN Standard</Vault>
+      <Operator>
+        <Agency>NCSN</Agency>
+      </Operator>
+      <CreationDate>2020-06-01T00:00:00+00:00</CreationDate>
+      <TotalNumberChannels>18</TotalNumberChannels>
+      <SelectedNumberChannels>18</SelectedNumberChannels>
+      <Channel code="GLA" startDate="2020-06-04T00:00:00+00:00" locationCode="01">
+        <Comment subject="Install a configured logger and its instruments">
+          <Value>[SENSOR::TITAN::1954], [SENSOR::L-4C VERTICAL::6200], [LOGGER::CENTAUR::6859]</Value>
+          <BeginEffectiveTime>2020-06-04T00:00:00+00:00</BeginEffectiveTime>
+          <Author>
+            <Name>SIS Field Action</Name>
+          </Author>
+        </Comment>
+        <Comment>
+          <Value>New Install</Value>
+          <BeginEffectiveTime>2020-06-04T00:00:00+00:00</BeginEffectiveTime>
+          <Author>
+            <Name>jkrueger</Name>
+          </Author>
+        </Comment>
+        <Latitude>40.6415</Latitude>
+        <Longitude>-121.94737</Longitude>
+        <Elevation>585.0</Elevation>
+        <Depth>0.0</Depth>
+        <Type>CONTINUOUS</Type>
+        <Type>HEALTH</Type>
+        <SampleRate>1.0</SampleRate>
+        <Sensor>
+          <Description>Accelerometer</Description>
+        </Sensor>
+        <DataLogger>
+          <Type>NANOMETRICS</Type>
+          <Manufacturer>NANOMETRICS</Manufacturer>
+          <Model>CENTAUR</Model>
+          <SerialNumber>6859</SerialNumber>
+          <CalibrationDate>2020-01-01T00:00:00+00:00</CalibrationDate>
+        </DataLogger>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>1000.0</Value>
+            <Frequency>0.25</Frequency>
+            <InputUnits>
+              <Name>deg</Name>
+              <Description>Angle in Degree [0-360]</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name>counts</Name>
+              <Description>Digital Count in Digital counts</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+          <Stage number="1">
+            <Coefficients>
+              <InputUnits>
+                <Name>deg</Name>
+                <Description>Angle in Degree [0-360]</Description>
+              </InputUnits>
+              <OutputUnits>
+                <Name>counts</Name>
+                <Description>Digital Count in Digital counts</Description>
+              </OutputUnits>
+              <CfTransferFunctionType>DIGITAL</CfTransferFunctionType>
+            </Coefficients>
+            <Decimation>
+              <InputSampleRate>1.0</InputSampleRate>
+              <Factor>1</Factor>
+              <Offset>0</Offset>
+              <Delay>0.0</Delay>
+              <Correction>0.0</Correction>
+            </Decimation>
+            <StageGain>
+              <Value>1000.0</Value>
+              <Frequency>0.25</Frequency>
+            </StageGain>
+          </Stage>
+        </Response>
+      </Channel>
+      <Channel code="GLO" startDate="2020-06-04T00:00:00+00:00" locationCode="01">
+        <Comment subject="Install a configured logger and its instruments">
+          <Value>[SENSOR::TITAN::1954], [SENSOR::L-4C VERTICAL::6200], [LOGGER::CENTAUR::6859]</Value>
+          <BeginEffectiveTime>2020-06-04T00:00:00+00:00</BeginEffectiveTime>
+          <Author>
+            <Name>SIS Field Action</Name>
+          </Author>
+        </Comment>
+        <Comment>
+          <Value>New Install</Value>
+          <BeginEffectiveTime>2020-06-04T00:00:00+00:00</BeginEffectiveTime>
+          <Author>
+            <Name>jkrueger</Name>
+          </Author>
+        </Comment>
+        <Latitude>40.6415</Latitude>
+        <Longitude>-121.94737</Longitude>
+        <Elevation>585.0</Elevation>
+        <Depth>0.0</Depth>
+        <Type>CONTINUOUS</Type>
+        <Type>HEALTH</Type>
+        <SampleRate>1.0</SampleRate>
+        <Sensor>
+          <Description>Accelerometer</Description>
+        </Sensor>
+        <DataLogger>
+          <Type>NANOMETRICS</Type>
+          <Manufacturer>NANOMETRICS</Manufacturer>
+          <Model>CENTAUR</Model>
+          <SerialNumber>6859</SerialNumber>
+          <CalibrationDate>2020-01-01T00:00:00+00:00</CalibrationDate>
+        </DataLogger>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>1000.0</Value>
+            <Frequency>0.25</Frequency>
+            <InputUnits>
+              <Name>deg</Name>
+              <Description>Angle in Degree [0-360]</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name>counts</Name>
+              <Description>Digital Count in Digital counts</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+          <Stage number="1">
+            <Coefficients>
+              <InputUnits>
+                <Name>deg</Name>
+                <Description>Angle in Degree [0-360]</Description>
+              </InputUnits>
+              <OutputUnits>
+                <Name>counts</Name>
+                <Description>Digital Count in Digital counts</Description>
+              </OutputUnits>
+              <CfTransferFunctionType>DIGITAL</CfTransferFunctionType>
+            </Coefficients>
+            <Decimation>
+              <InputSampleRate>1.0</InputSampleRate>
+              <Factor>1</Factor>
+              <Offset>0</Offset>
+              <Delay>0.0</Delay>
+              <Correction>0.0</Correction>
+            </Decimation>
+            <StageGain>
+              <Value>1000.0</Value>
+              <Frequency>0.25</Frequency>
+            </StageGain>
+          </Stage>
+        </Response>
+      </Channel>
+      <Channel code="GNS" startDate="2020-06-04T00:00:00+00:00" locationCode="01">
+        <Comment subject="Install a configured logger and its instruments">
+          <Value>[SENSOR::TITAN::1954], [SENSOR::L-4C VERTICAL::6200], [LOGGER::CENTAUR::6859]</Value>
+          <BeginEffectiveTime>2020-06-04T00:00:00+00:00</BeginEffectiveTime>
+          <Author>
+            <Name>SIS Field Action</Name>
+          </Author>
+        </Comment>
+        <Comment>
+          <Value>New Install</Value>
+          <BeginEffectiveTime>2020-06-04T00:00:00+00:00</BeginEffectiveTime>
+          <Author>
+            <Name>jkrueger</Name>
+          </Author>
+        </Comment>
+        <Latitude>40.6415</Latitude>
+        <Longitude>-121.94737</Longitude>
+        <Elevation>585.0</Elevation>
+        <Depth>0.0</Depth>
+        <Type>CONTINUOUS</Type>
+        <Type>HEALTH</Type>
+        <SampleRate>1.0</SampleRate>
+        <Sensor>
+          <Description>Accelerometer</Description>
+        </Sensor>
+        <DataLogger>
+          <Type>NANOMETRICS</Type>
+          <Manufacturer>NANOMETRICS</Manufacturer>
+          <Model>CENTAUR</Model>
+          <SerialNumber>6859</SerialNumber>
+          <CalibrationDate>2020-01-01T00:00:00+00:00</CalibrationDate>
+        </DataLogger>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>1.0</Value>
+            <Frequency>0.25</Frequency>
+            <InputUnits>
+              <Name>counts</Name>
+              <Description>Digital Count in Digital counts</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name>counts</Name>
+              <Description>Digital Count in Digital counts</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+          <Stage number="1">
+            <Coefficients>
+              <InputUnits>
+                <Name>counts</Name>
+                <Description>Digital Count in Digital counts</Description>
+              </InputUnits>
+              <OutputUnits>
+                <Name>counts</Name>
+                <Description>Digital Count in Digital counts</Description>
+              </OutputUnits>
+              <CfTransferFunctionType>DIGITAL</CfTransferFunctionType>
+            </Coefficients>
+            <Decimation>
+              <InputSampleRate>1.0</InputSampleRate>
+              <Factor>1</Factor>
+              <Offset>0</Offset>
+              <Delay>0.0</Delay>
+              <Correction>0.0</Correction>
+            </Decimation>
+            <StageGain>
+              <Value>1.0</Value>
+              <Frequency>0.25</Frequency>
+            </StageGain>
+          </Stage>
+        </Response>
+      </Channel>
+    </Station>
+  </Network>
+</FDSNStationXML>

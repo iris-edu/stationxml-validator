@@ -5,15 +5,17 @@ import edu.iris.dmc.fdsn.station.model.Network;
 import edu.iris.dmc.fdsn.station.model.ResponseStage;
 import edu.iris.dmc.fdsn.station.model.Station;
 import edu.iris.dmc.station.exceptions.StationxmlException;
+import edu.iris.dmc.station.restrictions.Restriction;
 import edu.iris.dmc.station.rules.Message;
 import edu.iris.dmc.station.rules.NestedMessage;
 import edu.iris.dmc.station.rules.Result;
 
 public class InstrumentCodeUnitsCondition extends AbstractCondition {
+	private Restriction[] restrictions;
 
-	public InstrumentCodeUnitsCondition(boolean required, String description) {
+	public InstrumentCodeUnitsCondition(boolean required, String description, Restriction[] restrictions) {
 		super(required, description);
-
+		this.restrictions = restrictions;
 	}
 
 	@Override
@@ -50,7 +52,11 @@ public class InstrumentCodeUnitsCondition extends AbstractCondition {
 		}else {
 			return Result.success();
 		}
-		
+		for (Restriction r : this.restrictions) {
+			if (r.qualifies(channel)) {
+				return Result.success();
+			}
+		}
 		int lastindex =  channel.getResponse().getStage().size()-1;
 		ResponseStage stagelast = channel.getResponse().getStage().get(lastindex);
 		String outputUnit ="";

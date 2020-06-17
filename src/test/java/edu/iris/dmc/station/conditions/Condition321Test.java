@@ -13,6 +13,9 @@ import edu.iris.dmc.fdsn.station.model.FDSNStationXML;
 import edu.iris.dmc.fdsn.station.model.Network;
 import edu.iris.dmc.fdsn.station.model.Station;
 import edu.iris.dmc.station.RuleEngineServiceTest;
+import edu.iris.dmc.station.restrictions.ChannelCodeRestriction;
+import edu.iris.dmc.station.restrictions.ChannelTypeRestriction;
+import edu.iris.dmc.station.restrictions.Restriction;
 import edu.iris.dmc.station.rules.Message;
 import edu.iris.dmc.station.rules.NestedMessage;
 
@@ -33,8 +36,9 @@ public class Condition321Test {
 			Network n = theDocument.getNetwork().get(0);
 			Station s = n.getStations().get(0);
 			Channel c = s.getChannels().get(0);
+			Restriction[] restrictions = new Restriction[] { new ChannelCodeRestriction(), new ChannelTypeRestriction() };
 
-			InstrumentCodeUnitsCondition condition = new InstrumentCodeUnitsCondition(true, "");
+			InstrumentCodeUnitsCondition condition = new InstrumentCodeUnitsCondition(true, "", restrictions);
 			Message result = condition.evaluate(c);
 			NestedMessage nestedMessage=(NestedMessage)result;
 			System.out.println(nestedMessage.getNestedMessages().get(0).getDescription());
@@ -56,9 +60,10 @@ public class Condition321Test {
 			Network n = theDocument.getNetwork().get(0);
 			Station s = n.getStations().get(0);
 			Channel c = s.getChannels().get(0);
+			Restriction[] restrictions = new Restriction[] { new ChannelCodeRestriction(), new ChannelTypeRestriction() };
 
 
-			InstrumentCodeUnitsCondition condition = new InstrumentCodeUnitsCondition(true, "");
+			InstrumentCodeUnitsCondition condition = new InstrumentCodeUnitsCondition(true, "", restrictions);
 
 			Message result = condition.evaluate(c);
 			assertTrue(result instanceof edu.iris.dmc.station.rules.Success);

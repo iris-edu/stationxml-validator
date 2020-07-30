@@ -6,16 +6,21 @@ import edu.iris.dmc.fdsn.station.model.Response;
 import edu.iris.dmc.fdsn.station.model.ResponseStage;
 import edu.iris.dmc.fdsn.station.model.Station;
 import edu.iris.dmc.fdsn.station.model.Units;
+import edu.iris.dmc.station.restrictions.ChannelCodeRestriction;
+import edu.iris.dmc.station.restrictions.ChannelTypeRestriction;
 import edu.iris.dmc.station.restrictions.Restriction;
 import edu.iris.dmc.station.rules.Message;
 import edu.iris.dmc.station.rules.NestedMessage;
 import edu.iris.dmc.station.rules.Result;
 
-public class StageUnitCondition extends ChannelRestrictedCondition {
+public class LastStageUnitCondition extends AbstractCondition {
+	private Restriction[] restrictions;
 
-	public StageUnitCondition(boolean required, String description, Restriction[] restrictions) {
-		super(required, description, restrictions);
+	public LastStageUnitCondition(boolean required, String description, Restriction[] restrictions) {
+		super(required, description);
+		this.restrictions = restrictions;
 	}
+
 
 	@Override
 	public Message evaluate(Network network) {
@@ -40,10 +45,8 @@ public class StageUnitCondition extends ChannelRestrictedCondition {
 		NestedMessage nestedMessage = new NestedMessage();
 		boolean returnmessage = false;
 		boolean stageskip = false;
+		boolean includeDec = false;
 		int prevstage=0;
-		if (isRestricted(channel)) {
-			return Result.success();
-		}
 
 		if (this.required) {
 			if (response == null) {
@@ -51,51 +54,45 @@ public class StageUnitCondition extends ChannelRestrictedCondition {
 			}
 		}
 		if (response.getStage() != null && !response.getStage().isEmpty()) {
-
-			StageUnit current = null;
+			int lastStage = response.getStage().size();
 			for (ResponseStage stage : response.getStage()) {
+				if(stage.getDecimation()!= null) {
+					includeDec = true;
+				}
 
 				StageUnit stageUnit = getUnits(stage);
+				// Check to make sure the last stage is not null
 				if (stageUnit == null) {
+
+					if(stage.getNumber().intValue() == lastStage) {
+						if (stage.getNumber().intValue() < 10 ) {
+						    return Result.error("Stage [" + String.format("%02d", stage.getNumber().intValue()) + "] output unit "
+						    + " must not be null");
+						}else {
+							return Result.error("Stage [" + stage.getNumber().intValue() + "] output unit "
+							+ " must not be null");
+						}
+					}else {
 					stageskip = true;
 					continue;
-				}
-				// Current is the previous stage which harvest output unit
-				// stageUnit is current stage which harvest input unit. 
-				if (current == null) {
-					current = stageUnit;
-					continue;
-				}
-				
-				//First make this a nested message 
-
-				if (!current.output.getName().equals(stageUnit.input.getName())) {
-					if(stageskip == true) {
-						prevstage  = stage.getNumber().intValue() - 2;
-						stageskip=false;
-					}else {
-						prevstage  = stage.getNumber().intValue() - 1;
 					}
-					
-					if (stage.getNumber().intValue() < 10 ) {
-					    nestedMessage.add(Result.error("Stage [" + String.format("%02d", stage.getNumber().intValue()) + "] input unit " + stageUnit.input.getName()
-					    + " must equal stage [" + String.format("%02d", prevstage) + "] output unit "
-					    + current.output.getName()));
-					}else {
-						nestedMessage.add(Result.error("stage [" + stage.getNumber().intValue() + "] input unit " + stageUnit.input.getName()
-						+ " must equal stage [" + prevstage + "] output unit "
-						+ current.output.getName()));
-					}
-
-					returnmessage = true;
 				}
-				current = stageUnit;
+				if (stage.getNumber().intValue() == lastStage) {
+					if(stageUnit.output.getName().toLowerCase().contains("count")) {
+						continue;
+					}else {
+			            if (stage.getNumber().intValue() < 10 ) {
+				            return Result.error("Stage [" + String.format("%02d", stage.getNumber().intValue()) + "] output unit is " 
+			                + stageUnit.output.getName()
+				            + " but must be count(s)" );
+				        }else { 
+					        return Result.error("Stage [" + stage.getNumber().intValue() + "] output unit is "
+					        + stageUnit.output.getName()
+				            + " but must be count(s)" );
+				       }
+					}
+				}
 			}
-			if(returnmessage==true) {
-
-				return nestedMessage;
-			}
-
 		}
 		
 		return Result.success();

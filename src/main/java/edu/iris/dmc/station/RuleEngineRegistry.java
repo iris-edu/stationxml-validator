@@ -16,9 +16,11 @@ import edu.iris.dmc.station.conditions.AzimuthDipCondition;
 import edu.iris.dmc.station.conditions.CalibrationUnitCondition;
 import edu.iris.dmc.station.conditions.CodeCondition;
 import edu.iris.dmc.station.conditions.Condition;
+import edu.iris.dmc.station.conditions.DecimationAnalogFilterCondition;
 import edu.iris.dmc.station.conditions.DecimationCondition;
 import edu.iris.dmc.station.conditions.DecimationSampleRateCondition;
 import edu.iris.dmc.station.conditions.DecimationStageGainCondition;
+import edu.iris.dmc.station.conditions.DecimationStageUnitCondition;
 import edu.iris.dmc.station.conditions.DigitalFilterCondition;
 import edu.iris.dmc.station.conditions.DistanceCondition;
 import edu.iris.dmc.station.conditions.EmptySensitivityCondition;
@@ -27,6 +29,7 @@ import edu.iris.dmc.station.conditions.EpochRangeCondition;
 import edu.iris.dmc.station.conditions.FrequencyCondition;
 import edu.iris.dmc.station.conditions.InstrumentCodeUnitsCondition;
 import edu.iris.dmc.station.conditions.InstrumentSensitivityCondition;
+import edu.iris.dmc.station.conditions.LastStageUnitCondition;
 import edu.iris.dmc.station.conditions.LocationCodeCondition;
 import edu.iris.dmc.station.conditions.MissingDecimationCondition;
 import edu.iris.dmc.station.conditions.OrientationCondition;
@@ -223,6 +226,11 @@ public class RuleEngineRegistry {
 					"Stage:ResponseList cannot be the only stage included in a response.",
 					new ChannelCodeRestriction(), new ChannelTypeRestriction()), Response.class);
 		}
+		if (!s.contains(406)) {
+			add(406, new LastStageUnitCondition(true,
+					"Stage[LAST]::OutputUnits:Name must be assigned count(s)",
+					restrictions), Response.class);
+		}
 		if (!s.contains(410)) {
 			add(410, new EmptySensitivityCondition(true, "If InstrumentSensitivity is included then InstrumentSensitivity:Value must be assigned a double > 0.0 ",
 					new ChannelCodeRestriction(), new ChannelTypeRestriction(), new ResponsePolynomialRestriction()),
@@ -288,6 +296,20 @@ public class RuleEngineRegistry {
 		if (!s.contains(423)) {
 			add(423, new DecimationStageGainCondition(true,
 					"If Stage[N]:Decimation and Stage[N]:StageGain are included then Stage[N]:PolesZeros or Stage[N]:Coefficients or Stage[N]:ResponseList or Stage[N]:FIR must also be included.",
+					restrictions),
+					Response.class);
+		}
+		if (!s.contains(424)) {
+			add(424, new DecimationStageUnitCondition(true,
+					"If Stage[N]:Decimation is included then Stage[N]:OutputUnits:Name must equal count(s)",
+					restrictions),
+					Response.class);
+		}
+		if (!s.contains(425)) {
+			add(425, new DecimationAnalogFilterCondition(true,
+					"IF Stage[N]:PolesZeros:PzTransferFunctionType:LAPLACE (RADIANS/SECOND) OR Stage[N]:PolesZeros:PzTransferFunctionType:LAPLACE (HERTZ) OR\n" + 
+					"Stage[N]:CoefficientsType:CfTransferFunctionType:ANALOG (RADIANS/SECOND) OR Stage[N]:CoefficientsType:CfTransferFunctionType:ANALOG (HERTZ) are included\n" + 
+					"then Stage[N]:Decimation must not be included",
 					restrictions),
 					Response.class);
 		}

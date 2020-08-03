@@ -43,7 +43,8 @@ public class Condition424Test {
                
 			Message result = condition.evaluate(c);
 			NestedMessage nestedMessage=(NestedMessage) result;
-			assertTrue(nestedMessage.getNestedMessages().get(0).getDescription().contains("Stage [08] output unit M/S must be counts because stage [08] contains response.decimation"));
+			System.out.println(nestedMessage.getNestedMessages().get(0).getDescription());
+			assertTrue(nestedMessage.getNestedMessages().get(0).getDescription().contains("Stage [08] output unit M/S must be count(s) because Stage[08].Decimation is included"));
 		}
 
 	}

@@ -63,12 +63,12 @@ public class DecimationStageUnitCondition extends AbstractCondition {
 				if (stageUnit == null) {
 					if(stage.getDecimation()!= null) {
 						if (stage.getNumber().intValue() < 10 ) {
-							nestedMessage.add(Result.error("Stage [" + String.format("%02d", stage.getNumber().intValue()) + "] output unit "
-						    + " must not be null because response.decimation is included"));
+							nestedMessage.add(Result.error("Stage[" + String.format("%02d", stage.getNumber().intValue()) + "] output unit "
+						    + " must not be null because response.Decimation is included"));
 							returnmessage=true;
 						}else {
-							nestedMessage.add(Result.error("Stage [" + stage.getNumber().intValue() + "] output unit "
-							+ " must not be null because response.decimation is included"));
+							nestedMessage.add(Result.error("Stage[" + stage.getNumber().intValue() + "] output unit "
+							+ " must not be null because response.Decimation is included"));
 							returnmessage=true;
 						}
 					}else {
@@ -83,12 +83,12 @@ public class DecimationStageUnitCondition extends AbstractCondition {
 				            if (stage.getNumber().intValue() < 10 ) {
 				            	nestedMessage.add(Result.error("Stage [" + String.format("%02d", stage.getNumber().intValue()) + "] output unit " 
 				                + stageUnit.output.getName()
-					            + " must be counts because stage [" + String.format("%02d",stage.getNumber().intValue()) + "] contains response.decimation"));
+					            + " must be count(s) because Stage[" + String.format("%02d",stage.getNumber().intValue()) + "].Decimation is included"));
 								returnmessage=true;
 					        }else { 
 					        	nestedMessage.add(Result.error("Stage [" + stage.getNumber().intValue() + "] output unit "
 						        + stageUnit.output.getName()
-					            + " must be counts because stage [" + stage.getNumber().intValue() + "] contains response.decimation"));
+					            + " must be count(s) because Stage[" + stage.getNumber().intValue() + "].Decimation is included"));
 								returnmessage=true;
 						    }
 					    }

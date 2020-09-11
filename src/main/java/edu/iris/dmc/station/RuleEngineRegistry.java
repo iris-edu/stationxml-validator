@@ -28,6 +28,7 @@ import edu.iris.dmc.station.conditions.EpochOverlapCondition;
 import edu.iris.dmc.station.conditions.EpochRangeCondition;
 import edu.iris.dmc.station.conditions.FrequencyCondition;
 import edu.iris.dmc.station.conditions.InstrumentCodeUnitsCondition;
+import edu.iris.dmc.station.conditions.InstrumentCodeUnitsConditionN;
 import edu.iris.dmc.station.conditions.InstrumentSensitivityCondition;
 import edu.iris.dmc.station.conditions.LastStageUnitCondition;
 import edu.iris.dmc.station.conditions.LocationCodeCondition;
@@ -175,7 +176,13 @@ public class RuleEngineRegistry {
 		}
 		if (!set.contains(321)) {
 			add(321, new InstrumentCodeUnitsCondition(true,
-					"If Channel:Code[2] == (H | L | N) then Stage[1]:InputUnit must equal *m/s* AND Stage[Last]:OutputUnits must equal count*",
+					"If Channel:Code[2] == (H | L) then Stage[1]:InputUnit must equal ?m/s AND Stage[Last]:OutputUnits must equal count?",
+					new Restriction[] { new ChannelCodeRestriction(), new ChannelTypeRestriction() }),
+					Channel.class);
+		}
+		if (!set.contains(322)) {
+			add(322, new InstrumentCodeUnitsConditionN(true,
+					"If Channel:Code[2] == (N) then Stage[1]:InputUnit must equal ?m/s**2 AND Stage[Last]:OutputUnits must equal count?",
 					new Restriction[] { new ChannelCodeRestriction(), new ChannelTypeRestriction() }),
 					Channel.class);
 		}

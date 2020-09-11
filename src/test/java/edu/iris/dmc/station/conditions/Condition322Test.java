@@ -19,7 +19,7 @@ import edu.iris.dmc.station.restrictions.Restriction;
 import edu.iris.dmc.station.rules.Message;
 import edu.iris.dmc.station.rules.NestedMessage;
 
-public class Condition321Test {
+public class Condition322Test {
 
 	private FDSNStationXML theDocument;
 
@@ -30,7 +30,7 @@ public class Condition321Test {
 
 	@Test
 	public void azimuthfail() throws Exception {
-		try (InputStream is = RuleEngineServiceTest.class.getClassLoader().getResourceAsStream("F1_321.xml")) {
+		try (InputStream is = RuleEngineServiceTest.class.getClassLoader().getResourceAsStream("F1_322.xml")) {
 			theDocument = DocumentMarshaller.unmarshal(is);
 
 			Network n = theDocument.getNetwork().get(0);
@@ -38,19 +38,19 @@ public class Condition321Test {
 			Channel c = s.getChannels().get(0);
 			Restriction[] restrictions = new Restriction[] { new ChannelCodeRestriction(), new ChannelTypeRestriction() };
 
-			InstrumentCodeUnitsCondition condition = new InstrumentCodeUnitsCondition(true, "", restrictions);
+			InstrumentCodeUnitsConditionN condition = new InstrumentCodeUnitsConditionN(true, "", restrictions);
 			Message result = condition.evaluate(c);
 			NestedMessage nestedMessage=(NestedMessage)result;
- 			assertTrue(nestedMessage.getNestedMessages().get(0).getDescription().contains("Instrument code H should have stage 1 input units similar to ?m/s but input units are PA"));
- 			assertTrue(nestedMessage.getNestedMessages().get(1).getDescription().contains("Instrument code H should have stage last output units similar to count? but output units are m/s"));
+ 			assertTrue(nestedMessage.getNestedMessages().get(0).getDescription().contains("Instrument code N should have stage 1 input units similar to ?m/s**2 but input units are m/s"));
+ 			assertTrue(nestedMessage.getNestedMessages().get(1).getDescription().contains("Instrument code N should have stage last output units similar to count? but output units are m/s"));
 
 		}
 
 	}
 	
 	@Test
-	public void Test2_321() throws Exception {
-		try (InputStream is = RuleEngineServiceTest.class.getClassLoader().getResourceAsStream("F2_321.xml")) {
+	public void Test2_322() throws Exception {
+		try (InputStream is = RuleEngineServiceTest.class.getClassLoader().getResourceAsStream("F2_322.xml")) {
 			theDocument = DocumentMarshaller.unmarshal(is);
 
 			Network n = theDocument.getNetwork().get(0);
@@ -58,11 +58,10 @@ public class Condition321Test {
 			Channel c = s.getChannels().get(0);
 			Restriction[] restrictions = new Restriction[] { new ChannelCodeRestriction(), new ChannelTypeRestriction() };
 
-			InstrumentCodeUnitsCondition condition = new InstrumentCodeUnitsCondition(true, "", restrictions);
+			InstrumentCodeUnitsConditionN condition = new InstrumentCodeUnitsConditionN(true, "", restrictions);
 			Message result = condition.evaluate(c);
-			NestedMessage nestedMessage=(NestedMessage)result;
- 			assertTrue(nestedMessage.getNestedMessages().get(0).getDescription().contains("Instrument code H should have stage 1 input units similar to ?m/s but input units are PA/m/s**2"));
- 			assertTrue(nestedMessage.getNestedMessages().get(1).getDescription().contains("Instrument code H should have stage last output units similar to count? but output units are m/s"));
+			NestedMessage nestedMessage=(NestedMessage)result;			
+ 			assertTrue(nestedMessage.getNestedMessages().get(0).getDescription().contains("Instrument code N should have stage last output units similar to count? but output units are m/s"));
 
 		}
 

@@ -29,6 +29,7 @@ import edu.iris.dmc.station.conditions.EpochRangeCondition;
 import edu.iris.dmc.station.conditions.FrequencyCondition;
 import edu.iris.dmc.station.conditions.InstrumentCodeUnitsCondition;
 import edu.iris.dmc.station.conditions.InstrumentSensitivityCondition;
+import edu.iris.dmc.station.conditions.InstrumentUnitsStageCondition;
 import edu.iris.dmc.station.conditions.LastStageUnitCondition;
 import edu.iris.dmc.station.conditions.LocationCodeCondition;
 import edu.iris.dmc.station.conditions.MissingDecimationCondition;
@@ -229,6 +230,11 @@ public class RuleEngineRegistry {
 		if (!s.contains(406)) {
 			add(406, new LastStageUnitCondition(true,
 					"Stage[LAST]::OutputUnits:Name must be assigned count(s)",
+					restrictions), Response.class);
+		}
+		if (!s.contains(407)) {
+			add(407, new InstrumentUnitsStageCondition(true,
+					"InstrumentSensitivity:InputUnits:Name must equal Stage[1]:InputUnits:Name AND InstrumentSensitivity:OutputUnits:Name must equal Stage[last]:OutputUnits:Name OR InstrumentPolynomial:InputUnits:Name must equal Stage[1]:InputUnits:Name AND InstrumentPolynomial:OutputUnits:Name must equal Stage[last]:OutputUnits:Name",
 					restrictions), Response.class);
 		}
 		if (!s.contains(410)) {

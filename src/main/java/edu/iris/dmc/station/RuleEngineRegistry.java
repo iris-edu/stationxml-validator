@@ -13,6 +13,7 @@ import edu.iris.dmc.fdsn.station.model.Network;
 import edu.iris.dmc.fdsn.station.model.Response;
 import edu.iris.dmc.fdsn.station.model.Station;
 import edu.iris.dmc.station.conditions.AzimuthDipCondition;
+import edu.iris.dmc.station.conditions.BandCodeCondition;
 import edu.iris.dmc.station.conditions.CalibrationUnitCondition;
 import edu.iris.dmc.station.conditions.CodeCondition;
 import edu.iris.dmc.station.conditions.Condition;
@@ -183,6 +184,12 @@ public class RuleEngineRegistry {
 		if (!set.contains(322)) {
 			add(322, new InstrumentCodeUnitsConditionN(true,
 					"If Channel:Code[2] == (N) then Stage[1]:InputUnit must equal ?m/s**2 AND Stage[Last]:OutputUnits must equal count?",
+					new Restriction[] { new ChannelCodeRestriction(), new ChannelTypeRestriction() }),
+					Channel.class);
+		}
+		if (!set.contains(330)) {
+			add(330, new BandCodeCondition(true,
+					"Channel:SampleRate must be assigned a float that inclusively correspounds to Channel:Code[1], which is outlined by the Band Code dictionary",
 					new Restriction[] { new ChannelCodeRestriction(), new ChannelTypeRestriction() }),
 					Channel.class);
 		}

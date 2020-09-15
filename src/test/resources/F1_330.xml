@@ -25,11 +25,11 @@
     <Longitude>-122.31332</Longitude>
     <Elevation>225.879999</Elevation>
     <Depth>0</Depth>
-    <Azimuth>361</Azimuth>
-    <Dip>10</Dip>
+    <Azimuth>359</Azimuth>
+    <Dip>0</Dip>
     <Type>CONTINUOUS</Type>
     <Type>GEOPHYSICAL</Type>
-    <SampleRate>2E01</SampleRate>
+    <SampleRate>9.0</SampleRate>
     <ClockDrift>0E00</ClockDrift>
     <CalibrationUnits>
      <Name>V</Name>
@@ -40,8 +40,8 @@
     </Sensor>
     <Response>
      <InstrumentSensitivity>
-      <Value>2.44648E5</Value>
-      <Frequency>1E0</Frequency>
+      <Value>1</Value>
+      <Frequency>4E01</Frequency>
       <InputUnits>
        <Name>PA</Name>
        <Description>No Abbreviation Referenced</Description>

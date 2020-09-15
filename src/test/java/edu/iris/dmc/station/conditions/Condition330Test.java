@@ -43,7 +43,26 @@ public class Condition330Test {
 			
 			Message result = condition.evaluate(c);
 			NestedMessage nestedMessage=(NestedMessage) result;
-			assertTrue(nestedMessage.getNestedMessages().get(0).getDescription().contains("Frequency Band B must have a sample rate assigned between >=10 and < 80"));
+			assertTrue(nestedMessage.getNestedMessages().get(0).getDescription().contains("Frequency Band B must have a sample rate assigned between >= 10 and < 80"));
+
+		}
+
+	}
+	
+	@Test
+	public void fail2() throws Exception {
+		try (InputStream is = RuleEngineServiceTest.class.getClassLoader().getResourceAsStream("F2_330.xml")) {
+			theDocument = DocumentMarshaller.unmarshal(is);
+			Restriction[] restrictions = new Restriction[] { new ChannelCodeRestriction(), new ChannelTypeRestriction() };
+
+			Network n = theDocument.getNetwork().get(0);
+			Station s = n.getStations().get(0);
+			Channel c = s.getChannels().get(0);
+			BandCodeCondition condition = new BandCodeCondition(true, "", restrictions);
+			
+			Message result = condition.evaluate(c);
+			NestedMessage nestedMessage=(NestedMessage) result;
+			assertTrue(nestedMessage.getNestedMessages().get(0).getDescription().contains("Frequency Band F must have a sample rate assigned between >= 1000 and < 5000"));
 
 		}
 

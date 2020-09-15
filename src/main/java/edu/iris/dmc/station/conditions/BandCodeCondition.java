@@ -50,105 +50,105 @@ public class BandCodeCondition extends AbstractCondition {
 		switch (bandcode){
 	    case "F": 
 	        if(samplerate < 1000 || samplerate >= 5000) {
-				nestedMessage.add(Result.warning("Frequency Band " + bandcode +" must have a sample rate assigned between >=1000 and < 5000"));
+				nestedMessage.add(Result.warning("Frequency Band " + bandcode +" must have a sample rate assigned between >= 1000 and < 5000"));
 				returnmessage = true;
 			break;
 	        }
 	        break;
 	    case "G": 
 	        if(samplerate < 1000 || samplerate >= 5000) {
-				nestedMessage.add(Result.warning("Frequency Band " + bandcode +" must have a sample rate assigned between >=1000 and < 5000"));
+				nestedMessage.add(Result.warning("Frequency Band " + bandcode +" must have a sample rate assigned between >= 1000 and < 5000"));
 				returnmessage = true;
 			break;
 	        }
 	        break;
 	    case "D": 
 	        if(samplerate < 250 || samplerate >= 1000) {
-				nestedMessage.add(Result.warning("Frequency Band " + bandcode +" must have a sample rate assigned between >=250 and < 1000"));
+				nestedMessage.add(Result.warning("Frequency Band " + bandcode +" must have a sample rate assigned between >= 250 and < 1000"));
 				returnmessage = true;
 			break;
 	        }
 	        break;
 	    case "C": 
 	        if(samplerate < 250 || samplerate >= 1000) {
-				nestedMessage.add(Result.warning("Frequency Band " + bandcode +" must have a sample rate assigned between >=250 and < 1000"));
+				nestedMessage.add(Result.warning("Frequency Band " + bandcode +" must have a sample rate assigned between >= 250 and < 1000"));
 				returnmessage = true;
 			break;
 	        }
 	        break;
 	    case "E": 
 	        if(samplerate < 80 || samplerate >= 250) {
-				nestedMessage.add(Result.warning("Frequency Band " + bandcode +" must have a sample rate assigned between >=80 and < 250"));
+				nestedMessage.add(Result.warning("Frequency Band " + bandcode +" must have a sample rate assigned between >= 80 and < 250"));
 				returnmessage = true;
 			break;
 	        }
 	        break;
 	    case "H": 
 	        if(samplerate < 80 || samplerate >= 250) {
-				nestedMessage.add(Result.warning("Frequency Band " + bandcode +" must have a sample rate assigned between >=80 and < 250"));
+				nestedMessage.add(Result.warning("Frequency Band " + bandcode +" must have a sample rate assigned between >= 80 and < 250"));
 				returnmessage = true;
 			break;
 	        } 
 	        break;
 	    case "S": 
 	        if(samplerate < 10.0 || samplerate >= 80.0) {
-				nestedMessage.add(Result.warning("Frequency Band " + bandcode +" must have a sample rate assigned between >=10 and < 80"));
+				nestedMessage.add(Result.warning("Frequency Band " + bandcode +" must have a sample rate assigned between >= 10 and < 80"));
 				returnmessage = true;
 			break;
 	        } 
 	        break;
 	    case "B": 
 	        if(samplerate < 10.0 || samplerate >= 80.0) {
-				nestedMessage.add(Result.warning("Frequency Band " + bandcode +" must have a sample rate assigned between >=10 and < 80"));
+				nestedMessage.add(Result.warning("Frequency Band " + bandcode +" must have a sample rate assigned between >= 10 and < 80"));
 				returnmessage = true;
 			break;
 	        } 
 	        break;
 	    case "M": 
 	        if(samplerate < 1 || samplerate >= 10) {
-				nestedMessage.add(Result.warning("Frequency Band " + bandcode +" must have a sample rate assigned between >=1 and < 10"));
+				nestedMessage.add(Result.warning("Frequency Band " + bandcode +" must have a sample rate assigned between >= 1 and < 10"));
 				returnmessage = true;
 			break;
 	        }
 	        break;
 	    case "L": 
 	        if(samplerate < 0.1 || samplerate >= 10) {
-				nestedMessage.add(Result.warning("Frequency Band " + bandcode +" must have a sample rate assigned between >=0.1 and < 10"));
+				nestedMessage.add(Result.warning("Frequency Band " + bandcode +" must have a sample rate assigned between >= 0.1 and < 10"));
 				returnmessage = true;
 			break;
 	        }
 	        break;
 	    case "V": 
 	        if(samplerate < 0.01 || samplerate >= 1) {
-				nestedMessage.add(Result.warning("Frequency Band " + bandcode +" must have a sample rate assigned between >=0.01 and < 1"));
+				nestedMessage.add(Result.warning("Frequency Band " + bandcode +" must have a sample rate assigned between >= 0.01 and < 1"));
 				returnmessage = true;
 			break;
 	        }
 	        break;
 	    case "U": 
 	        if(samplerate < 0.001 || samplerate >= 0.1) {
-				nestedMessage.add(Result.warning("Frequency Band " + bandcode +" must have a sample rate assigned between >=0.001 and < 0.1"));
+				nestedMessage.add(Result.warning("Frequency Band " + bandcode +" must have a sample rate assigned between >= 0.001 and < 0.1"));
 				returnmessage = true;
 			break;
 	        }
 	        break;
 	    case "R": 
 	        if(samplerate < 0.0001 || samplerate >= 0.001) {
-				nestedMessage.add(Result.warning("Frequency Band " + bandcode +" must have a sample rate assigned between >=0.0001 and < 0.001"));
+				nestedMessage.add(Result.warning("Frequency Band " + bandcode +" must have a sample rate assigned between >= 0.0001 and < 0.001"));
 				returnmessage = true;
 			break;
 	        }
 	        break;
 	    case "P": 
 	        if(samplerate < 0.00001 || samplerate >= 0.0001) {
-				nestedMessage.add(Result.warning("Frequency Band " + bandcode +" must have a sample rate assigned between >=0.00001 and < 0.0001"));
+				nestedMessage.add(Result.warning("Frequency Band " + bandcode +" must have a sample rate assigned between >= 0.00001 and < 0.0001"));
 				returnmessage = true;
 			break;
 	        }
 	        break;
 	    case "T": 
 	        if(samplerate < 0.000001 || samplerate >= 0.00001) {
-				nestedMessage.add(Result.warning("Frequency Band " + bandcode +" must have a sample rate assigned between >=0.000001 and < 0.00001"));
+				nestedMessage.add(Result.warning("Frequency Band " + bandcode +" must have a sample rate assigned between >= 0.000001 and < 0.00001"));
 				returnmessage = true;
 			break;
 	        }

@@ -42,7 +42,7 @@
       <Value>2.44648E5</Value>
       <Frequency>1E0</Frequency>
       <InputUnits>
-       <Name>m/s</Name>
+       <Name>Kg/s</Name>
        <Description>No Abbreviation Referenced</Description>
       </InputUnits>
       <OutputUnits>
@@ -53,7 +53,7 @@
      <Stage number="1">
       <PolesZeros>
        <InputUnits>
-        <Name>m/s</Name>
+        <Name>m/s**2</Name>
         <Description>No Abbreviation Referenced</Description>
        </InputUnits>
        <OutputUnits>

@@ -4,7 +4,7 @@
  <Source>IRIS-DMC</Source>
  <Sender>IRIS-DMC</Sender>
  <Module>IRIS WEB SERVICE: fdsnws-station | version: 1.1.33</Module>
- <ModuleURI>http://service.iris.edu/fdsnws/station/1/query?net=XX&amp;sta=VPASS&amp;cha=BDF&amp;starttime=2018-08-06T00:00:01&amp;level=response&amp;format=xml&amp;includecomments=true&amp;nodata=404</ModuleURI>
+ <ModuleURI>http://service.iris.edu/fdsnws/station/1/query?net=QI&amp;sta=VPASS&amp;cha=BDF&amp;starttime=2018-08-06T00:00:01&amp;level=response&amp;format=xml&amp;includecomments=true&amp;nodata=404</ModuleURI>
  <Created>2018-08-06T20:17:16</Created>
  <Network code="XX" startDate="2018-08-06T00:00:00" endDate="2500-12-31T23:59:59" restrictedStatus="open">
   <Description>[IRIS DMC] Station XML Validator Passing Test File</Description>
@@ -20,12 +20,11 @@
    <CreationDate>2018-08-06T00:00:00</CreationDate>
    <TotalNumberChannels>1</TotalNumberChannels>
    <SelectedNumberChannels>1</SelectedNumberChannels>
-   <Channel code="BDF" endDate="2500-12-31T23:59:59" locationCode="00" restrictedStatus="open" startDate="2018-08-06T00:00:00">
+   <Channel code="BNE" endDate="2500-12-31T23:59:59" locationCode="00" restrictedStatus="open" startDate="2018-08-06T00:00:00">
     <Latitude>47.66157</Latitude>
     <Longitude>-122.31332</Longitude>
     <Elevation>225.879999</Elevation>
-    <Depth></Depth>
-    <Azimuth>359</Azimuth>
+    <Depth>0</Depth>
     <Dip>0</Dip>
     <Type>CONTINUOUS</Type>
     <Type>GEOPHYSICAL</Type>
@@ -36,14 +35,14 @@
      <Description>Volts</Description>
     </CalibrationUnits>
     <Sensor>
-     <Description>50A (Infrasound), 0.2-50 Hz, 0.4 V/Pa-null</Description>
+     <Description>GEM (Infrasound), 0.2-50 Hz, 0.4 V/Pa-null</Description>
     </Sensor>
     <Response>
      <InstrumentSensitivity>
       <Value>2.44648E5</Value>
       <Frequency>1E0</Frequency>
       <InputUnits>
-       <Name>PA</Name>
+       <Name>m/s</Name>
        <Description>No Abbreviation Referenced</Description>
       </InputUnits>
       <OutputUnits>
@@ -54,7 +53,7 @@
      <Stage number="1">
       <PolesZeros>
        <InputUnits>
-        <Name>PA</Name>
+        <Name>m/s</Name>
         <Description>No Abbreviation Referenced</Description>
        </InputUnits>
        <OutputUnits>
@@ -472,7 +471,7 @@
         <Description>Digital Counts</Description>
        </InputUnits>
        <OutputUnits>
-        <Name>COUNTS</Name>
+        <Name>m/s</Name>
         <Description>Digital Counts</Description>
        </OutputUnits>
        <CfTransferFunctionType>DIGITAL</CfTransferFunctionType>

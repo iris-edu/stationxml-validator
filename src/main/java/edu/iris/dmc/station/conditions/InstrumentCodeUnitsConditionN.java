@@ -10,10 +10,10 @@ import edu.iris.dmc.station.rules.Message;
 import edu.iris.dmc.station.rules.NestedMessage;
 import edu.iris.dmc.station.rules.Result;
 
-public class InstrumentCodeUnitsCondition extends AbstractCondition {
+public class InstrumentCodeUnitsConditionN extends AbstractCondition {
 	private Restriction[] restrictions;
 
-	public InstrumentCodeUnitsCondition(boolean required, String description, Restriction[] restrictions) {
+	public InstrumentCodeUnitsConditionN(boolean required, String description, Restriction[] restrictions) {
 		super(required, description);
 		this.restrictions = restrictions;
 	}
@@ -73,14 +73,12 @@ public class InstrumentCodeUnitsCondition extends AbstractCondition {
 		}else {
 			return Result.success();
 		}
-
 		
-
-		if("HL".indexOf(code.charAt(1)) >=0 | "hl".indexOf(code.charAt(1)) >=0) {
-			if(!inputUnit.toLowerCase().equalsIgnoreCase("m/s") & !inputUnit.toLowerCase().equalsIgnoreCase("cm/s")
-					& !inputUnit.toLowerCase().equalsIgnoreCase("mm/s") & !inputUnit.toLowerCase().equalsIgnoreCase("um/s")
-					& !inputUnit.toLowerCase().equalsIgnoreCase("nm/s")) {
-				nestedMessage.add(Result.warning("Instrument code " +code.charAt(1)+" should have stage 1 input units similar to ?m/s but input units are "+inputUnit));
+		if("N".indexOf(code.charAt(1)) >=0 | "n".indexOf(code.charAt(1)) >=0) {
+			if(!inputUnit.toLowerCase().equalsIgnoreCase("m/s**2") & !inputUnit.toLowerCase().equalsIgnoreCase("cm/s**2")
+					& !inputUnit.toLowerCase().equalsIgnoreCase("mm/s**2") & !inputUnit.toLowerCase().equalsIgnoreCase("um/s**2")
+					& !inputUnit.toLowerCase().equalsIgnoreCase("nm/s**2")) {
+				nestedMessage.add(Result.warning("Instrument code " +code.charAt(1)+" should have stage 1 input units similar to ?m/s**2 but input units are "+inputUnit));
 				returnmessage=true;
 			}
 			if(!outputUnit.toLowerCase().equalsIgnoreCase("count") & !outputUnit.toLowerCase().equalsIgnoreCase("counts")) {

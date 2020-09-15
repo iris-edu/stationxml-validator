@@ -19,7 +19,7 @@ import edu.iris.dmc.station.restrictions.Restriction;
 import edu.iris.dmc.station.rules.Message;
 import edu.iris.dmc.station.rules.NestedMessage;
 
-public class Condition321Test {
+public class Condition407Test {
 
 	private FDSNStationXML theDocument;
 
@@ -29,8 +29,8 @@ public class Condition321Test {
 	}
 
 	@Test
-	public void azimuthfail() throws Exception {
-		try (InputStream is = RuleEngineServiceTest.class.getClassLoader().getResourceAsStream("F1_321.xml")) {
+	public void sensitivityfail() throws Exception {
+		try (InputStream is = RuleEngineServiceTest.class.getClassLoader().getResourceAsStream("F1_407.xml")) {
 			theDocument = DocumentMarshaller.unmarshal(is);
 
 			Network n = theDocument.getNetwork().get(0);
@@ -38,19 +38,20 @@ public class Condition321Test {
 			Channel c = s.getChannels().get(0);
 			Restriction[] restrictions = new Restriction[] { new ChannelCodeRestriction(), new ChannelTypeRestriction() };
 
-			InstrumentCodeUnitsCondition condition = new InstrumentCodeUnitsCondition(true, "", restrictions);
+			InstrumentUnitsStageCondition condition = new InstrumentUnitsStageCondition(true, "", restrictions);
 			Message result = condition.evaluate(c);
 			NestedMessage nestedMessage=(NestedMessage)result;
- 			assertTrue(nestedMessage.getNestedMessages().get(0).getDescription().contains("Instrument code H should have stage 1 input units similar to ?m/s but input units are PA"));
- 			assertTrue(nestedMessage.getNestedMessages().get(1).getDescription().contains("Instrument code H should have stage last output units similar to count? but output units are m/s"));
+
+ 			assertTrue(nestedMessage.getNestedMessages().get(0).getDescription().contains("InsturmentSensitivity input units Kg/s must equal Stage[01] input units m/s**2"));
+ 			assertTrue(nestedMessage.getNestedMessages().get(1).getDescription().contains("InsturmentSensitivity output units COUNTS must equal Stage[12] output units m/s"));
 
 		}
 
 	}
-	
+
 	@Test
-	public void Test2_321() throws Exception {
-		try (InputStream is = RuleEngineServiceTest.class.getClassLoader().getResourceAsStream("F2_321.xml")) {
+	public void polynomialfail() throws Exception {
+		try (InputStream is = RuleEngineServiceTest.class.getClassLoader().getResourceAsStream("F2_407.xml")) {
 			theDocument = DocumentMarshaller.unmarshal(is);
 
 			Network n = theDocument.getNetwork().get(0);
@@ -58,16 +59,16 @@ public class Condition321Test {
 			Channel c = s.getChannels().get(0);
 			Restriction[] restrictions = new Restriction[] { new ChannelCodeRestriction(), new ChannelTypeRestriction() };
 
-			InstrumentCodeUnitsCondition condition = new InstrumentCodeUnitsCondition(true, "", restrictions);
+			InstrumentUnitsStageCondition condition = new InstrumentUnitsStageCondition(true, "", restrictions);
 			Message result = condition.evaluate(c);
 			NestedMessage nestedMessage=(NestedMessage)result;
- 			assertTrue(nestedMessage.getNestedMessages().get(0).getDescription().contains("Instrument code H should have stage 1 input units similar to ?m/s but input units are PA/m/s**2"));
- 			assertTrue(nestedMessage.getNestedMessages().get(1).getDescription().contains("Instrument code H should have stage last output units similar to count? but output units are m/s"));
+
+ 			assertTrue(nestedMessage.getNestedMessages().get(0).getDescription().contains("InsturmentPolynomial input units CELSIUS must equal Stage[01] input units VOLT" + 
+ 					""));
 
 		}
 
 	}
-	
 
 	@Test
 	public void pass() throws Exception {
@@ -80,7 +81,7 @@ public class Condition321Test {
 			Restriction[] restrictions = new Restriction[] { new ChannelCodeRestriction(), new ChannelTypeRestriction() };
 
 
-			InstrumentCodeUnitsCondition condition = new InstrumentCodeUnitsCondition(true, "", restrictions);
+			InstrumentUnitsStageCondition condition = new InstrumentUnitsStageCondition(true, "", restrictions);
 
 			Message result = condition.evaluate(c);
 			assertTrue(result instanceof edu.iris.dmc.station.rules.Success);

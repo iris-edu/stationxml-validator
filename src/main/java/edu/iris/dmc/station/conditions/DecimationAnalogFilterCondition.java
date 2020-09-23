@@ -58,56 +58,56 @@ public class DecimationAnalogFilterCondition extends AbstractCondition {
 				if (stage.getPolesZeros()!=null && stage.getPolesZeros().getPzTransferFunctionType().equalsIgnoreCase("LAPLACE (RADIANS/SECOND)")) {
 				    if (stage.getDecimation()!= null) {
 				            if (stage.getNumber().intValue() < 10 ) {
-				            	nestedMessage.add(Result.error("Stage [" + String.format("%02d", stage.getNumber().intValue()) + "]"
+				            	nestedMessage.add(Result.error("Stage[" + String.format("%02d", stage.getNumber().intValue()) + "]"
 				            			+ " includes PolesZeros:PzTransferFunctionType:LAPLACE (RADIANS/SECOND)" 
-					            + " so decimation must not be included in stage [" +String.format("%02d", stage.getNumber().intValue()) + "]."));
+					            + " so decimation must not be included in Stage[" +String.format("%02d", stage.getNumber().intValue()) + "]."));
 								returnmessage=true;
 					        }else { 
-					        	nestedMessage.add(Result.error("Stage [" + stage.getNumber().intValue() + "]"
+					        	nestedMessage.add(Result.error("Stage[" + stage.getNumber().intValue() + "]"
 						        + " includes PolesZeros:PzTransferFunctionType:LAPLACE (RADIANS/SECOND)"
-					            + " so decimation must not be included in stage [" + stage.getNumber().intValue() + "]."));
+					            + " so decimation must not be included in Stage[" + stage.getNumber().intValue() + "]."));
 								returnmessage=true;
 						    }
 					    }
 				    }else if (stage.getPolesZeros()!=null && stage.getPolesZeros().getPzTransferFunctionType().equalsIgnoreCase("LAPLACE (HERTZ)")) {
 				        if (stage.getDecimation()!= null) {
 				            if (stage.getNumber().intValue() < 10 ) {
-				            	nestedMessage.add(Result.error("Stage [" + String.format("%02d", stage.getNumber().intValue()) + "]"
+				            	nestedMessage.add(Result.error("Stage[" + String.format("%02d", stage.getNumber().intValue()) + "]"
 				            			+ " includes PolesZeros:PzTransferFunctionType:LAPLACE (HERTZ)" 
-					            + " so decimation must not be included in stage [" + String.format("%02d", stage.getNumber().intValue()) + "]."));
+					            + " so decimation must not be included in Stage[" + String.format("%02d", stage.getNumber().intValue()) + "]."));
 								returnmessage=true;
 					        }else { 
-					        	nestedMessage.add(Result.error("Stage [" + stage.getNumber().intValue() + "]"
+					        	nestedMessage.add(Result.error("Stage[" + stage.getNumber().intValue() + "]"
 						        + " includes PolesZeros:PzTransferFunctionType:LAPLACE (HERTZ)"
-					            + " so decimation must not be included in stage [" + stage.getNumber().intValue() + "]."));
+					            + " so decimation must not be included in Stage[" + stage.getNumber().intValue() + "]."));
 								returnmessage=true;
 						    }
 					    }
 				    }else if (stage.getCoefficients() !=null && stage.getCoefficients().getCfTransferFunctionType().equalsIgnoreCase("ANALOG (RADIANS/SECOND)")) {
 				    	if (stage.getDecimation()!= null) {
 				            if (stage.getNumber().intValue() < 10 ) {
-				            	nestedMessage.add(Result.error("Stage [" + String.format("%02d", stage.getNumber().intValue()) + "]"
+				            	nestedMessage.add(Result.error("Stage[" + String.format("%02d", stage.getNumber().intValue()) + "]"
 				            			+ " includes CoefficientsType:CfTransferFunctionType:ANALOG (RADIANS/SECOND)" 
-					            + " so decimation must not be included in stage [" +  String.format("%02d", stage.getNumber().intValue()) + "]."));
+					            + " so decimation must not be included in Stage[" +  String.format("%02d", stage.getNumber().intValue()) + "]."));
 								returnmessage=true;
 					        }else { 
-					        	nestedMessage.add(Result.error("Stage [" + stage.getNumber().intValue() + "]"
+					        	nestedMessage.add(Result.error("Stage[" + stage.getNumber().intValue() + "]"
 						        + " includes PolesZeros:PzTransferFunctionType:ANALOG (RADIANS/SECOND)"
-					            + " so decimation must not be included in stage [" + stage.getNumber().intValue() + "]."));
+					            + " so decimation must not be included in Stage[" + stage.getNumber().intValue() + "]."));
 								returnmessage=true;
 						    }
 					    }
 			    }else if (stage.getCoefficients() !=null && stage.getCoefficients().getCfTransferFunctionType().equalsIgnoreCase("ANALOG (HERTZ)")) {
 			    	if (stage.getDecimation()!= null) {
 			            if (stage.getNumber().intValue() < 10 ) {
-			            	nestedMessage.add(Result.error("Stage [" + String.format("%02d", stage.getNumber().intValue()) + "]"
+			            	nestedMessage.add(Result.error("Stage[" + String.format("%02d", stage.getNumber().intValue()) + "]"
 			            			+ " includes CoefficientsType:CfTransferFunctionType:ANALOG (HERTZ)" 
-				            + " so decimation must not be included in stage [" + String.format("%02d", stage.getNumber().intValue()) + "]."));
+				            + " so decimation must not be included in Stage[" + String.format("%02d", stage.getNumber().intValue()) + "]."));
 							returnmessage=true;
 				        }else { 
-				        	nestedMessage.add(Result.error("Stage [" + stage.getNumber().intValue() + "]"
+				        	nestedMessage.add(Result.error("Stage[" + stage.getNumber().intValue() + "]"
 					        + " includes CoefficientsType:CfTransferFunctionType:ANALOG (HERTZ)"
-				            + " so decimation must not be included in stage [" + stage.getNumber().intValue() + "]."));
+				            + " so decimation must not be included in Stage[" + stage.getNumber().intValue() + "]."));
 							returnmessage=true;
 					    }
 				    }

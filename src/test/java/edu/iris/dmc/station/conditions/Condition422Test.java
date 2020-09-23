@@ -43,7 +43,8 @@ public class Condition422Test {
                
 			Message result = condition.evaluate(c);
 			NestedMessage nestedMessage=(NestedMessage)result;
-			assertTrue(nestedMessage.getNestedMessages().get(0).getDescription().contains("[stage 05] Decimation:InputSampleRate 20.0 != [stage 04] Decimation:InputSampleRate/Decimation:Factor 10.0"));
+			System.out.println(nestedMessage.getNestedMessages().get(0).getDescription());
+			assertTrue(nestedMessage.getNestedMessages().get(0).getDescription().contains("Stage[05] Decimation:InputSampleRate 20.0 != Stage[04] Decimation:InputSampleRate/Decimation:Factor 10.0"));
 
 		}
 

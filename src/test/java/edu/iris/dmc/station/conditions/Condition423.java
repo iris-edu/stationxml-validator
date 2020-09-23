@@ -45,8 +45,8 @@ public class Condition423 {
 			NestedMessage nestedMessage=(NestedMessage)result;
 
 
-			assertTrue(nestedMessage.getNestedMessages().get(0).getDescription().contains("[stage 01] includes Decimation and StageGain but does not include a Filter"));
-			assertTrue(nestedMessage.getNestedMessages().get(1).getDescription().contains("[stage 07] includes Decimation and StageGain but does not include a Filter"));
+			assertTrue(nestedMessage.getNestedMessages().get(0).getDescription().contains("Stage[01] includes Decimation and StageGain but does not include a Filter"));
+			assertTrue(nestedMessage.getNestedMessages().get(1).getDescription().contains("Stage[07] includes Decimation and StageGain but does not include a Filter"));
 		}
 
 	}

@@ -43,8 +43,8 @@ public class Condition414Test3 {
                
 			Message result = condition.evaluate(c);
 			NestedMessage nestedMessage=(NestedMessage)result;
- 			assertTrue(nestedMessage.getNestedMessages().get(0).getDescription().contains("[stage 01] Zero:number 0 Zero:Real==0 and Zero:Imaginary==0 InstrumentSensitivity:Frequency must not equal 0"));
-			assertTrue(nestedMessage.getNestedMessages().get(1).getDescription().contains("[stage 01] Zero:number 1 Zero:Real==0 and Zero:Imaginary==0 InstrumentSensitivity:Frequency must not equal 0"));
+ 			assertTrue(nestedMessage.getNestedMessages().get(0).getDescription().contains("Stage[01] Zero:number[0] Zero:Real==0 and Zero:Imaginary==0 InstrumentSensitivity:Frequency must not equal 0"));
+			assertTrue(nestedMessage.getNestedMessages().get(1).getDescription().contains("Stage[01] Zero:number[1] Zero:Real==0 and Zero:Imaginary==0 InstrumentSensitivity:Frequency must not equal 0"));
 
 		}
 

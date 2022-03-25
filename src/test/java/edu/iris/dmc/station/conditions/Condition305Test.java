@@ -36,7 +36,7 @@ public class Condition305Test {
 			SampleRateCondition condition = new SampleRateCondition(true, "");
 
 			Message result = condition.evaluate(c);
-			assertTrue(result instanceof edu.iris.dmc.station.rules.Error);
+			assertTrue(result instanceof edu.iris.dmc.station.rules.Warning);
 		}
 
 	}

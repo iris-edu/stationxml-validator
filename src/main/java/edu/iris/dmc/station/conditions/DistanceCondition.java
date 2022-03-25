@@ -43,7 +43,7 @@ public class DistanceCondition extends AbstractCondition {
 					channel.getLongitude().getValue(), station.getLatitude().getValue(),
 					station.getLongitude().getValue(), "K");
 			if (distance > this.margin) {
-				nestedMessage.add(Result.error("Distance between Sta: " 
+				nestedMessage.add(Result.warning("Distance between Sta: "
 						+ station.getCode() + " and Chan: " + channel.getCode() + " Loc: " + channel.getLocationCode()
 						+ " is expected to be less than " + margin + " km but is " + distance + " km"));
 				returnmessage=true;

@@ -41,7 +41,7 @@ public class SampleRateCondition extends ChannelRestrictedCondition {
 				if (sampleRate.getValue() != 0) {
 
 				} else {
-					return Result.error("Sample rate cannot be 0 or null.");
+					return Result.warning("Sample rate cannot be 0 or null.");
 				}
 			} else {
 

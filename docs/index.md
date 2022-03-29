@@ -6,6 +6,7 @@ The IRIS stationxml-validator is a Java library and related command-line utility
 * [Validation tests](tests.md)
 * [Unit name overview for IRIS stationxml-validator](units.md)
 * [Rule restrictions](restrictions.md)
+* [Band Code Dictionary](bandcode.md)
 * [Channel:Code orthogonal orientation guidelines](orientation.md)
 * [Contributing to the StationXML Validator](contribution.md)
 
@@ -20,6 +21,7 @@ The compiled .jar may be used immediately.
 If you wish to compile the program, the source code is available. Follow the [instructions below](#building-the-command-line-validator-from-source) to download the source code.
 
 ## Using the Validator
+
 
 The Validator's jar runs in both [Java](https://www.java.com/) 8 or 11 enviroments.  A usage message will be printed if the stationxml-validator is run with no arguments are supplied:
 

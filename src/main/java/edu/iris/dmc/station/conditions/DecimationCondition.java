@@ -61,11 +61,11 @@ public class DecimationCondition extends ChannelRestrictedCondition {
 				Frequency sampleRate = decimation.getInputSampleRate();
 				if(sampleRate==null) {
 					if (stage.getNumber().intValue() < 10 ) {
-					    nestedMessage.add(Result.error("[stage " + String.format("%02d", stage.getNumber().intValue())
+					    nestedMessage.add(Result.error("Stage[" + String.format("%02d", stage.getNumber().intValue())
 					    + "] must include Decimation:Samplerate"));
 					    returnmessage =true;
 					}else {									    
-						nestedMessage.add(Result.error("[stage " + stage.getNumber().intValue()
+						nestedMessage.add(Result.error("Stage[" + stage.getNumber().intValue()
 				        + "] must include Decimation:Samplerate"));
 				        returnmessage =true;	
 					}					
@@ -75,13 +75,13 @@ public class DecimationCondition extends ChannelRestrictedCondition {
 				if (inputSampleRateByFactor != null) {
 					if (Math.abs(inputSampleRate - inputSampleRateByFactor.doubleValue()) > 0.001) {
 						if (stage.getNumber().intValue() < 10 ) {
-						    nestedMessage.add(Result.error("[stage " + String.format("%02d", stage.getNumber().intValue())
-						    + "] Decimation:InputSampleRate "+ inputSampleRate +" != [stage "+ String.format("%02d", (stage.getNumber().intValue()-1))
+						    nestedMessage.add(Result.error("Stage[" + String.format("%02d", stage.getNumber().intValue())
+						    + "] Decimation:InputSampleRate "+ inputSampleRate +" != Stage["+ String.format("%02d", (stage.getNumber().intValue()-1))
 						    + "] Decimation:InputSampleRate/Decimation:Factor "+inputSampleRateByFactor.doubleValue()));
 						    returnmessage =true;
 						}else {									    
-						    nestedMessage.add(Result.error("[stage " +  stage.getNumber().intValue()
-						    + "] Decimation:InputSampleRate "+ inputSampleRate +" != [stage "+ (stage.getNumber().intValue()-1)
+						    nestedMessage.add(Result.error("Stage[" +  stage.getNumber().intValue()
+						    + "] Decimation:InputSampleRate "+ inputSampleRate +" != Stage["+ (stage.getNumber().intValue()-1)
 						    + "] Decimation:InputSampleRate/Decimation:Factor "+inputSampleRateByFactor.doubleValue()));
 					        returnmessage =true;	
 						}						

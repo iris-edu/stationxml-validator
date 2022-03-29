@@ -66,10 +66,10 @@ public class LastStageUnitCondition extends AbstractCondition {
 
 					if(stage.getNumber().intValue() == lastStage) {
 						if (stage.getNumber().intValue() < 10 ) {
-						    return Result.error("Stage [" + String.format("%02d", stage.getNumber().intValue()) + "] output unit "
+						    return Result.error("Stage[" + String.format("%02d", stage.getNumber().intValue()) + "] output unit "
 						    + " must not be null");
 						}else {
-							return Result.error("Stage [" + stage.getNumber().intValue() + "] output unit "
+							return Result.error("Stage[" + stage.getNumber().intValue() + "] output unit "
 							+ " must not be null");
 						}
 					}else {
@@ -82,11 +82,11 @@ public class LastStageUnitCondition extends AbstractCondition {
 						continue;
 					}else {
 			            if (stage.getNumber().intValue() < 10 ) {
-				            return Result.error("Stage [" + String.format("%02d", stage.getNumber().intValue()) + "] output unit is " 
+				            return Result.error("Stage[" + String.format("%02d", stage.getNumber().intValue()) + "] output unit is " 
 			                + stageUnit.output.getName()
 				            + " but must be count(s)" );
 				        }else { 
-					        return Result.error("Stage [" + stage.getNumber().intValue() + "] output unit is "
+					        return Result.error("Stage[" + stage.getNumber().intValue() + "] output unit is "
 					        + stageUnit.output.getName()
 				            + " but must be count(s)" );
 				       }

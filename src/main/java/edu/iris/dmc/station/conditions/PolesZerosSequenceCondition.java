@@ -67,11 +67,11 @@ public class PolesZerosSequenceCondition extends ChannelRestrictedCondition {
 							for (PoleZero z : s.getPolesZeros().getZero()) {
 								if (z.getNumber().compareTo(BigInteger.valueOf(zeroInc))!=0) {
 									if (s.getNumber().intValue() < 10 ) {
-									    nestedMessage.add(Result.error("[stage " + String.format("%02d", s.getNumber().intValue())
+									    nestedMessage.add(Result.error("Stage[" + String.format("%02d", s.getNumber().intValue())
 									    + "] Zero:number "+z.getNumber()+ " is out of sequence " +zeroInc+ " is expected"));
 									    returnmessage =true;
 									}else {									    
-										nestedMessage.add(Result.error("[stage " + s.getNumber().intValue()
+										nestedMessage.add(Result.error("Stage[" + s.getNumber().intValue()
 								        + "] Zero:number "+z.getNumber()+ " is out of sequence "+zeroInc+ " is expected"));
 								        returnmessage =true;
 										
@@ -85,11 +85,11 @@ public class PolesZerosSequenceCondition extends ChannelRestrictedCondition {
 							for (PoleZero p : s.getPolesZeros().getPole()) {
 								if (p.getNumber().compareTo(BigInteger.valueOf(poleInc))!=0) {
 									if (s.getNumber().intValue() < 10 ) {
-									    nestedMessage.add(Result.error("[stage " + String.format("%02d", s.getNumber().intValue())
+									    nestedMessage.add(Result.error("Stage[" + String.format("%02d", s.getNumber().intValue())
 									    + "] Pole:number "+p.getNumber()+ " is out of sequence " +poleInc+ " is expected"));
 									    returnmessage =true;
 									}else {									    
-										nestedMessage.add(Result.error("[stage " + s.getNumber().intValue()
+										nestedMessage.add(Result.error("Stage[" + s.getNumber().intValue()
 								        + "] Pole:number "+p.getNumber()+ " is out of sequence " +poleInc+ " is expected"));
 								        returnmessage =true;	
 									}

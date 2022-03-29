@@ -54,11 +54,11 @@ public class StageGainNonZeroCondition extends ChannelRestrictedCondition {
 				if (stageGain == null) {
 					if (stage.getPolynomial() == null) {
 						if (stage.getNumber().intValue() < 10 ) {
-						    nestedMessage.add(Result.error("[stage " + String.format("%02d", stage.getNumber().intValue())
+						    nestedMessage.add(Result.error("Stage[" + String.format("%02d", stage.getNumber().intValue())
 						    + "] must include StageGain"));
 						    returnmessage =true;
 						}else {									    
-							nestedMessage.add(Result.error("[stage " + stage.getNumber().intValue()
+							nestedMessage.add(Result.error("Stage[" + stage.getNumber().intValue()
 					        + "] must include StageGain"));
 					        returnmessage =true;	
 						}						
@@ -70,11 +70,11 @@ public class StageGainNonZeroCondition extends ChannelRestrictedCondition {
 					} else {
 						if (stage.getPolynomial() == null) {
 							if (stage.getNumber().intValue() < 10 ) {
-							    nestedMessage.add(Result.error("[stage " + String.format("%02d", stage.getNumber().intValue())
+							    nestedMessage.add(Result.error("Stage[" + String.format("%02d", stage.getNumber().intValue())
 							    + "] StageGain:Value must not be 0"));
 							    returnmessage =true;
 							}else {									    
-								nestedMessage.add(Result.error("[stage " + stage.getNumber().intValue()
+								nestedMessage.add(Result.error("Stage[" + stage.getNumber().intValue()
 						        + "] StageGain:Value must not be 0"));
 						        returnmessage =true;	
 							}

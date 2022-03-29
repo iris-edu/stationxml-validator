@@ -62,32 +62,32 @@ public class UnitCondition extends ChannelRestrictedCondition {
 			}
 			Units[] units = getUnits(stage);
 			if (units == null) {
-				nestedMessage.add(Result.error("stage [null units for stage " + stage.getNumber().intValue() + "]"));
+				nestedMessage.add(Result.error("Stage["+ stage.getNumber().intValue() + "]"+" contains null units" ));
 			} else {
 				Units inputUnits = units[0];
 				Units outputUnits = units[1];
 
 				if (inputUnits == null || inputUnits.getName() == null) {
 					nestedMessage
-							.add(Result.error("Input unit cannot be null [stage " + stage.getNumber().intValue() + "]"));
+							.add(Result.error("Stage["+ stage.getNumber().intValue() + "]"+" input unit cannot be null"));
 				} else {
 					boolean result = UnitTable.contains(inputUnits.getName());
 					if (!result) {
 						result = UnitTable.containsCaseInsensitive(inputUnits.getName());
 						if (result) {
 							if (stage.getNumber().intValue() < 10 ) {
-							nestedMessage.add(Result.warning("[stage " + String.format("%02d", stage.getNumber().intValue())
+							nestedMessage.add(Result.warning("Stage[" + String.format("%02d", stage.getNumber().intValue())
 									+ "] invalid input units " + inputUnits.getName()));
 							}else {
-							nestedMessage.add(Result.warning("[stage " + stage.getNumber().intValue()
+							nestedMessage.add(Result.warning("Stage[" + stage.getNumber().intValue()
 									+ "] invalid input units " + inputUnits.getName()));
 							}
 						} else {
 							if (stage.getNumber().intValue() < 10 ) {
-							nestedMessage.add(Result.error("[stage " + String.format("%02d", stage.getNumber().intValue())
+							nestedMessage.add(Result.error("Stage[" + String.format("%02d", stage.getNumber().intValue())
 									+ "] invalid input units " + inputUnits.getName()));
 							}else {
-								nestedMessage.add(Result.error("[stage " + stage.getNumber().intValue()
+								nestedMessage.add(Result.error("Stage[" + stage.getNumber().intValue()
 										+ "] invalid input units " + inputUnits.getName()));
 							}
 						}
@@ -97,9 +97,9 @@ public class UnitCondition extends ChannelRestrictedCondition {
 				if (outputUnits == null || outputUnits.getName() == null) {
 					if (stage.getNumber().intValue() < 10 ) {
 					nestedMessage.add(
-							Result.error("Output unit cannot be null [stage " + String.format("%02d", stage.getNumber().intValue()) + "]"));
+							Result.error("Stage["+ String.format("%02d",stage.getNumber().intValue()) + "]"+" output unit cannot be null"));
 					}else {
-						    Result.error("Output unit cannot be null [stage " + stage.getNumber().intValue() + "]");
+						    Result.error("Stage["+ stage.getNumber().intValue() + "]"+" output unit cannot be null");
 					}
 				} else {
 					boolean result = UnitTable.contains(outputUnits.getName());
@@ -107,18 +107,18 @@ public class UnitCondition extends ChannelRestrictedCondition {
 						result = UnitTable.containsCaseInsensitive(outputUnits.getName().toLowerCase());
 						if (result) {
 							if (stage.getNumber().intValue() < 10 ) {
-							nestedMessage.add(Result.warning("[stage " + String.format("%02d",stage.getNumber().intValue())
+							nestedMessage.add(Result.warning("Stage[" + String.format("%02d",stage.getNumber().intValue())
 									+ "] invalid output units " + outputUnits.getName()));
 							}else {
-								nestedMessage.add(Result.warning("[stage " + stage.getNumber().intValue()
+								nestedMessage.add(Result.warning("Stage[" + stage.getNumber().intValue()
 									+ "] invalid output units " + outputUnits.getName()));	
 							}
 						} else {
 							if (stage.getNumber().intValue() < 10 ) {
-							nestedMessage.add(Result.error("[stage " + String.format("%02d", stage.getNumber().intValue())
+							nestedMessage.add(Result.error("Stage[" + String.format("%02d", stage.getNumber().intValue())
 									+ "] invalid output units " + outputUnits.getName()));
 							}else {
-								nestedMessage.add(Result.error("[stage " + stage.getNumber().intValue()
+								nestedMessage.add(Result.error("Stage[" + stage.getNumber().intValue()
 									+ "] invalid output units " + outputUnits.getName()));
 							}
 						}

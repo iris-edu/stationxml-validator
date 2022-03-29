@@ -76,24 +76,24 @@ public class PolesZerosCondition extends ChannelRestrictedCondition {
 									
 									if(t) {
 									    if (s.getNumber().intValue() < 10 ) {
-										    nestedMessage.add(Result.error("[stage " + String.format("%02d", s.getNumber().intValue())
-												+ "] Zero:number " + z.getNumber() +" Zero:Real==0 and Zero:Imaginary==0 InstrumentSensitivity:Frequency must not equal 0"));
+										    nestedMessage.add(Result.error("Stage[" + String.format("%02d", s.getNumber().intValue())
+												+ "] Zero:number[" + z.getNumber() +"] Zero:Real==0 and Zero:Imaginary==0 InstrumentSensitivity:Frequency must not equal 0"));
 										    returnmessage =true;
 
 									    }else {
-										    nestedMessage.add(Result.error("[stage " + s.getNumber().intValue()
-										    + "] Zero:number " + z.getNumber() +" Zero:Real==0 and Zero:Imaginary==0 InstrumentSensitivity:Frequency must not equal 0"));
+										    nestedMessage.add(Result.error("Stage[" + s.getNumber().intValue()
+										    + "] Zero:number[" + z.getNumber() +"] Zero:Real==0 and Zero:Imaginary==0 InstrumentSensitivity:Frequency must not equal 0"));
 										    returnmessage =true;
 									    }	
 									}else {	
 									    if (s.getNumber().intValue() < 10 ) {
-										    nestedMessage.add(Result.error("[stage " + String.format("%02d", s.getNumber().intValue())
-												+ "] Zero:number " + z.getNumber() +" Zero:Real==0 and Zero:Imaginary==0 StageGain:Frequency must not equal 0"));
+										    nestedMessage.add(Result.error("Stage[" + String.format("%02d", s.getNumber().intValue())
+												+ "] Zero:number[" + z.getNumber() +"] Zero:Real==0 and Zero:Imaginary==0 StageGain:Frequency must not equal 0"));
 										    returnmessage =true;
 
 									    }else {
-										    nestedMessage.add(Result.error("[stage " + s.getNumber().intValue()
-										    + "] Zero:number " + z.getNumber() +" Zero:Real==0 and Zero:Imaginary==0 StageGain:Frequency must not equal 0"));
+										    nestedMessage.add(Result.error("Stage[" + s.getNumber().intValue()
+										    + "] Zero:number[" + z.getNumber() +"] Zero:Real==0 and Zero:Imaginary==0 StageGain:Frequency must not equal 0"));
 										    returnmessage =true;
 										}
 									}

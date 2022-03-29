@@ -55,11 +55,11 @@ public class DigitalFilterCondition extends ChannelRestrictedCondition {
 				if (s.getCoefficients() != null && "DIGITAL".equals(s.getCoefficients().getCfTransferFunctionType())) {
 					if (s.getDecimation() == null || s.getStageGain() == null) {
 						if (s.getNumber().intValue() < 10 ) {
-						    nestedMessage.add(Result.error("[stage " + String.format("%02d", s.getNumber().intValue())
+						    nestedMessage.add(Result.error("Stage[" + String.format("%02d", s.getNumber().intValue())
 						    + "] must include StageGain and Decimation"));
 						    returnmessage =true;
 						}else {									    
-							nestedMessage.add(Result.error("[stage " + s.getNumber().intValue()
+							nestedMessage.add(Result.error("Stage[" + s.getNumber().intValue()
 					        + "] must include StageGain and Decimation"));
 					        returnmessage =true;	
 						}
@@ -70,11 +70,11 @@ public class DigitalFilterCondition extends ChannelRestrictedCondition {
 						&& "DIGITAL (Z-TRANSFORM)".equals(s.getPolesZeros().getPzTransferFunctionType())) {
 					if (s.getDecimation() == null || s.getStageGain() == null) {
 						if (s.getNumber().intValue() < 10 ) {
-						    nestedMessage.add(Result.error("[stage " + String.format("%02d", s.getNumber().intValue())
+						    nestedMessage.add(Result.error("Stage[" + String.format("%02d", s.getNumber().intValue())
 						    + "] must include StageGain and Decimation"));
 						    returnmessage =true;
 						}else {									    
-							nestedMessage.add(Result.error("[stage " + s.getNumber().intValue()
+							nestedMessage.add(Result.error("Stage[" + s.getNumber().intValue()
 					        + "] must include StageGain and Decimation"));
 					        returnmessage =true;	
 						}
@@ -85,11 +85,11 @@ public class DigitalFilterCondition extends ChannelRestrictedCondition {
 					if (s.getDecimation() == null || s.getStageGain() == null) {
 						nestedMessage.add(Result.error("Gain and|or decimation are missing"));
 						if (s.getNumber().intValue() < 10 ) {
-						    nestedMessage.add(Result.error("[stage " + String.format("%02d", s.getNumber().intValue())
+						    nestedMessage.add(Result.error("Stage[" + String.format("%02d", s.getNumber().intValue())
 						    + "] must include StageGain and Decimation"));
 						    returnmessage =true;
 						}else {									    
-							nestedMessage.add(Result.error("[stage " + s.getNumber().intValue()
+							nestedMessage.add(Result.error("Stage[" + s.getNumber().intValue()
 					        + "] must include StageGain and Decimation"));
 					        returnmessage =true;	
 						}

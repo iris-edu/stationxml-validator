@@ -43,7 +43,7 @@ public class Condition425Test {
                
 			Message result = condition.evaluate(c);
 			NestedMessage nestedMessage=(NestedMessage) result;
-			assertTrue(nestedMessage.getNestedMessages().get(0).getDescription().contains("Stage [01] includes PolesZeros:PzTransferFunctionType:LAPLACE (RADIANS/SECOND) so decimation must not be included in stage [01]"));
+			assertTrue(nestedMessage.getNestedMessages().get(0).getDescription().contains("Stage[01] includes PolesZeros:PzTransferFunctionType:LAPLACE (RADIANS/SECOND) so decimation must not be included in Stage[01]"));
 		}
 
 	}
@@ -63,7 +63,7 @@ public class Condition425Test {
                
 			Message result = condition.evaluate(c);
 			NestedMessage nestedMessage=(NestedMessage) result;
-			assertTrue(nestedMessage.getNestedMessages().get(0).getDescription().contains("Stage [01] includes PolesZeros:PzTransferFunctionType:LAPLACE (HERTZ) so decimation must not be included in stage [01]"));
+			assertTrue(nestedMessage.getNestedMessages().get(0).getDescription().contains("Stage[01] includes PolesZeros:PzTransferFunctionType:LAPLACE (HERTZ) so decimation must not be included in Stage[01]"));
 		}
 
 	}
@@ -84,8 +84,8 @@ public class Condition425Test {
 			Message result = condition.evaluate(c);
 			NestedMessage nestedMessage=(NestedMessage) result;
 			System.out.println(nestedMessage.getNestedMessages().get(0).getDescription());
-			assertTrue(nestedMessage.getNestedMessages().get(0).getDescription().contains("Stage [04] includes CoefficientsType:CfTransferFunctionType:ANALOG (RADIANS/SECOND) so decimation must not be included in stage [04]"));
-			assertTrue(nestedMessage.getNestedMessages().get(1).getDescription().contains("Stage [10] includes CoefficientsType:CfTransferFunctionType:ANALOG (HERTZ) so decimation must not be included in stage [10]"));
+			assertTrue(nestedMessage.getNestedMessages().get(0).getDescription().contains("Stage[04] includes CoefficientsType:CfTransferFunctionType:ANALOG (RADIANS/SECOND) so decimation must not be included in Stage[04]"));
+			assertTrue(nestedMessage.getNestedMessages().get(1).getDescription().contains("Stage[10] includes CoefficientsType:CfTransferFunctionType:ANALOG (HERTZ) so decimation must not be included in Stage[10]"));
 
 		}
 

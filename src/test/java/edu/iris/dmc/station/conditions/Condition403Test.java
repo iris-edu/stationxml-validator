@@ -44,7 +44,7 @@ public class Condition403Test {
 			Message result = condition.evaluate(c);
 			NestedMessage nestedMessage=(NestedMessage) result;
 			System.out.println(nestedMessage.getNestedMessages().get(0).getDescription());
-			assertTrue(nestedMessage.getNestedMessages().get(0).getDescription().contains("Stage [03] input unit V must equal stage [01] output unit volt"));
+			assertTrue(nestedMessage.getNestedMessages().get(0).getDescription().contains("Stage[03] input unit V must equal Stage[01] output unit volt"));
 		}
 
 	}

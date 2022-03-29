@@ -78,12 +78,12 @@ public class StageUnitCondition extends ChannelRestrictedCondition {
 					}
 					
 					if (stage.getNumber().intValue() < 10 ) {
-					    nestedMessage.add(Result.error("Stage [" + String.format("%02d", stage.getNumber().intValue()) + "] input unit " + stageUnit.input.getName()
-					    + " must equal stage [" + String.format("%02d", prevstage) + "] output unit "
+					    nestedMessage.add(Result.error("Stage[" + String.format("%02d", stage.getNumber().intValue()) + "] input unit " + stageUnit.input.getName()
+					    + " must equal Stage[" + String.format("%02d", prevstage) + "] output unit "
 					    + current.output.getName()));
 					}else {
-						nestedMessage.add(Result.error("stage [" + stage.getNumber().intValue() + "] input unit " + stageUnit.input.getName()
-						+ " must equal stage [" + prevstage + "] output unit "
+						nestedMessage.add(Result.error("Stage[" + stage.getNumber().intValue() + "] input unit " + stageUnit.input.getName()
+						+ " must equal Stage[" + prevstage + "] output unit "
 						+ current.output.getName()));
 					}
 

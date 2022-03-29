@@ -81,12 +81,12 @@ public class DecimationStageUnitCondition extends AbstractCondition {
 						continue;
 					}else {
 				            if (stage.getNumber().intValue() < 10 ) {
-				            	nestedMessage.add(Result.error("Stage [" + String.format("%02d", stage.getNumber().intValue()) + "] output unit " 
+				            	nestedMessage.add(Result.error("Stage[" + String.format("%02d", stage.getNumber().intValue()) + "] output unit " 
 				                + stageUnit.output.getName()
 					            + " must be count(s) because Stage[" + String.format("%02d",stage.getNumber().intValue()) + "].Decimation is included"));
 								returnmessage=true;
 					        }else { 
-					        	nestedMessage.add(Result.error("Stage [" + stage.getNumber().intValue() + "] output unit "
+					        	nestedMessage.add(Result.error("Stage[" + stage.getNumber().intValue() + "] output unit "
 						        + stageUnit.output.getName()
 					            + " must be count(s) because Stage[" + stage.getNumber().intValue() + "].Decimation is included"));
 								returnmessage=true;

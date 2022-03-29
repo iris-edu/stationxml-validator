@@ -44,7 +44,7 @@ public class Condition413Test {
 			Message result = condition.evaluate(c);
 			
 			NestedMessage nestedMessage=(NestedMessage)result;
-			assertTrue(nestedMessage.getNestedMessages().get(0).getDescription().contains("[stage 01] StageGain:Value must not be 0"));
+			assertTrue(nestedMessage.getNestedMessages().get(0).getDescription().contains("Stage[01] StageGain:Value must not be 0"));
 		}
 
 	}

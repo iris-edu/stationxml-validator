@@ -43,7 +43,7 @@ public class Condition404Test2 {
                
 			Message result = condition.evaluate(c);
 			NestedMessage nestedMessage=(NestedMessage)result;
-			assertTrue(nestedMessage.getNestedMessages().get(0).getDescription().contains("[stage 03] must include StageGain and Decimation"));
+			assertTrue(nestedMessage.getNestedMessages().get(0).getDescription().contains("Stage[03] must include StageGain and Decimation"));
 
 			
 		}

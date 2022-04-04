@@ -122,7 +122,7 @@ public class RuleEngineRegistry {
 					"Channel:Epoch cannot be partly concurrent with any other Channel:Epoch encompassed in parent Station:Epoch."),
 					Station.class);
 		}
-		if (!set.contains(221)) {
+		if (!set.contains(212)) {
 			add(212, new EpochRangeCondition(true,
 					"Station:Epoch must encompass all subordinate Channel:Epoch."),
 					Station.class);
@@ -180,12 +180,12 @@ public class RuleEngineRegistry {
 					new Restriction[] { new ChannelCodeRestriction(), new ChannelTypeRestriction() }),
 					Channel.class);
 		}
-		if (!set.contains(322)) {
-			add(322, new InstrumentCodeUnitsConditionN(true,
-					"If Channel:Code[2] == (N) then Stage[1]:InputUnit must equal ?m/s**2 AND Stage[Last]:OutputUnits must equal count?",
-					new Restriction[] { new ChannelCodeRestriction(), new ChannelTypeRestriction() }),
-					Channel.class);
-		}
+		//if (!set.contains(322)) {
+		//	add(322, new InstrumentCodeUnitsConditionN(true,
+		//			"If Channel:Code[2] == (N) then Stage[1]:InputUnit must equal ?m/s**2 AND Stage[Last]:OutputUnits must equal count?",
+		//			new Restriction[] { new ChannelCodeRestriction(), new ChannelTypeRestriction() }),
+		//			Channel.class);
+		//}
 		if (!set.contains(332)) {
 			add(332, new OrientationCondition(true,
 					"If Channel:Code[LAST]==N then Channel:Azimuth must be assigned (>=355.0 or <=5.0) or (>=175.0 and <=185.0) and Channel:Dip must be assigned (>=-5 AND <=5.0).",
@@ -233,11 +233,11 @@ public class RuleEngineRegistry {
 					"Stage:ResponseList cannot be the only stage included in a response.",
 					new ChannelCodeRestriction(), new ChannelTypeRestriction()), Response.class);
 		}
-		if (!s.contains(406)) {
-			add(406, new LastStageUnitCondition(true,
-					"Stage[LAST]::OutputUnits:Name must be assigned count(s)",
-					restrictions), Response.class);
-		}
+		//if (!s.contains(406)) {
+		//	add(406, new LastStageUnitCondition(true,
+		//			"Stage[LAST]::OutputUnits:Name must be assigned count(s)",
+		//			restrictions), Response.class);
+		//}
 		if (!s.contains(410)) {
 			add(410, new EmptySensitivityCondition(true, "If InstrumentSensitivity is included then InstrumentSensitivity:Value must be assigned a double > 0.0 ",
 					new ChannelCodeRestriction(), new ChannelTypeRestriction(), new ResponsePolynomialRestriction()),
@@ -306,20 +306,20 @@ public class RuleEngineRegistry {
 					restrictions),
 					Response.class);
 		}
-		if (!s.contains(424)) {
-			add(424, new DecimationStageUnitCondition(true,
-					"If Stage[N]:Decimation is included then Stage[N]:OutputUnits:Name must equal count(s)",
-					restrictions),
-					Response.class);
-		}
-		if (!s.contains(425)) {
-			add(425, new DecimationAnalogFilterCondition(true,
-					"IF Stage[N]:PolesZeros:PzTransferFunctionType:LAPLACE (RADIANS/SECOND) OR Stage[N]:PolesZeros:PzTransferFunctionType:LAPLACE (HERTZ) OR\n" + 
-					"Stage[N]:CoefficientsType:CfTransferFunctionType:ANALOG (RADIANS/SECOND) OR Stage[N]:CoefficientsType:CfTransferFunctionType:ANALOG (HERTZ) are included\n" + 
-					"then Stage[N]:Decimation must not be included",
-					restrictions),
-					Response.class);
-		}
+		//if (!s.contains(424)) {
+		//	add(424, new DecimationStageUnitCondition(true,
+		//			"If Stage[N]:Decimation is included then Stage[N]:OutputUnits:Name must equal count(s)",
+		//			restrictions),
+		//			Response.class);
+		//}
+		//if (!s.contains(425)) {
+		//	add(425, new DecimationAnalogFilterCondition(true,
+		//			"IF Stage[N]:PolesZeros:PzTransferFunctionType:LAPLACE (RADIANS/SECOND) OR Stage[N]:PolesZeros:PzTransferFunctionType:LAPLACE (HERTZ) OR\n" + 
+		//			"Stage[N]:CoefficientsType:CfTransferFunctionType:ANALOG (RADIANS/SECOND) OR Stage[N]:CoefficientsType:CfTransferFunctionType:ANALOG (HERTZ) are included\n" + 
+		//			"then Stage[N]:Decimation must not be included",
+		//			restrictions),
+		//			Response.class);
+		//}
 	}
 	
 	public void add(int id, Condition condition, Class<?> clazz) {

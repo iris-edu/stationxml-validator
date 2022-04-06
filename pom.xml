@@ -23,7 +23,7 @@
           <developerConnection>scm:git:https://github.com/iris-edu/stationxml-validator.git</developerConnection>
           <connection>scm:git:https://github.com/iris-edu/stationxml-validator.git</connection>
           <url>https://github.com/iris-edu/stationxml-validator.git</url>
-          <tag>stationxml-validator-1.7.1</tag>
+          <tag>stationxml-validator-1.7.3</tag>
       </scm>
         <licenses>
          <license>
@@ -199,7 +199,7 @@
 		<dependency>
 			<groupId>edu.iris.dmc</groupId>
 			<artifactId>stationxml-seed-converter</artifactId>
-			<version>2.1.0</version>
+                        <version>2.1.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>

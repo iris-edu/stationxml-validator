@@ -41,7 +41,7 @@ public class StationElevationCondition extends AbstractCondition {
 			if (channel.getElevation() != null) {
 				double elevdelta = Math.abs(channel.getElevation().getValue() - station.getElevation().getValue());
 				if (elevdelta > 1000) {
-					nestedMessage.add(Result.error("Elevation between Sta: " + station.getCode() + " and Chan: "
+					nestedMessage.add(Result.warning("Elevation between Sta: " + station.getCode() + " and Chan: "
 						    + channel.getCode() + " Loc: "+ channel.getLocationCode() + " is expected to be less than 1000 m but is "
 						    		+  elevdelta + " m"));
 					returnmessage=true;

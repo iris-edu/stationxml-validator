@@ -36,7 +36,7 @@ public class SensorCondition304Test {
 			SensorCondition condition = new SensorCondition(true, "");
 
 			Message result = condition.evaluate(c);
-			assertTrue(result instanceof edu.iris.dmc.station.rules.Error);
+			assertTrue(result instanceof edu.iris.dmc.station.rules.Warning);
 		}
 
 	}

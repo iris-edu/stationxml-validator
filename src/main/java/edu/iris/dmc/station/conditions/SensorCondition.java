@@ -30,12 +30,12 @@ public class SensorCondition extends AbstractCondition {
 		}
 
 		Equipment equipment = channel.getSensor();
-		if (this.required) {
+        if (this.required) {
 			if (equipment == null) {
-				return Result.error("expected equipment/sensor but was null");
+				return Result.warning("expected equipment/sensor but was null");
 			}else{
 				if (equipment.getDescription() == null||equipment.getDescription().trim().isEmpty()) {
-					return Result.error("expected equipment/sensor description but was null");
+					return Result.warning("expected equipment/sensor description but was null");
 				}
 			}
 		}

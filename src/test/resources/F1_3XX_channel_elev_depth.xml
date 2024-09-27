@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+ <FDSNStationXML xmlns="http://www.fdsn.org/xml/station/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:iris="http://www.fdsn.org/xml/station/1/iris" xsi:schemaLocation="http://www.fdsn.org/xml/station/1 http://www.fdsn.org/xml/station/fdsn-station-1.1.xsd" schemaVersion="1.1">
+  <Source>IRIS-DMC</Source>
+  <Sender>IRIS-DMC</Sender>
+  <Module>IRIS WEB SERVICE: fdsnws-station | version: 1.1.45</Module>
+  <ModuleURI>http://service.iris.edu/fdsnws/station/1/query?net=CO&amp;sta=SUMMV&amp;cha=HHZ&amp;starttime=2020-09-04T17:01:01&amp;endtime=2020-09-04T17:01:04&amp;level=channel&amp;format=xml&amp;includecomments=true&amp;nodata=404</ModuleURI>
+  <Created>2020-09-04T17:01:11</Created>
+  <Network code="CO" startDate="1987-01-01T00:00:00" restrictedStatus="open">
+   <Description>South Carolina Seismic Network (SCSN)</Description>
+   <TotalNumberStations>14</TotalNumberStations>
+   <SelectedNumberStations>1</SelectedNumberStations>
+   <Station code="SUMMV" startDate="2015-04-21T00:00:00" restrictedStatus="open" iris:alternateNetworkCodes="_REALTIME,.UNRESTRICTED,_US-REGIONAL">
+    <Latitude>33.0658</Latitude>
+    <Longitude>-80.2738</Longitude>
+    <Elevation>17.1</Elevation>
+    <Site>
+     <Name>Summerville Airport, SC, USA</Name>
+    </Site>
+    <CreationDate>2015-04-21T00:00:00</CreationDate>
+    <TotalNumberChannels>216</TotalNumberChannels>
+    <SelectedNumberChannels>1</SelectedNumberChannels>
+    <Channel code="HHZ" locationCode="00" startDate="2019-12-16T18:40:00" restrictedStatus="open">
+     <Comment>
+      <Value>Install, Remove, or Swap Sensors and Preamplifiers Connected to Logger [SENSOR::TRILLIUM 120 BOREHOLE::001004], [SENSOR::EPISENSOR ES-T::5365], [LOGGER::Q330S+::6865]</Value>
+      <BeginEffectiveTime>2019-12-16T18:40:00</BeginEffectiveTime>
+     </Comment>
+     <Comment>
+      <Value>Reconfigure Logger and change instrumentation</Value>
+      <BeginEffectiveTime>2019-12-16T18:40:00</BeginEffectiveTime>
+     </Comment>
+     <Latitude>33.0658</Latitude>
+     <Longitude>-80.2738</Longitude>
+     <Elevation>17.1</Elevation>
+     <Depth>100</Depth>
+     <Azimuth>0</Azimuth>
+     <Dip>-90</Dip>
+     <Type>CONTINUOUS</Type>
+     <Type>GEOPHYSICAL</Type>
+     <SampleRate>1E02</SampleRate>
+     <Sensor>
+      <Type>NANOMETRICS</Type>
+      <Description>Velocity Transducer</Description>
+      <Manufacturer>NANOMETRICS</Manufacturer>
+      <Model>TRILLIUM 120 BOREHOLE</Model>
+      <SerialNumber>001004</SerialNumber>
+     </Sensor>
+     <Equipment>
+      <Type>QUANTERRA</Type>
+      <Manufacturer>QUANTERRA</Manufacturer>
+      <Model>Q330S+</Model>
+      <SerialNumber>6865</SerialNumber>
+     </Equipment>
+     <Response>
+     <InstrumentSensitivity>
+       <Value>5.04364575E8</Value>
+       <Frequency>1.0</Frequency>
+       <InputUnits>
+         <Name>m/s</Name>
+         <Description>Velocity in meters per second</Description>
+       </InputUnits>
+       <OutputUnits>
+         <Name>counts</Name>
+         <Description>Digital Count in Digital counts</Description>
+       </OutputUnits>
+     </InstrumentSensitivity>
+     </Response>
+    </Channel>
+   </Station>
+  </Network>
+ </FDSNStationXML>

@@ -10,6 +10,8 @@ import java.net.URL;
 
 import org.junit.jupiter.api.Test;
 
+import edu.iris.dmc.testutil.ProcessTest;
+
 public class mainTestContinueOnError {
 
 		// This class test the main method and its outputs. 

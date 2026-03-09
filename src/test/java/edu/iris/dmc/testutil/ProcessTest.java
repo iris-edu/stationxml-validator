@@ -4,6 +4,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintStream;
+import java.lang.reflect.Method;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
@@ -107,6 +109,71 @@ public final class ProcessTest {
         String stderr = new String(errCollector.bytes.toByteArray(), charset);
 
         return new ExecResult(code, stdout, stderr);
+    }
+
+    /**
+     * Invokes a static method directly (in the same JVM) and captures stdout/stderr output.
+     * Useful for testing methods that print output but don't call System.exit().
+     *
+     * @param clazz the class containing the method
+     * @param methodName the name of the static method to invoke
+     * @param args the arguments to pass to the method (can be null or empty)
+     * @return an ExecResult with exitCode=0 and captured stdout/stderr
+     * @throws Exception if the method cannot be found or invocation fails
+     */
+    public static ExecResult runMethod(Class<?> clazz, String methodName, Object... args) throws Exception {
+        Objects.requireNonNull(clazz, "clazz");
+        Objects.requireNonNull(methodName, "methodName");
+
+        // Capture original stdout and stderr
+        PrintStream originalOut = System.out;
+        PrintStream originalErr = System.err;
+
+        ByteArrayOutputStream capturedOut = new ByteArrayOutputStream();
+        ByteArrayOutputStream capturedErr = new ByteArrayOutputStream();
+
+        try {
+            // Redirect stdout and stderr
+            System.setOut(new PrintStream(capturedOut));
+            System.setErr(new PrintStream(capturedErr));
+
+            // Find and invoke the method
+            Method method = findMethod(clazz, methodName, args);
+            method.invoke(null, args);
+
+        } finally {
+            // Restore original stdout and stderr
+            System.setOut(originalOut);
+            System.setErr(originalErr);
+        }
+
+        String stdout = new String(capturedOut.toByteArray(), StandardCharsets.UTF_8);
+        String stderr = new String(capturedErr.toByteArray(), StandardCharsets.UTF_8);
+
+        return new ExecResult(0, stdout, stderr);
+    }
+
+    /**
+     * Helper method to find a static method by name and argument count.
+     * This handles the reflection needed to locate the correct overloaded method.
+     */
+    private static Method findMethod(Class<?> clazz, String methodName, Object... args) throws NoSuchMethodException {
+        Method[] methods = clazz.getDeclaredMethods();
+
+        for (Method method : methods) {
+            if (method.getName().equals(methodName)) {
+                Class<?>[] paramTypes = method.getParameterTypes();
+
+                // Match by argument count
+                if (paramTypes.length == (args != null ? args.length : 0)) {
+                    method.setAccessible(true);
+                    return method;
+                }
+            }
+        }
+
+        throw new NoSuchMethodException("Method " + methodName + " with " +
+                (args != null ? args.length : 0) + " arguments not found in " + clazz.getName());
     }
 
     private static final class StreamCollector implements Runnable {

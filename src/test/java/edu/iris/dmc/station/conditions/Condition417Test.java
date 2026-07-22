@@ -39,7 +39,7 @@ public class Condition417Test {
             Restriction[] restrictions = new Restriction[] { new ChannelCodeRestriction(),
                     new ChannelTypeRestriction() };
 
-            PolesZerosCondition condition = new PolesZerosCondition(true, "", restrictions);
+            ComplexConjugateCondition condition = new ComplexConjugateCondition(true, "", restrictions);
 
             Response response = bhz00.getResponse();
             Message result = condition.evaluate(bhz00, response);
@@ -62,9 +62,10 @@ public class Condition417Test {
             Restriction[] restrictions = new Restriction[] { new ChannelCodeRestriction(),
                     new ChannelTypeRestriction() };
 
-            PolesZerosCondition condition = new PolesZerosCondition(true, "", restrictions);
+            ComplexConjugateCondition condition = new ComplexConjugateCondition(true, "", restrictions);
             Response response = bhz00.getResponse();
             Message result = condition.evaluate(bhz00, response);
+            System.out.println(result);
             Assert.assertTrue(result instanceof Success);
         }
 

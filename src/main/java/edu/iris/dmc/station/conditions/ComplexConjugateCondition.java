@@ -59,7 +59,7 @@ public class ComplexConjugateCondition extends ChannelRestrictedCondition {
                         // first, collect potential conjugate pairs
                         for (PoleZero z : s.getPolesZeros().getZero()) {
                             double realValue = z.getReal().getValue();
-                            double imaginaryValue = z.getReal().getValue();
+                            double imaginaryValue = z.getImaginary().getValue();
                             if (imaginaryValue == 0.) {
                                 continue;
                             }
@@ -87,7 +87,7 @@ public class ComplexConjugateCondition extends ChannelRestrictedCondition {
                         // first, collect potential conjugate pairs
                         for (PoleZero p : s.getPolesZeros().getPole()) {
                             double realValue = p.getReal().getValue();
-                            double imaginaryValue = p.getReal().getValue();
+                            double imaginaryValue = p.getImaginary().getValue();
                             if (imaginaryValue == 0.) {
                                 continue;
                             }

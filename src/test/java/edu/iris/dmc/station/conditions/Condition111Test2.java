@@ -38,8 +38,8 @@ public class Condition111Test2 {
 			Message result = condition.evaluate(n);
 			NestedMessage nestedMessage=(NestedMessage)result;
 			System.out.println(nestedMessage.getNestedMessages().get(0).getDescription());
-			assertTrue(nestedMessage.getNestedMessages().get(0).getDescription().contains("Sta:TPASS 2016-06-06T00:00:00 2019-09-06T00:00:00 epoch"));
-			assertTrue(nestedMessage.getNestedMessages().get(1).getDescription().contains("Sta:TPSS2 2016-06-06T00:00:00 2018-09-06T00:00:00 epoch"));
+			assertTrue(nestedMessage.getNestedMessages().get(0).getDescription().contains("Sta: TPASS 2016-06-06T00:00:00 2019-09-06T00:00:00 epoch"));
+			assertTrue(nestedMessage.getNestedMessages().get(1).getDescription().contains("Sta: TPSS2 2016-06-06T00:00:00 2018-09-06T00:00:00 epoch"));
 
 		}
 

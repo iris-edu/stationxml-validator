@@ -15,6 +15,7 @@ import edu.iris.dmc.fdsn.station.model.Station;
 import edu.iris.dmc.station.conditions.AzimuthDipCondition;
 import edu.iris.dmc.station.conditions.CalibrationUnitCondition;
 import edu.iris.dmc.station.conditions.CodeCondition;
+import edu.iris.dmc.station.conditions.ComplexConjugateCondition;
 import edu.iris.dmc.station.conditions.Condition;
 import edu.iris.dmc.station.conditions.DecimationAnalogFilterCondition;
 import edu.iris.dmc.station.conditions.DecimationCondition;
@@ -37,7 +38,6 @@ import edu.iris.dmc.station.conditions.OrientationCondition;
 import edu.iris.dmc.station.conditions.OrientationConditionE;
 import edu.iris.dmc.station.conditions.OrientationConditionZ;
 import edu.iris.dmc.station.conditions.PolesZerosCondition;
-import edu.iris.dmc.station.conditions.PolesZerosSequenceCondition;
 import edu.iris.dmc.station.conditions.PolynomialCondition;
 import edu.iris.dmc.station.conditions.ResponseListCondition;
 import edu.iris.dmc.station.conditions.SampleRateCondition;
@@ -276,11 +276,12 @@ public class RuleEngineRegistry {
 					"Response must include InstrumentSensitivity if no Polynomial stages are included.",
 					new ChannelCodeRestriction(), new ChannelTypeRestriction()), Response.class);
 		}
-		//if (!s.contains(417)) {
-		//	add(417, new PolesZerosSequenceCondition(false,
-		//			"If Stage[N]:PolesZeros contains Zeros and Poles then Zero:Number and Pole:Number must start at 0 and be sequential.",
-		//			new ChannelCodeRestriction(), new ChannelTypeRestriction()), Response.class);
-		//}
+		if (!s.contains(417)) {
+			add(417, new ComplexConjugateCondition(false,
+					"If Stage[N] of type PolesZeros contains a Pole or Zero with nonzero Imaginary component then Stage[N]:PolesZeros:Poles or Stage[N]:PolesZeros:Zeros must also include its complex conjugate.",
+					new ChannelCodeRestriction(), new ChannelTypeRestriction(), new ResponsePolynomialRestriction()),
+					Response.class);
+		}
 		
 		if (!s.contains(420)) {
 			add(420, new MissingDecimationCondition(true,

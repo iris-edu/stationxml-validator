@@ -1,7 +1,7 @@
 package edu.iris.dmc.station.conditions;
 
 
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.InputStream;

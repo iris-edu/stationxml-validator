@@ -39,8 +39,9 @@ public class Condition332Test2 {
 			
 			OrientationCondition condition = new OrientationCondition(true, "", restrictions);
    
-			Message result = condition.evaluate(c); 
+			Message result = condition.evaluate(c);
 
+			System.out.println("Class: " + result.getClass().getName());
 			assertTrue(result instanceof edu.iris.dmc.station.rules.Warning);
 		}
 
